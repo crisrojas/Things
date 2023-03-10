@@ -16,6 +16,15 @@
 		4042C61629BB4FB600A5FB1B /* ThingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C61529BB4FB600A5FB1B /* ThingsTests.swift */; };
 		4042C62029BB4FB600A5FB1B /* ThingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C61F29BB4FB600A5FB1B /* ThingsUITests.swift */; };
 		4042C62229BB4FB600A5FB1B /* ThingsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C62129BB4FB600A5FB1B /* ThingsUITestsLaunchTests.swift */; };
+		4042C62F29BB4FC600A5FB1B /* AppCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C62E29BB4FC600A5FB1B /* AppCore.swift */; };
+		4042C63129BB4FE100A5FB1B /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63029BB4FE100A5FB1B /* AppState.swift */; };
+		4042C63329BB4FEE00A5FB1B /* Domain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63229BB4FEE00A5FB1B /* Domain.swift */; };
+		4042C63529BB4FFD00A5FB1B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63429BB4FFD00A5FB1B /* Message.swift */; };
+		4042C63729BB6F8700A5FB1B /* StateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63629BB6F8700A5FB1B /* StateStore.swift */; };
+		4042C63929BB6F9F00A5FB1B /* Stores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63829BB6F9F00A5FB1B /* Stores.swift */; };
+		4042C63B29BB6FB400A5FB1B /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63A29BB6FB400A5FB1B /* UseCase.swift */; };
+		4042C63D29BB6FC300A5FB1B /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63C29BB6FC300A5FB1B /* ViewState.swift */; };
+		4042C63F29BB6FEC00A5FB1B /* ActionArray+Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +58,15 @@
 		4042C61B29BB4FB600A5FB1B /* ThingsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThingsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4042C61F29BB4FB600A5FB1B /* ThingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThingsUITests.swift; sourceTree = "<group>"; };
 		4042C62129BB4FB600A5FB1B /* ThingsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThingsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4042C62E29BB4FC600A5FB1B /* AppCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCore.swift; sourceTree = "<group>"; };
+		4042C63029BB4FE100A5FB1B /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		4042C63229BB4FEE00A5FB1B /* Domain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Domain.swift; sourceTree = "<group>"; };
+		4042C63429BB4FFD00A5FB1B /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		4042C63629BB6F8700A5FB1B /* StateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateStore.swift; sourceTree = "<group>"; };
+		4042C63829BB6F9F00A5FB1B /* Stores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores.swift; sourceTree = "<group>"; };
+		4042C63A29BB6FB400A5FB1B /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
+		4042C63C29BB6FC300A5FB1B /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActionArray+Call.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +119,15 @@
 			children = (
 				4042C5FE29BB4FB500A5FB1B /* ThingsApp.swift */,
 				4042C60029BB4FB500A5FB1B /* ContentView.swift */,
+				4042C62E29BB4FC600A5FB1B /* AppCore.swift */,
+				4042C63029BB4FE100A5FB1B /* AppState.swift */,
+				4042C63229BB4FEE00A5FB1B /* Domain.swift */,
+				4042C63429BB4FFD00A5FB1B /* Message.swift */,
+				4042C63629BB6F8700A5FB1B /* StateStore.swift */,
+				4042C63829BB6F9F00A5FB1B /* Stores.swift */,
+				4042C63A29BB6FB400A5FB1B /* UseCase.swift */,
+				4042C63C29BB6FC300A5FB1B /* ViewState.swift */,
+				4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */,
 				4042C60229BB4FB600A5FB1B /* Assets.xcassets */,
 				4042C60729BB4FB600A5FB1B /* Persistence.swift */,
 				4042C60C29BB4FB600A5FB1B /* Info.plist */,
@@ -267,8 +294,17 @@
 			files = (
 				4042C60B29BB4FB600A5FB1B /* Things.xcdatamodeld in Sources */,
 				4042C60829BB4FB600A5FB1B /* Persistence.swift in Sources */,
+				4042C63D29BB6FC300A5FB1B /* ViewState.swift in Sources */,
+				4042C63F29BB6FEC00A5FB1B /* ActionArray+Call.swift in Sources */,
 				4042C60129BB4FB500A5FB1B /* ContentView.swift in Sources */,
+				4042C63129BB4FE100A5FB1B /* AppState.swift in Sources */,
 				4042C5FF29BB4FB500A5FB1B /* ThingsApp.swift in Sources */,
+				4042C63B29BB6FB400A5FB1B /* UseCase.swift in Sources */,
+				4042C63929BB6F9F00A5FB1B /* Stores.swift in Sources */,
+				4042C63729BB6F8700A5FB1B /* StateStore.swift in Sources */,
+				4042C63529BB4FFD00A5FB1B /* Message.swift in Sources */,
+				4042C62F29BB4FC600A5FB1B /* AppCore.swift in Sources */,
+				4042C63329BB4FEE00A5FB1B /* Domain.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
