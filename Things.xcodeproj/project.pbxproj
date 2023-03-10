@@ -113,28 +113,12 @@
 		4000FB3C29BBE27200D7374B /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				4000FB4C29BBEA9C00D7374B /* DSLs */,
-				4000FB4B29BBEA9800D7374B /* Models */,
-			);
-			path = Domain;
-			sourceTree = "<group>";
-		};
-		4000FB4B29BBEA9800D7374B /* Models */ = {
-			isa = PBXGroup;
-			children = (
 				4000FB4129BBE6FA00D7374B /* Area.swift */,
 				4000FB4529BBE78900D7374B /* CheckItem.swift */,
 				4000FB4329BBE71C00D7374B /* Tag.swift */,
 				4000FB3D29BBE28A00D7374B /* Task.swift */,
 			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		4000FB4C29BBEA9C00D7374B /* DSLs */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = DSLs;
+			path = Domain;
 			sourceTree = "<group>";
 		};
 		4042C5F229BB4FB500A5FB1B = {

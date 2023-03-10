@@ -16,6 +16,7 @@ final class TaskTests: XCTestCase {
         XCTAssertTrue(sut.title.isEmpty)
         XCTAssertTrue(sut.notes.isEmpty)
         XCTAssertNil(sut.date)
+        XCTAssertNil(sut.modificationDate)
         XCTAssertNil(sut.dueDate)
         XCTAssertNil(sut.area)
         XCTAssertNil(sut.project)
@@ -38,9 +39,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.notes("My notes"))
         XCTAssertTrue(t2.notes == "My notes")
         
-        
-        XCTAssertTrue(modDateChange(t1))
-        XCTAssertTrue(modDateChange(t1,  t2))
+        assertModDateChange(t1, t2)
     }
     
     
@@ -124,8 +123,7 @@ final class TaskTests: XCTestCase {
         let t1 = sut.alter(.trash)
         let t2 = sut.alter(.untrash)
         XCTAssertFalse(t2.trashed)
-        XCTAssertTrue(modDateChange(t1))
-        XCTAssertTrue(modDateChange(t1, t2))
+        assertModDateChange(t1, t2)
     }
     
     func testSetStatus() {
@@ -133,8 +131,7 @@ final class TaskTests: XCTestCase {
         XCTAssertTrue(t1.status == .cancelled)
         let t2 = sut.alter(.status(.completed))
         XCTAssertTrue(t2.status == .completed)
-        XCTAssertTrue(modDateChange(t1))
-        XCTAssertTrue(modDateChange(t1, t2))
+        assertModDateChange(t1, t2)
     }
     
     func testRemoveTag() {
@@ -142,8 +139,7 @@ final class TaskTests: XCTestCase {
         let t1 = sut.alter(.add(.tag(tag)))
         let t2 = t1.alter(.remove(.tag(tag)))
         XCTAssertTrue(t2.tags.isEmpty)
-        XCTAssertTrue(modDateChange(t1))
-        XCTAssertTrue(modDateChange(t1, t2))
+        assertModDateChange(t1, t2)
     }
     
     func testRemoveCheckItem() {
@@ -152,8 +148,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.checkList(checkItem)))
         
         XCTAssertTrue(t2.checkList.isEmpty)
-        XCTAssertTrue(modDateChange(t1))
-        XCTAssertTrue(modDateChange(t1, t2))
+        assertModDateChange(t1, t2)
     }
     
     
@@ -162,8 +157,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.deadline))
         XCTAssertNotNil(t1.dueDate)
         XCTAssertNil(t2.dueDate)
-        XCTAssertTrue(modDateChange(t1))
-        XCTAssertTrue(modDateChange(t1, t2))
+        assertModDateChange(t1, t2)
     }
     
     func testRemoveProject() {
@@ -171,8 +165,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.project))
         XCTAssertNotNil(t1.project)
         XCTAssertNil(t2.project)
-        XCTAssertTrue(modDateChange(t1))
-        XCTAssertTrue(modDateChange(t1, t2))
+        assertModDateChange(t1, t2)
     }
     
     
@@ -181,8 +174,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.area))
         XCTAssertNotNil(t1.area)
         XCTAssertNil(t2.area)
-        XCTAssertTrue(modDateChange(t1))
-        XCTAssertTrue(modDateChange(t1, t2))
+        assertModDateChange(t1, t2)
     }
     
     
@@ -191,8 +183,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.actionGroup))
         XCTAssertNotNil(t1.actionGroup)
         XCTAssertNil(t2.actionGroup)
-        XCTAssertTrue(modDateChange(t1))
-        XCTAssertTrue(modDateChange(t1, t2))
+        assertModDateChange(t1, t2)
     }
     
     func testRemoveDate() {
@@ -200,6 +191,19 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.date))
         XCTAssertNotNil(t1.date)
         XCTAssertNil(t2.date)
+        assertModDateChange(t1, t2)
+    }
+    
+    func testDuplicate() {
+        let t1 = sut.alter(.index(1))
+        XCTAssertNotNil(t1.modificationDate)
+        
+        let t2 = t1.alter(.duplicate)
+        XCTAssertTrue(t1.modificationDate == t2.modificationDate)
+        
+    }
+    
+    private func assertModDateChange(_ t1: Task, _ t2: Task) {
         XCTAssertTrue(modDateChange(t1))
         XCTAssertTrue(modDateChange(t1, t2))
     }
@@ -213,6 +217,4 @@ final class TaskTests: XCTestCase {
     private func modDateChange(_ t1: Task, _ t2: Task) -> Bool {
         t1.modificationDate !=  t2.modificationDate
     }
-        
-    
 }

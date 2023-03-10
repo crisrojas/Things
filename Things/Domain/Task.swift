@@ -9,7 +9,7 @@ import Foundation
 struct Task: IdentiCodable {
     let id: UUID
     let creationDate: Date
-    let modificationDate: Date
+    let modificationDate: Date?
     let date: Date?
     let dueDate: Date?
     let area: UUID?
@@ -53,6 +53,7 @@ extension Task {
         init(
         _ id: UUID = UUID(),
         _ creationDate: Date = Date(),
+        _ modificationDate: Date? = nil,
         _ date: Date? = nil,
         _ dueDate: Date? = nil,
         _ area: UUID? = nil,
@@ -71,7 +72,7 @@ extension Task {
      ) {
         self.id = id
         self.creationDate = creationDate
-        self.modificationDate = Date()
+        self.modificationDate = modificationDate
         self.date = date
         self.dueDate = dueDate
         self.area = area
@@ -109,6 +110,7 @@ extension Task {
         case recurrency(RecurrencyRule)
         case remove(Remove)
         case add(Add)
+        case duplicate
         
         
         enum Add {
@@ -128,12 +130,16 @@ extension Task {
         }
     }
     
-    func alter(_ change: Change) -> Self {
-        switch change {
+    func alter(_ c: Change...) -> Self{c.reduce(self){$0.alter($1)}}
+    
+    func alter(_ c: Change) -> Self {
+        let modificationDate = Date()
+        switch c {
         case .title(let title):
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -154,6 +160,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -174,6 +181,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -194,6 +202,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -214,6 +223,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -234,6 +244,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -256,6 +267,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -276,6 +288,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -296,6 +309,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -316,6 +330,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -336,6 +351,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -356,6 +372,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -376,6 +393,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -396,6 +414,28 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
+                date,
+                dueDate,
+                area,
+                project,
+                actionGroup,
+                title,
+                notes,
+                tags,
+                checkList,
+                type,
+                status,
+                index,
+                todayIndex,
+                trashed,
+                recurrencyRule
+            )
+        case .duplicate:
+            return .init(
+                UUID(),
+                creationDate,
+                self.modificationDate,
                 date,
                 dueDate,
                 area,
@@ -417,11 +457,13 @@ extension Task {
     }
     
     private func handleAdd(_ command: Change.Add) -> Self {
+        let modificationDate = Date()
         switch command {
         case .checkItem(let item):
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -442,6 +484,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -462,11 +505,13 @@ extension Task {
     }
     
     private func handleRemove(_ command: Change.Remove) -> Self {
+        let modificationDate = Date()
         switch command {
         case .deadline:
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 nil,
                 area,
@@ -487,6 +532,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -507,6 +553,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -527,6 +574,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 nil,
@@ -547,6 +595,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -567,6 +616,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -587,6 +637,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 date,
                 dueDate,
                 area,
@@ -607,6 +658,7 @@ extension Task {
             return .init(
                 id,
                 creationDate,
+                modificationDate,
                 nil,
                 dueDate,
                 area,
