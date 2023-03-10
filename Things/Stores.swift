@@ -49,7 +49,7 @@ func createSplittedDiskStore() -> StateStore {
         let tasks: [Task]    = read("tasks.json"   , with: fm) ?? []
         let areas: [Area]    = read("areas.json"   , with: fm) ?? []
         let tags : [Tag ]    = read("tags.json"    , with: fm) ?? []
-        let lists: [CheckItem] = read("checklis.json", with: fm) ?? []
+        let lists: [CheckItem] = read("checklist.json", with: fm) ?? []
         
         return AppState(tasks, areas, tags, lists)
     }

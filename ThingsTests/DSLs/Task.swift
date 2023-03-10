@@ -11,9 +11,6 @@ import XCTest
 final class TaskTests: XCTestCase {
     
     let sut: Task = Task()
-    
-    override func setUpWithError() throws {}
-    override func tearDownWithError() throws {}
 
     func testDefaults() throws {
         XCTAssertTrue(sut.title.isEmpty)

@@ -57,7 +57,6 @@ extension Area {
             return .init(id, title, visible, index, tags.add(tag))
         case .removeTag(let tag):
             return .init(id, title, visible, index, tags.delete(tag))
-        default: return self
         }
     }
     

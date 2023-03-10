@@ -6,3 +6,5 @@
 //
 
 import Foundation
+
+typealias IdentiCodable = Codable & Identifiable

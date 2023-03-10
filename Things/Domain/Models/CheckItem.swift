@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct CheckItem: Hashable {
     let id: UUID
     let creationDate: Date
@@ -46,7 +45,6 @@ extension CheckItem: IdentiCodable {
         self.index = index
     }
 }
-
 
 extension CheckItem {
     enum Change {
