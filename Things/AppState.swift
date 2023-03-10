@@ -12,7 +12,7 @@ struct AppState: Codable {
     let todos     : [Task]
     let areas     : [Area]
     let tags      : [Tag]
-    let checkLists: [ToCheck]
+    let checkLists: [CheckItem]
 }
 
 extension AppState {
@@ -20,7 +20,7 @@ extension AppState {
         _ todos     : [Task] = [],
         _ areas     : [Area] = [],
         _ tags      : [Tag]  = [],
-        _ checkLists: [ToCheck] = []
+        _ checkLists: [CheckItem] = []
     ) {
         self.todos = todos
         self.areas = areas

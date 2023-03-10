@@ -25,6 +25,8 @@
 		4042C63B29BB6FB400A5FB1B /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63A29BB6FB400A5FB1B /* UseCase.swift */; };
 		4042C63D29BB6FC300A5FB1B /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63C29BB6FC300A5FB1B /* ViewState.swift */; };
 		4042C63F29BB6FEC00A5FB1B /* ActionArray+Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */; };
+		4042C64129BBB09600A5FB1B /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C64029BBB09600A5FB1B /* Set.swift */; };
+		4042C64529BBB11100A5FB1B /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C64429BBB11000A5FB1B /* Task.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		4042C63A29BB6FB400A5FB1B /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
 		4042C63C29BB6FC300A5FB1B /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActionArray+Call.swift"; sourceTree = "<group>"; };
+		4042C64029BBB09600A5FB1B /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
+		4042C64429BBB11000A5FB1B /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +121,7 @@
 		4042C5FD29BB4FB500A5FB1B /* Things */ = {
 			isa = PBXGroup;
 			children = (
+				4042C64229BBB09A00A5FB1B /* Extensions */,
 				4042C5FE29BB4FB500A5FB1B /* ThingsApp.swift */,
 				4042C60029BB4FB500A5FB1B /* ContentView.swift */,
 				4042C62E29BB4FC600A5FB1B /* AppCore.swift */,
@@ -127,7 +132,6 @@
 				4042C63829BB6F9F00A5FB1B /* Stores.swift */,
 				4042C63A29BB6FB400A5FB1B /* UseCase.swift */,
 				4042C63C29BB6FC300A5FB1B /* ViewState.swift */,
-				4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */,
 				4042C60229BB4FB600A5FB1B /* Assets.xcassets */,
 				4042C60729BB4FB600A5FB1B /* Persistence.swift */,
 				4042C60C29BB4FB600A5FB1B /* Info.plist */,
@@ -148,6 +152,7 @@
 		4042C61429BB4FB600A5FB1B /* ThingsTests */ = {
 			isa = PBXGroup;
 			children = (
+				4042C64329BBB0FF00A5FB1B /* DomainDSLs */,
 				4042C61529BB4FB600A5FB1B /* ThingsTests.swift */,
 			);
 			path = ThingsTests;
@@ -160,6 +165,23 @@
 				4042C62129BB4FB600A5FB1B /* ThingsUITestsLaunchTests.swift */,
 			);
 			path = ThingsUITests;
+			sourceTree = "<group>";
+		};
+		4042C64229BBB09A00A5FB1B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4042C64029BBB09600A5FB1B /* Set.swift */,
+				4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4042C64329BBB0FF00A5FB1B /* DomainDSLs */ = {
+			isa = PBXGroup;
+			children = (
+				4042C64429BBB11000A5FB1B /* Task.swift */,
+			);
+			path = DomainDSLs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -302,6 +324,7 @@
 				4042C63B29BB6FB400A5FB1B /* UseCase.swift in Sources */,
 				4042C63929BB6F9F00A5FB1B /* Stores.swift in Sources */,
 				4042C63729BB6F8700A5FB1B /* StateStore.swift in Sources */,
+				4042C64129BBB09600A5FB1B /* Set.swift in Sources */,
 				4042C63529BB4FFD00A5FB1B /* Message.swift in Sources */,
 				4042C62F29BB4FC600A5FB1B /* AppCore.swift in Sources */,
 				4042C63329BB4FEE00A5FB1B /* Domain.swift in Sources */,
@@ -312,6 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4042C64529BBB11100A5FB1B /* Task.swift in Sources */,
 				4042C61629BB4FB600A5FB1B /* ThingsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
