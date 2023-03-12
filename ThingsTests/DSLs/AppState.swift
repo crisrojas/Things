@@ -14,7 +14,7 @@ final class AppStateTests: XCTestCase {
     
     // MARK: - Create
     func testCreateTask() {
-        let task = Task()
+        let task = ToDo()
         let t1 = sut.alter(.create(.task(task)))
         XCTAssertTrue(t1.tasks.first?.id == task.id)
     }
@@ -33,7 +33,7 @@ final class AppStateTests: XCTestCase {
     
     // MARK: - Delete
     func testDeleteTask() {
-        let task = Task()
+        let task = ToDo()
         let t1 = sut.alter(.create(.task(task)))
         let t2 =  t1.alter(.delete(.task(task)))
         XCTAssertTrue(t2.tasks.isEmpty)
@@ -58,11 +58,11 @@ final class AppStateTests: XCTestCase {
     // MARK: - Update through object specific DSL
     func testTaskDSL() {
         
-        let originalTask = Task()
+        let originalTask = ToDo()
         let checkItem = CheckItem(task: originalTask.id)
         let tag = Tag(name: "Test")
         
-        let changes: [Task.Change] = [
+        let changes: [ToDo.Change] = [
             .title("My title"),
             .notes("My notes"),
             .area(UUID()),
@@ -157,13 +157,13 @@ final class AppStateTests: XCTestCase {
     
     func testConverTaskWithCheckItemsToProject() {
         
-        let t0Task = Task().alter(
+        let t0Task = ToDo().alter(
             .project(UUID()),
             .actionGroup(UUID()),
             .index(4)
         )
         
-        let checkItems: [Task.Change] = Array(1...3).map {
+        let checkItems: [ToDo.Change] = Array(1...3).map {
             .add(.checkItem(
                 CheckItem(task: t0Task.id)
                     .alter(.title("Task \($0)"))
@@ -188,9 +188,9 @@ final class AppStateTests: XCTestCase {
     }
     
     func testConvertHeadingWithSubtasksToProject() {
-        let heading = Task().alter(.type(.heading))
+        let heading = ToDo().alter(.type(.heading))
         let createCMD = Array(1...4)
-            .map { _ in Task().alter(.actionGroup(heading.id)) }
+            .map { _ in ToDo().alter(.actionGroup(heading.id)) }
             .map { AppState.Change.create(.task($0)) }
         
         let t1 = sut.alter([.create(.task(heading))] + createCMD)
@@ -212,9 +212,9 @@ final class AppStateTests: XCTestCase {
 
 
 // MARK: - Equatable conformance
-extension Task: Equatable {
+extension ToDo: Equatable {
     /// Don't include "modificationDate"
-    public static func == (lhs: Task, rhs: Task) -> Bool {
+    public static func == (lhs: ToDo, rhs: ToDo) -> Bool {
         lhs.id == rhs.id
         && lhs.title == rhs.title
         && lhs.creationDate == rhs.creationDate

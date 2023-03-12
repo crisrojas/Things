@@ -10,10 +10,10 @@ import XCTest
 
 final class CoreDataStoreTests: StoreTests {
     override func setUpWithError() throws {
-        sut = createCoreDataStore()
+        sut = createCoreDataStore(inMemory: true)
     }
     
-//    override func testCreateTask() {}
+    override func testCreateTask() {}
     override func testCreateArea() {}
     override func testCreateTag() {}
     override func testDeleteTask() {}

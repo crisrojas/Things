@@ -23,7 +23,7 @@ class StoreTests: XCTestCase {
 
     // MARK: - Create
     func testCreateTask() {
-        let task = Task()
+        let task = ToDo()
         sut.change(.create(.task(task)))
         XCTAssertTrue(sut.state().tasks.first?.id == task.id)
     }
@@ -42,7 +42,7 @@ class StoreTests: XCTestCase {
 
     // MARK: - Delete
     func testDeleteTask() {
-        let task = Task()
+        let task = ToDo()
         sut.change(.create(.task(task)))
         sut.change(.delete(.task(task)))
         XCTAssertTrue(sut.state().tags.isEmpty)
@@ -65,11 +65,11 @@ class StoreTests: XCTestCase {
     // MARK: - Update
     // MARK: - Task
     func testTaskDSL() {
-        let originalTask = Task()
+        let originalTask = ToDo()
         let checkItem = CheckItem(task: originalTask.id)
         let tag = Tag(name: "Test")
 
-        let changes: [Task.Change] = [
+        let changes: [ToDo.Change] = [
             .title("My title"),
             .notes("My notes"),
             .area(UUID()),
@@ -164,13 +164,13 @@ class StoreTests: XCTestCase {
 
     func testConverTaskWithCheckItemsToProject() {
 
-        let t0Task = Task().alter(
+        let t0Task = ToDo().alter(
             .project(UUID()),
             .actionGroup(UUID()),
             .index(4)
         )
 
-        let checkItems: [Task.Change] = Array(1...3).map {
+        let checkItems: [ToDo.Change] = Array(1...3).map {
             .add(.checkItem(
                 CheckItem(task: t0Task.id)
                     .alter(.title("Task \($0)"))
@@ -194,9 +194,9 @@ class StoreTests: XCTestCase {
     }
     
     func testConvertHeadingWithSubtasksToProject() {
-        let heading = Task().alter(.type(.heading))
+        let heading = ToDo().alter(.type(.heading))
         let createCMD = Array(1...4)
-            .map { _ in Task().alter(.actionGroup(heading.id)) }
+            .map { _ in ToDo().alter(.actionGroup(heading.id)) }
             .map { AppState.Change.create(.task($0)) }
         
         sut.change(.create(.task(heading)))

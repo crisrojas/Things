@@ -49,22 +49,45 @@ func createCoreDataStore(inMemory: Bool = false) -> StateStore {
     var state = AppState(){didSet{c.call()}}
     var c = [()->()]()
     
+    let fetch = {state = try await readAppState(manager: manager)}
+    Task {try? await fetch()}
+    
     return (
         state   : { state },
-        change  : { _ in },
+        change  : { write(&state, change: $0, with: manager) },
         callback: { c = c + [$0] },
         reset   : { },
         destroy : { }
     )
 }
 
+fileprivate func write(_ toSync: inout AppState, change: AppState.Change, with manager: CoreDataManager) {
+    
+//    let handleCreate: (AppState.Change.Create) -> () = { cmd in
+//        switch cmd {
+//        case .task(let task): manager.create(task)
+//        default: return
+//        }
+//    }
+    
+    switch change {
+    case .create(let cmd): return
+    default: return
+    }
+
+}
+
+fileprivate func readAppState(manager m: CoreDataManager) async throws -> AppState {
+    let tasks = try await m.readTasks()
+    return AppState(tasks, [], [])
+}
 
 func createSplittedDiskStore() -> StateStore {
     
     let fm = FileManager.default
     
     let readState = {
-        let tasks: [Task     ] = read("tasks.json"    , with: fm) ?? []
+        let tasks: [ToDo     ] = read("tasks.json"    , with: fm) ?? []
         let areas: [Area     ] = read("areas.json"    , with: fm) ?? []
         let tags : [Tag      ] = read("tags.json"     , with: fm) ?? []
         return AppState(tasks, areas, tags)

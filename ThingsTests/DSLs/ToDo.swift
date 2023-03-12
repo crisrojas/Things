@@ -10,7 +10,7 @@ import XCTest
 
 final class TaskTests: XCTestCase {
     
-    let sut: Task = Task()
+    let sut: ToDo = ToDo()
 
     func testDefaults() throws {
         XCTAssertTrue(sut.title.isEmpty)
@@ -68,7 +68,7 @@ final class TaskTests: XCTestCase {
     
     func testSetProject() {
         
-        let project = Task().alter(.type(.project))
+        let project = ToDo().alter(.type(.project))
         
         let t1 = sut.alter(.project(project.id))
         
@@ -82,20 +82,20 @@ final class TaskTests: XCTestCase {
     
     func testConvertToProject() {
        
-        let changes: [Task.Change] = [
+        let changes: [ToDo.Change] = [
             .project(UUID()),
             .actionGroup(UUID()),
             .index(4)
         ]
         
-        let checkItems: [Task.Change] = Array(1...3).map {
+        let checkItems: [ToDo.Change] = Array(1...3).map {
             .add(.checkItem(
                 CheckItem(task: sut.id).alter(.title("Task \($0)"))
             ))
         }
         
         
-        let task = Task().alter(changes + checkItems)
+        let task = ToDo().alter(changes + checkItems)
         XCTAssertTrue(task.checkList.count == 3)
         
         let project = task.alter(.type(.project))
@@ -107,7 +107,7 @@ final class TaskTests: XCTestCase {
     }
     
     func testAddToActionGroup() {
-        let heading = Task().alter(.type(.heading))
+        let heading = ToDo().alter(.type(.heading))
         let t1 = sut.alter(.actionGroup(heading.id))
         
         XCTAssertTrue(heading.type == .heading)
@@ -256,18 +256,18 @@ final class TaskTests: XCTestCase {
         XCTAssertTrue(t1.trashed)
     }
     
-    private func assertModDateChanged(_ t1: Task, _ t2: Task) {
+    private func assertModDateChanged(_ t1: ToDo, _ t2: ToDo) {
         XCTAssertTrue(modDateChanged(t1))
         XCTAssertTrue(modDateChange(t1, t2))
     }
     
     
     /// Checks if the new instance has a different modificationDate from the SUT
-    private func modDateChanged(_ t2: Task) -> Bool {
+    private func modDateChanged(_ t2: ToDo) -> Bool {
         modDateChange(sut, t2)
     }
      
-    private func modDateChange(_ t1: Task, _ t2: Task) -> Bool {
+    private func modDateChange(_ t1: ToDo, _ t2: ToDo) -> Bool {
         t1.modificationDate !=  t2.modificationDate
     }
 }

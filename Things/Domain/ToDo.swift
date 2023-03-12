@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Task {
+struct ToDo {
     let id: UUID
     let creationDate: Date
     let modificationDate: Date?
@@ -27,15 +27,15 @@ struct Task {
     let recurrencyRule: RecurrencyRule?
 }
 
-extension Task: Identifiable, Codable {}
-extension Task.Change.Add: Equatable {}
-extension Task.Change.Remove: Equatable {}
-extension Task.Change: Equatable {}
-extension Task.ListType: Equatable {}
-extension Task.RecurrencyRule: Equatable {}
-extension Task.Status: Equatable {}
+extension ToDo: Identifiable, Codable {}
+extension ToDo.Change.Add: Equatable {}
+extension ToDo.Change.Remove: Equatable {}
+extension ToDo.Change: Equatable {}
+extension ToDo.ListType: Equatable {}
+extension ToDo.RecurrencyRule: Equatable {}
+extension ToDo.Status: Equatable {}
 
-extension Task {
+extension ToDo {
     enum RecurrencyRule: Codable {
         case daily(startDate: Date)
         case weekly(startDate: Date)
@@ -43,13 +43,13 @@ extension Task {
         case annual(startDate: Date)
     }
 
-    enum ListType: Codable {
+    enum ListType: Int, Codable {
         case task
         case heading
         case project
     }
 
-    enum Status: Codable {
+    enum Status: Int, Codable {
         case open
         case cancelled
         case completed
@@ -57,7 +57,7 @@ extension Task {
 }
 
 
-extension Task {
+extension ToDo {
         init(
         _ id: UUID = UUID(),
         _ creationDate: Date = Date(),
@@ -100,7 +100,7 @@ extension Task {
 }
 
 // MARK: Task DSL
-extension Task {
+extension ToDo {
     enum Change {
         case title(String)
         case notes(String)

@@ -9,14 +9,14 @@ import Foundation
 
 // MARK: - App State
 struct AppState: Codable {
-    let tasks     : [Task]
+    let tasks     : [ToDo]
     let areas     : [Area]
     let tags      : [Tag]
 }
 
 extension AppState {
     init(
-        _ tasks     : [Task] = [],
+        _ tasks     : [ToDo] = [],
         _ areas     : [Area] = [],
         _ tags      : [Tag]  = []
     ) {
@@ -35,19 +35,19 @@ extension AppState {
         case delete(Delete)
         
         enum Create {
-            case task(Task)
+            case task(ToDo)
             case area(Area)
             case tag(Tag)
         }
         
         enum Update {
-            case task(Task, with: Task.Change)
+            case task(ToDo, with: ToDo.Change)
             case area(Area, with: Area.Change)
             case tag(Tag, with: Tag.Change)
         }
         
         enum Delete {
-            case task(Task)
+            case task(ToDo)
             case area(Area)
             case tag(Tag)
         }
@@ -123,7 +123,7 @@ extension AppState {
         }
     }
     
-    private func handleConvertToProject(task: Task) -> AppState {
+    private func handleConvertToProject(task: ToDo) -> AppState {
         switch task.type {
         case .task:
             let subtasks = task.checkList.map {
@@ -157,8 +157,8 @@ extension AppState {
     }
 }
 
-extension [Task] {
-    func remove(_ task: Task) -> Self {
+extension [ToDo] {
+    func remove(_ task: ToDo) -> Self {
         self.filter { $0.id != task.id }
     }
 }

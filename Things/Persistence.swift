@@ -65,5 +65,103 @@ struct PersistenceController {
 struct CoreDataManager {
     
     let context: NSManagedObjectContext
+    
+    func create(_ task: ToDo) {
+        context.perform {
+            let entity = TaskCD(context: context)
+            entity.id = task.id
+            entity.creationDate = task.creationDate
+            entity.modificationDate = task.modificationDate
+            entity.dueDate = task.dueDate
+            entity.title = task.title
+            entity.notes = task.notes
+            entity.type = Int16(task.type.rawValue)
+            entity.status = Int16(task.status.rawValue)
+            entity.index = Int16(task.index)
+            entity.todayIndex = Int16(task.todayIndex)
+            entity.trashed = task.trashed
+            
+            try? context.save()
+        }
+    }
+    
+    func readTasks() async throws -> [ToDo] {
+        try await withCheckedThrowingContinuation { c in
+            readTasks { r in
+                switch r {
+                case .success(let tasks): c.resume(with: .success(tasks))
+                case .failure(let error): c.resume(with: .failure(error))
+                }
+            }
+        }
+    }
+    
+    func readTasks(completion: @escaping (Result<[ToDo], Error>) -> ()) {
+        do {
+            let request: NSFetchRequest<TaskCD> = TaskCD.fetchRequest()
+            let result: [TaskCD] = try context.fetch(request)
+            let items = try result.map { try $0.safeObject() }
+            completion(.success(items))
+        } catch {
+            completion(.failure(error))
+        }
+        
+    }
 
+}
+
+
+@available(iOS 15.0.0, *)
+extension NSManagedObjectContext {
+    func get<E, R>(request: NSFetchRequest<E>) async throws -> [R] where E: NSManagedObject, E: ToSafeObject, R == E.SafeType {
+        try await self.perform { [weak self] in
+            try self?.fetch(request).compactMap { try $0.safeObject() } ?? []
+        }
+    }
+}
+
+enum CoreDataError: Error {
+    case invalidMapping
+}
+
+protocol ToSafeObject {
+    associatedtype SafeType
+    func safeObject() throws -> SafeType
+}
+
+extension TaskCD: ToSafeObject {
+    
+    typealias SafeType = ToDo
+    
+    func safeObject() throws -> ToDo {
+        guard
+            let id = id,
+            let creationDate = creationDate,
+            let title = title,
+            let notes = notes,
+            let type = ToDo.ListType(rawValue: Int(type)),
+            let status = ToDo.Status(rawValue: Int(status))
+        else { throw CoreDataError.invalidMapping }
+        
+        return .init(
+            id,
+            creationDate,
+            modificationDate,
+            date,
+            dueDate,
+            nil,
+            nil,
+            nil,
+            title,
+            notes,
+            [],
+            [],
+            type,
+            status,
+            Int(index),
+            Int(todayIndex),
+            trashed,
+            nil // @todo
+        )
+    }
 }
