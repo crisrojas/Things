@@ -19,6 +19,7 @@ struct Tag: IdentiCodable, Hashable {
 }
 
 extension Tag  {
+    enum Change {}
     init(
         _ id: UUID = UUID(),
         _ name: String,

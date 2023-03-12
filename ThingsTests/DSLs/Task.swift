@@ -39,7 +39,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.notes("My notes"))
         XCTAssertTrue(t2.notes == "My notes")
         
-        assertModDateChange(t1, t2)
+        assertModDateChanged(t1, t2)
     }
     
     
@@ -47,14 +47,14 @@ final class TaskTests: XCTestCase {
         let dueDate = Date()
         let t1 = sut.alter(.deadline(dueDate))
         XCTAssertTrue(t1.dueDate == dueDate)
-        XCTAssertTrue(modDateChange(t1))
+        XCTAssertTrue(modDateChanged(t1))
     }
     
     func testSetDate() {
         let date = Date()
         let t1 = sut.alter(.date(date))
         XCTAssertTrue(t1.date == date)
-        XCTAssertTrue(modDateChange(t1))
+        XCTAssertTrue(modDateChanged(t1))
     }
     
     func testSetArea() {
@@ -62,7 +62,7 @@ final class TaskTests: XCTestCase {
         let t1 = sut.alter(.area(area.id))
         
         XCTAssertTrue(t1.area == area.id)
-        XCTAssertTrue(modDateChange(t1))
+        XCTAssertTrue(modDateChanged(t1))
     }
     
     func testSetProject() {
@@ -71,7 +71,7 @@ final class TaskTests: XCTestCase {
         
         XCTAssertTrue(project.type == .project)
         XCTAssertTrue(t1.project == project.id)
-        XCTAssertTrue(modDateChange(t1))
+        XCTAssertTrue(modDateChanged(t1))
     }
     
     func testAddToActionGroup() {
@@ -80,7 +80,7 @@ final class TaskTests: XCTestCase {
         
         XCTAssertTrue(heading.type == .heading)
         XCTAssertTrue(t1.actionGroup == heading.id)
-        XCTAssertTrue(modDateChange(t1))
+        XCTAssertTrue(modDateChanged(t1))
     }
     
     func testAddCheckList() {
@@ -89,19 +89,19 @@ final class TaskTests: XCTestCase {
         
         XCTAssertTrue(!t1.checkList.isEmpty)
         XCTAssertTrue(t1.checkList.first!.id == checkItem.id)
-        XCTAssertTrue(modDateChange(t1))
+        XCTAssertTrue(modDateChanged(t1))
     }
     
     func testSetIndex() {
         let t1 = sut.alter(.index(2))
         XCTAssertTrue(t1.index == 2)
-        XCTAssertTrue(modDateChange(t1))
+        XCTAssertTrue(modDateChanged(t1))
     }
     
     func testSetTodayIndex() {
         let t1 = sut.alter(.todayIndex(2))
         XCTAssertTrue(t1.todayIndex == 2)
-        XCTAssertTrue(modDateChange(t1))
+        XCTAssertTrue(modDateChanged(t1))
     }
     
     func testAddTag() {
@@ -110,20 +110,20 @@ final class TaskTests: XCTestCase {
         
         XCTAssertTrue(!t1.tags.isEmpty)
         XCTAssertTrue(t1.tags.first!.id == tag.id)
-        XCTAssertTrue(modDateChange(t1))
+        XCTAssertTrue(modDateChanged(t1))
     }
     
     func testTrash() {
         let t1 = sut.alter(.trash)
         XCTAssertTrue(t1.trashed)
-        XCTAssertTrue(modDateChange(t1))
+        XCTAssertTrue(modDateChanged(t1))
     }
     
     func testUntrash() {
         let t1 = sut.alter(.trash)
         let t2 = sut.alter(.untrash)
         XCTAssertFalse(t2.trashed)
-        assertModDateChange(t1, t2)
+        assertModDateChanged(t1, t2)
     }
     
     func testSetStatus() {
@@ -131,7 +131,7 @@ final class TaskTests: XCTestCase {
         XCTAssertTrue(t1.status == .cancelled)
         let t2 = sut.alter(.status(.completed))
         XCTAssertTrue(t2.status == .completed)
-        assertModDateChange(t1, t2)
+        assertModDateChanged(t1, t2)
     }
     
     func testRemoveTag() {
@@ -139,7 +139,7 @@ final class TaskTests: XCTestCase {
         let t1 = sut.alter(.add(.tag(tag)))
         let t2 = t1.alter(.remove(.tag(tag)))
         XCTAssertTrue(t2.tags.isEmpty)
-        assertModDateChange(t1, t2)
+        assertModDateChanged(t1, t2)
     }
     
     func testRemoveCheckItem() {
@@ -148,7 +148,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.checkList(checkItem)))
         
         XCTAssertTrue(t2.checkList.isEmpty)
-        assertModDateChange(t1, t2)
+        assertModDateChanged(t1, t2)
     }
     
     
@@ -157,7 +157,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.deadline))
         XCTAssertNotNil(t1.dueDate)
         XCTAssertNil(t2.dueDate)
-        assertModDateChange(t1, t2)
+        assertModDateChanged(t1, t2)
     }
     
     func testRemoveProject() {
@@ -165,7 +165,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.project))
         XCTAssertNotNil(t1.project)
         XCTAssertNil(t2.project)
-        assertModDateChange(t1, t2)
+        assertModDateChanged(t1, t2)
     }
     
     
@@ -174,7 +174,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.area))
         XCTAssertNotNil(t1.area)
         XCTAssertNil(t2.area)
-        assertModDateChange(t1, t2)
+        assertModDateChanged(t1, t2)
     }
     
     
@@ -183,7 +183,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.actionGroup))
         XCTAssertNotNil(t1.actionGroup)
         XCTAssertNil(t2.actionGroup)
-        assertModDateChange(t1, t2)
+        assertModDateChanged(t1, t2)
     }
     
     func testRemoveDate() {
@@ -191,7 +191,7 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.remove(.date))
         XCTAssertNotNil(t1.date)
         XCTAssertNil(t2.date)
-        assertModDateChange(t1, t2)
+        assertModDateChanged(t1, t2)
     }
     
     func testDuplicate() {
@@ -203,14 +203,14 @@ final class TaskTests: XCTestCase {
         
     }
     
-    private func assertModDateChange(_ t1: Task, _ t2: Task) {
-        XCTAssertTrue(modDateChange(t1))
+    private func assertModDateChanged(_ t1: Task, _ t2: Task) {
+        XCTAssertTrue(modDateChanged(t1))
         XCTAssertTrue(modDateChange(t1, t2))
     }
     
     
     /// Checks if the new instance has a different modificationDate from the SUT
-    private func modDateChange(_ t2: Task) -> Bool {
+    private func modDateChanged(_ t2: Task) -> Bool {
         modDateChange(sut, t2)
     }
      

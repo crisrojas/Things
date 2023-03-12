@@ -49,9 +49,9 @@ func createSplittedDiskStore() -> StateStore {
         let tasks: [Task     ] = read("tasks.json"    , with: fm) ?? []
         let areas: [Area     ] = read("areas.json"    , with: fm) ?? []
         let tags : [Tag      ] = read("tags.json"     , with: fm) ?? []
-        let lists: [CheckItem] = read("checklist.json", with: fm) ?? []
+//        let lists: [CheckItem] = read("checklist.json", with: fm) ?? []
         
-        return AppState(tasks, areas, tags, lists)
+        return AppState(tasks, areas, tags)
     }
     
     var state = readState() {didSet {c.call()}}
@@ -111,5 +111,5 @@ private func fileURL(path: String, fm: FileManager) throws -> URL {
         .appendingPathComponent(path)
 }
 
-let jsonDecoder: JSONDecoder = {JSONDecoder()}()
-let jsonEncoder: JSONEncoder = {JSONEncoder()}()
+fileprivate let jsonDecoder: JSONDecoder = {JSONDecoder()}()
+fileprivate let jsonEncoder: JSONEncoder = {JSONEncoder()}()

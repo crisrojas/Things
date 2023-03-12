@@ -33,6 +33,7 @@
 		4042C63F29BB6FEC00A5FB1B /* ActionArray+Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */; };
 		4042C64129BBB09600A5FB1B /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C64029BBB09600A5FB1B /* Set.swift */; };
 		4042C64529BBB11100A5FB1B /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C64429BBB11000A5FB1B /* Task.swift */; };
+		407574F729BD47950097BB62 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407574F629BD47950097BB62 /* AppState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActionArray+Call.swift"; sourceTree = "<group>"; };
 		4042C64029BBB09600A5FB1B /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
 		4042C64429BBB11000A5FB1B /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		407574F629BD47950097BB62 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 				4042C64429BBB11000A5FB1B /* Task.swift */,
 				4000FB3F29BBE3BC00D7374B /* Area.swift */,
 				4000FB4729BBE79500D7374B /* Checkitem.swift */,
+				407574F629BD47950097BB62 /* AppState.swift */,
 			);
 			path = DSLs;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4042C64529BBB11100A5FB1B /* Task.swift in Sources */,
+				407574F729BD47950097BB62 /* AppState.swift in Sources */,
 				4000FB4029BBE3BC00D7374B /* Area.swift in Sources */,
 				4042C61629BB4FB600A5FB1B /* ThingsTests.swift in Sources */,
 				4000FB4829BBE79500D7374B /* Checkitem.swift in Sources */,
