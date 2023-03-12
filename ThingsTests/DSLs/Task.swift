@@ -65,13 +65,45 @@ final class TaskTests: XCTestCase {
         XCTAssertTrue(modDateChanged(t1))
     }
     
+    
     func testSetProject() {
+        
         let project = Task().alter(.type(.project))
+        
         let t1 = sut.alter(.project(project.id))
         
         XCTAssertTrue(project.type == .project)
         XCTAssertTrue(t1.project == project.id)
+        
+        
         XCTAssertTrue(modDateChanged(t1))
+    }
+    
+    
+    func testConvertToProject() {
+       
+        let changes: [Task.Change] = [
+            .project(UUID()),
+            .actionGroup(UUID()),
+            .index(4)
+        ]
+        
+        let checkItems: [Task.Change] = Array(1...3).map {
+            .add(.checkItem(
+                CheckItem(task: sut.id).alter(.title("Task \($0)"))
+            ))
+        }
+        
+        
+        let task = Task().alter(changes + checkItems)
+        XCTAssertTrue(task.checkList.count == 3)
+        
+        let project = task.alter(.type(.project))
+        XCTAssertTrue(project.type == .project)
+        XCTAssertTrue(project.checkList.isEmpty)
+        XCTAssertNil(project.project)
+        XCTAssertNil(project.actionGroup)
+        XCTAssertTrue(project.index == 0)
     }
     
     func testAddToActionGroup() {
@@ -194,6 +226,19 @@ final class TaskTests: XCTestCase {
         assertModDateChanged(t1, t2)
     }
     
+    func testAddRecurrency() {
+        let t1 = sut.alter(.recurrency(.daily(startDate: Date())))
+        XCTAssertNotNil(t1.recurrencyRule)
+    }
+    
+    func testRemoveRecurrency() {
+        let t1 = sut
+            .alter(.recurrency(.daily(startDate: Date())))
+            .alter(.remove(.recurrency))
+        
+        XCTAssertNil(t1.recurrencyRule)
+    }
+    
     func testDuplicate() {
         let t1 = sut.alter(.index(1))
         XCTAssertNotNil(t1.modificationDate)
@@ -201,6 +246,14 @@ final class TaskTests: XCTestCase {
         let t2 = t1.alter(.duplicate)
         XCTAssertTrue(t1.modificationDate == t2.modificationDate)
         
+    }
+    
+    func testVariadicChanges() {
+        let t1 = sut.alter(.title("New title"), .index(3), .status(.completed), .trash)
+        XCTAssertTrue(t1.title == "New title")
+        XCTAssertTrue(t1.index == 3)
+        XCTAssertTrue(t1.status == .completed)
+        XCTAssertTrue(t1.trashed)
     }
     
     private func assertModDateChanged(_ t1: Task, _ t2: Task) {

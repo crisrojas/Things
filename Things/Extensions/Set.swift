@@ -9,7 +9,7 @@ import Foundation
 
 extension Set {
     
-    func droppingLast() -> Self { Set(self.dropLast()) }
+//    func droppingLast() -> Self { Set(self.dropLast()) }
     
     func add(_ item: Element) -> Self {
         var new = self

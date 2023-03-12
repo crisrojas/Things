@@ -18,7 +18,7 @@ struct AppLauncher {
     }
 }
 
-struct TestApp: App {
+fileprivate struct TestApp: App {
     var body: some Scene {
         WindowGroup {Text("")}
     }

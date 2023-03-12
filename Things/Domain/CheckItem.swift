@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CheckItem: Hashable {
+struct CheckItem {
     let id: UUID
     let creationDate: Date
     let modificationDate: Date
@@ -27,7 +27,7 @@ struct CheckItem: Hashable {
     }
 }
 
-extension CheckItem: IdentiCodable {
+extension CheckItem {
     init(
         _ id: UUID = UUID(),
         _ creationDate: Date = Date(),
@@ -69,3 +69,14 @@ extension CheckItem {
     }
 }
 
+
+extension CheckItem {
+    func toTask(project: UUID) -> Task {
+        Task().alter(
+            .title(self.title),
+            .project(project)
+        )
+    }
+}
+
+extension CheckItem: Identifiable, Codable, Hashable {}

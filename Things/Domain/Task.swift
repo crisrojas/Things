@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Task: IdentiCodable {
+struct Task {
     let id: UUID
     let creationDate: Date
     let modificationDate: Date?
@@ -26,6 +26,14 @@ struct Task: IdentiCodable {
     let trashed: Bool
     let recurrencyRule: RecurrencyRule?
 }
+
+extension Task: Identifiable, Codable {}
+extension Task.Change.Add: Equatable {}
+extension Task.Change.Remove: Equatable {}
+extension Task.Change: Equatable {}
+extension Task.ListType: Equatable {}
+extension Task.RecurrencyRule: Equatable {}
+extension Task.Status: Equatable {}
 
 extension Task {
     enum RecurrencyRule: Codable {
@@ -130,8 +138,8 @@ extension Task {
         }
     }
     
-    func alter(_ c: Change...) -> Self{c.reduce(self){$0.alter($1)}}
-    
+    func alter(_ c: [Change]) -> Self{c.reduce(self){$0.alter($1)}}
+    func alter(_ c: Change...) -> Self{alter(c)}
     func alter(_ c: Change) -> Self {
         let modificationDate = Date()
         switch c {
@@ -271,15 +279,15 @@ extension Task {
                 date,
                 dueDate,
                 area,
-                project,
-                actionGroup,
+                type == .project ? nil : project,
+                type == .project ? nil : actionGroup,
                 title,
                 notes,
                 tags,
-                checkList,
+                type == .project ? [] : checkList,
                 type,
                 status,
-                index,
+                type == .project ? 0 : index,
                 todayIndex,
                 trashed,
                 recurrencyRule
@@ -678,3 +686,4 @@ extension Task {
         }
     }
 }
+

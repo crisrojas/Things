@@ -38,7 +38,6 @@ extension AppState {
             case task(Task)
             case area(Area)
             case tag(Tag)
-            case checkItem(CheckItem, on: Task)
         }
         
         enum Update {
@@ -56,6 +55,8 @@ extension AppState {
 }
 
 extension AppState {
+    func alter(_ c: [Change]) -> Self {c.reduce(self){$0.alter($1)}}
+    func alter(_ c: Change...) -> Self {alter(c)}
     func alter(_ change: Change) -> Self {
         switch change {
         case .create(let command): return handle(command)
@@ -72,21 +73,30 @@ extension AppState {
             return .init(tasks, areas + [area], tags)
         case .tag(let tag):
             return .init(tasks, areas, tags + [tag])
-        default: return self
         }
     }
     
     private func handle(_ updateCommand: Change.Update) -> Self {
         switch updateCommand {
         case .task(let task, let command):
-            let task = task.alter(command)
-            let tasks = tasks.filter { $0.id != task.id } + [task]
-            return .init(tasks, areas, tags)
+           
+            if command == .type(.project) {
+              return handleConvertToProject(task: task)
+            } else {
+                
+                let task = task.alter(command)
+                let tasks = tasks.filter { $0.id != task.id } + [task]
+                return .init(tasks, areas, tags)
+            }
+
         case .area(let area, let command):
             let area = area.alter(command)
             let areas = areas.filter { $0.id != area.id } + [area]
             return .init(tasks, areas, tags)
-        default: return self
+        case .tag(let tag, let command):
+            let tag = tag.alter(command)
+            let tags = tags.filter { $0.id != tag.id } + [tag]
+            return .init(tasks, areas, tags)
         }
     }
     
@@ -110,7 +120,45 @@ extension AppState {
                 areas,
                 tags.filter { $0.id != tag.id }
             )
-        default: return self
         }
+    }
+    
+    private func handleConvertToProject(task: Task) -> AppState {
+        switch task.type {
+        case .task:
+            let subtasks = task.checkList.map {
+                $0.toTask(project: task.id)
+            }
+            
+            let project = task.alter(.type(.project))
+            let tasks = tasks.filter { $0.id != task.id }
+            + [project]
+            + subtasks
+            
+            return .init(tasks, areas, tags)
+            
+        case .heading:
+            let subtasks = tasks
+                .filter { $0.actionGroup == task.id }
+                .map { $0.alter(.remove(.actionGroup))}
+            
+            let project = task.alter(.type(.project))
+            
+            let tasks = subtasks
+                .reduce(tasks) {$0.remove($1)}
+                .filter { $0.id != task.id }
+            + [project]
+            + subtasks
+            
+            return .init(tasks, areas, tags)
+           
+        case .project: return self
+        }
+    }
+}
+
+extension [Task] {
+    func remove(_ task: Task) -> Self {
+        self.filter { $0.id != task.id }
     }
 }

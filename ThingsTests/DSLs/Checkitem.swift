@@ -12,6 +12,12 @@ final class CheckItemTests: XCTestCase {
     
     let sut = CheckItem(task: UUID())
     
+    func testDefaults() {
+        XCTAssertFalse(sut.checked)
+        XCTAssertTrue(sut.title.isEmpty)
+        XCTAssertTrue(sut.index == 0)
+    }
+    
     func testCheck() {
         let t1 = sut.alter(.check)
         XCTAssertTrue(t1.checked)
@@ -31,5 +37,12 @@ final class CheckItemTests: XCTestCase {
         let t1 = sut.alter(.index(3))
         XCTAssertTrue(t1.index == 3)
 
+    }
+    
+    func testVariadicAlter() {
+        let t1 = sut.alter(.index(4), .title("Check list"), .check)
+        XCTAssertTrue(t1.index == 4)
+        XCTAssertTrue(t1.title == "Check list")
+        XCTAssertTrue(t1.checked)
     }
 }

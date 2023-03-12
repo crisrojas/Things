@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Area: IdentiCodable {
+struct Area {
     let id: UUID
     let title: String
     let visible: Bool
@@ -39,9 +39,7 @@ extension Area {
         self.tags = tags
     }
     
-    func alter(_ c: Change...) -> Self {
-        c.reduce(self) { $0.alter($1) }
-    }
+    func alter(_ c: Change...) -> Self{c.reduce(self){$0.alter($1)}}
     
     func alter(_ c: Change) -> Self {
         switch c {
@@ -61,3 +59,5 @@ extension Area {
     }
     
 }
+
+extension Area: Identifiable, Codable, Equatable {}
