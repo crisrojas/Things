@@ -8,8 +8,8 @@
 import CoreData
 
 struct PersistenceController {
+    
     static let shared = PersistenceController()
-
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
@@ -27,10 +27,17 @@ struct PersistenceController {
         }
         return result
     }()
+    
+    static func get(inMemory: Bool) -> Self {
+        if inMemory { return preview }
+        else { return shared }
+    }
+    
+    func context() -> NSManagedObjectContext {container.viewContext}
 
     let container: NSPersistentCloudKitContainer
 
-    init(inMemory: Bool = false) {
+    private init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "Things")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
@@ -53,4 +60,10 @@ struct PersistenceController {
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
+}
+
+struct CoreDataManager {
+    
+    let context: NSManagedObjectContext
+
 }

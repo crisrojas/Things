@@ -17,7 +17,8 @@ func createRamStore() -> StateStore {
         state   : { state                   },
         change  : { state = state.alter($0) },
         callback: { c = c + [$0]            },
-        reset   : { state = AppState()      }
+        reset   : { state = AppState()      },
+        destroy : { state = AppState()      }
     )
 }
 
@@ -32,13 +33,30 @@ func createDiskStore(path: String = "state.json") -> StateStore {
     let persist = {write(state, to: path, with: fm)}
     
     return (
-        state   : { state                       },
-        change  : { _ in /*state = state.reduce(with: $0) ; */persist()},
-        callback: { c = c + [$0]                },
-        reset   : { state = AppState();persist()}
+        state   : { state                              },
+        change  : { state = state.alter($0) ; persist()},
+        callback: { c = c + [$0]                       },
+        reset   : { state = AppState();persist()       },
+        destroy : { try! destroy(path, with: fm)       }
     )
 }
 
+
+func createCoreDataStore(inMemory: Bool = false) -> StateStore {
+    let persistence = PersistenceController.get(inMemory: inMemory)
+    let manager = CoreDataManager(context: persistence.context())
+    
+    var state = AppState(){didSet{c.call()}}
+    var c = [()->()]()
+    
+    return (
+        state   : { state },
+        change  : { _ in },
+        callback: { c = c + [$0] },
+        reset   : { },
+        destroy : { }
+    )
+}
 
 
 func createSplittedDiskStore() -> StateStore {
@@ -49,8 +67,6 @@ func createSplittedDiskStore() -> StateStore {
         let tasks: [Task     ] = read("tasks.json"    , with: fm) ?? []
         let areas: [Area     ] = read("areas.json"    , with: fm) ?? []
         let tags : [Tag      ] = read("tags.json"     , with: fm) ?? []
-//        let lists: [CheckItem] = read("checklist.json", with: fm) ?? []
-        
         return AppState(tasks, areas, tags)
     }
     
@@ -58,10 +74,11 @@ func createSplittedDiskStore() -> StateStore {
     var c = [()->()]()
     
     return (
-        state: { state },
-        change: { _ in },
+        state   : { state },
+        change  : { _ in },
         callback: { c = c + [$0] },
-        reset: { state = AppState(); }
+        reset   : { state = AppState(); },
+        destroy : { }
     )
     
 }
@@ -90,6 +107,10 @@ private func read<C: Codable>(_ path: String, with fm: FileManager) -> C? {
         print(error)
         return nil
     }
+}
+
+private func destroy(_ path: String, with fm: FileManager) throws {
+    try fm.removeItem(atPath: fileURL(path: path, fm: fm).path)
 }
 
 private func readAppState(_ path: String, with fm: FileManager) -> AppState {

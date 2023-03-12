@@ -56,8 +56,6 @@ final class AppStateTests: XCTestCase {
     }
     
     // MARK: - Update through object specific DSL
-    /// Only one case of the update enum is needed for asserting the objects are being updated
-    /// since we're reusing their [Object].Change enum, which has been already tested
     func testTaskDSL() {
         
         let originalTask = Task()
@@ -209,7 +207,6 @@ final class AppStateTests: XCTestCase {
         subTasks.forEach {
             XCTAssertNil($0.actionGroup)
         }
-       
     }
 }
 
