@@ -53,7 +53,7 @@ extension AppState {
         enum Delete {
             case task(ToDo)
             case area(Area)
-            case tag(Tag)
+            case tag(UUID)
             case checkItem(CheckItem)
         }
     }
@@ -80,7 +80,7 @@ extension AppState {
             return .init(tasks, areas, tags + [tag], checkItems)
         case .checkItem(let item):
             if let task = tasks.filter({$0.id == item.task}).first {
-                let task = task.alter(.add(.checkItem(item)))
+                let task = task.alter(.add(.checkItem(item.id)))
                 let tasks = tasks.filter {$0.id != task.id} + [task]
                 let checkItems = checkItems + [item]
                 return .init(tasks, areas, tags, checkItems)
@@ -128,16 +128,26 @@ extension AppState {
                 tags
             )
         case .tag(let tag):
+            
+            let previouslyTaggedAreas = areas
+                .filter {$0.tags.contains(tag)}
+                .map { $0.alter(.removeTag(tag)) }
+            
+            let areas = areas
+                .filter { !$0.tags.contains(tag) }
+            + previouslyTaggedAreas
+            
+            
             return .init(
                 tasks,
                 areas,
-                tags.filter { $0.id != tag.id }
+                tags.filter { $0.id != tag }
             )
         case .checkItem(let item):
            
             var tasks = tasks
             if let task = tasks.filter({ $0.id == item.task }).first {
-                let task = task.alter(.remove(.checkList(item)))
+                let task = task.alter(.remove(.checkItem(item.id)))
                 tasks = tasks.filter { $0.id != item.task } + [task]
             }
             
@@ -153,15 +163,19 @@ extension AppState {
     private func handleConvertToProject(task: ToDo) -> AppState {
         switch task.type {
         case .task:
-            let subtasks = task.checkList.map {
-                $0.toTask(project: task.id)
-            }
             
-            let project = task.alter(.type(.project))
+            let subtasks = checkItems
+                .filter { $0.task == task.id }
+                .map {$0.toTask(project: task.id)}
+            
+            let project = task.alter(
+                .type(.project),
+                .remove(.checkList)
+            )
             let tasks = tasks.filter { $0.id != task.id }
             + [project]
             + subtasks
-            
+
             return .init(tasks, areas, tags)
             
         case .heading:

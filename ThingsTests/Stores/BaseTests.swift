@@ -8,6 +8,7 @@
 import XCTest
 @testable import Things
 
+/// Test default store
 class StoreTests: XCTestCase {
 
     var sut: StateStore!
@@ -38,7 +39,16 @@ class StoreTests: XCTestCase {
     func testCreateTag() async throws {
         let tag = Tag(name: "Test tag")
         try await sut.change(.create(.tag(tag)))
-        XCTAssertTrue(sut.state().tags.first?.id == tag.id)
+        XCTAssertEqual(sut.state().tags.first?.id, tag.id)
+        XCTAssertEqual(sut.state().tags.first?.name, "Test tag")
+    }
+    
+    func testCreateCheckItem() async throws {
+        let task = ToDo()
+        let item = CheckItem(task: task.id)
+        try await sut.change(.create(.task(task)))
+        try await sut.change(.create(.checkItem(item)))
+        XCTAssertFalse(sut.state().checkItems.isEmpty)
     }
 
     // MARK: - Delete
@@ -59,12 +69,11 @@ class StoreTests: XCTestCase {
     func testDeleteTag() async throws {
         let tag = Tag(name: "Testing")
         try await sut.change(.create(.tag(tag)))
-        try await sut.change(.delete(.tag(tag)))
+        try await sut.change(.delete(.tag(tag.id)))
         XCTAssertTrue(sut.state().tags.isEmpty)
     }
 
     // MARK: - Update
-    // MARK: - Task
     func testTaskDSL() async throws {
         let originalTask = ToDo()
         let checkItem = CheckItem(task: originalTask.id)
@@ -85,13 +94,13 @@ class StoreTests: XCTestCase {
             .trash,
             .untrash,
             .recurrency(.annual(startDate: Date())),
-            .add(.checkItem(checkItem)),
-            .add(.tag(tag)),
-            .remove(.checkList(checkItem)),
-            .remove(.tag(tag))
+            .add(.checkItem(checkItem.id)),
+            .add(.tag(tag.id)),
+            .remove(.checkItem(checkItem.id)),
+            .remove(.tag(tag.id))
         ]
 
-        try await  sut.change(.create(.task(originalTask)))
+        try await sut.change(.create(.task(originalTask)))
 
         try await changes.asyncForEach { change in
             XCTAssertTrue(sut.state().tasks.count == 1)
@@ -114,8 +123,8 @@ class StoreTests: XCTestCase {
             .title("My new area"),
             .makeVisible,
             .makeInvisible,
-            .addTag(tag),
-            .removeTag(tag)
+            .addTag(tag.id),
+            .removeTag(tag.id)
         ]
 
         let originalArea = Area()
@@ -164,33 +173,44 @@ class StoreTests: XCTestCase {
     }
 
     func testConverTaskWithCheckItemsToProject() async throws {
-
-        let t0Task = ToDo().alter(
+       
+        var task = ToDo().alter(
             .project(UUID()),
             .actionGroup(UUID()),
             .index(4)
         )
 
-        let checkItems: [ToDo.Change] = Array(1...3).map {
-            .add(.checkItem(
-                CheckItem(task: t0Task.id)
-                    .alter(.title("Task \($0)"))
-            ))
-        }
+        let c1 = CheckItem(task: task.id)
+        let c2 = CheckItem(task: task.id)
+        let c3 = CheckItem(task: task.id)
 
-        let t1Task = t0Task.alter(checkItems)
+        task = task.alter(
+            .add(.checkItem(c1.id)),
+            .add(.checkItem(c2.id)),
+            .add(.checkItem(c3.id))
+        )
 
-        try await sut.change(.create(.task(t1Task)))
-        try await sut.change(.update(.task(t1Task, with: .type(.project))))
+        try await sut.change(.create(.task(task)))
+        try await sut.change(.create(.checkItem(c1)))
+        try await sut.change(.create(.checkItem(c2)))
+        try await sut.change(.create(.checkItem(c3)))
 
-        XCTAssertTrue(t1Task.checkList.count == 3)
-        XCTAssertTrue(sut.state().tasks.count == 4)
+        XCTAssertEqual(sut.state().tasks.first?.checkList.count, 3)
+
+
+        try await sut.change(
+            .update(.task(task, with: .type(.project)))
+        )
+
+        XCTAssertEqual(sut.state().tasks.first?.checkList.count, 0)
+        XCTAssertEqual(sut.state().tasks.count, 4)
+
 
         let tasks = sut.state().tasks.filter {$0.type != .project}
-        XCTAssertTrue(tasks.count == 3)
+        XCTAssertEqual(tasks.count, 3)
 
         tasks.forEach {
-            XCTAssertTrue($0.project == t1Task.id)
+            XCTAssertTrue($0.project == task.id)
         }
     }
     

@@ -17,8 +17,8 @@ struct ToDo {
     let actionGroup: UUID?
     let title: String
     let notes: String
-    let tags: Set<Tag>
-    let checkList: Set<CheckItem>
+    let tags: Set<UUID>
+    let checkList: Set<UUID>
     let type: ListType
     let status: Status
     let index: Int
@@ -69,8 +69,8 @@ extension ToDo {
         _ actionGroup: UUID? = nil,
         _ title: String = "",
         _ notes: String = "",
-        _ tags: Set<Tag> = [],
-        _ checkList: Set<CheckItem> = [],
+        _ tags: Set<UUID> = [],
+        _ checkList: Set<UUID> = [],
         _ type: ListType = .task,
         _ status: Status = .open,
         _ index: Int = 0,
@@ -122,19 +122,20 @@ extension ToDo {
         
         
         enum Add {
-            case checkItem(CheckItem)
-            case tag(Tag)
+            case checkItem(UUID)
+            case tag(UUID)
         }
         
         enum Remove {
             case deadline
-            case checkList(CheckItem)
+            case checkItem(UUID)
             case project
             case recurrency
             case area
             case actionGroup
-            case tag(Tag)
+            case tag(UUID)
             case date
+            case checkList
         }
     }
     
@@ -515,6 +516,27 @@ extension ToDo {
     private func handleRemove(_ command: Change.Remove) -> Self {
         let modificationDate = Date()
         switch command {
+        case .checkList:
+            return .init(
+                id,
+                creationDate,
+                modificationDate,
+                date,
+                dueDate,
+                area,
+                project,
+                actionGroup,
+                title,
+                notes,
+                tags,
+                [],
+                type,
+                status,
+                index,
+                todayIndex,
+                trashed,
+                recurrencyRule
+            )
         case .deadline:
             return .init(
                 id,
@@ -536,7 +558,7 @@ extension ToDo {
                 trashed,
                 recurrencyRule
             )
-        case .checkList(let item):
+        case .checkItem(let item):
             return .init(
                 id,
                 creationDate,

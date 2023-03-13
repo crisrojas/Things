@@ -12,7 +12,7 @@ struct Area {
     let title: String
     let visible: Bool
     let index: Int
-    let tags: Set<Tag>
+    let tags: Set<UUID>
 }
 
 extension Area {
@@ -21,8 +21,8 @@ extension Area {
         case makeVisible
         case makeInvisible
         case index(Int)
-        case addTag(Tag)
-        case removeTag(Tag)
+        case addTag(UUID)
+        case removeTag(UUID)
     }
     
      init(
@@ -30,7 +30,7 @@ extension Area {
         _ title: String = "",
         _ visible: Bool = false,
         _ index: Int = 0,
-        _ tags: Set<Tag> = []
+        _ tags: Set<UUID> = []
      ) {
         self.id = id
         self.title = title

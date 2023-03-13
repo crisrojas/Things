@@ -16,7 +16,8 @@ final class CoreDataStoreTests: StoreTests {
     }
     
 //    override func testCreateTask() async throws {}
-    override func testCreateArea() async throws {}
+//    override func testCreateArea() async throws {}
+//    override func testCreateCheckItem() async throws {}
     override func testCreateTag() async throws {}
     override func testDeleteTask() async throws {}
     override func testDeleteArea() async throws {}

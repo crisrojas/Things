@@ -14,7 +14,7 @@ func createCoreDataStore(controller p: PersistenceController) -> StateStore {
     var state = AppState(){didSet{c.call()}}
     var c = [()->()]()
     
-    let fetch = {state = try await readAppState(manager: manager)}
+    let fetch = {state = try await readState(manager: manager)}
     Task {try? await fetch()}
     
     return (
@@ -29,7 +29,7 @@ func createCoreDataStore(controller p: PersistenceController) -> StateStore {
     )
 }
 
-fileprivate func readAppState(manager m: CoreDataManager) async throws -> AppState {
+fileprivate func readState(manager m: CoreDataManager) async throws -> AppState {
     let tasks = try await m.readTasks()
     let areas = try await m.readAreas()
 //    let tags  = try await m.readTags()
@@ -49,6 +49,8 @@ fileprivate func write(_ change: AppState.Change, with manager: CoreDataManager)
 fileprivate func handle(_ cmd: AppState.Change.Create, with manager: CoreDataManager) async throws {
     switch cmd {
     case .task(let task): try await manager.create(task)
+    case .area(let area): try await manager.create(area)
+    case .checkItem(let item): try await manager.create(item)
     default: return
     }
 }

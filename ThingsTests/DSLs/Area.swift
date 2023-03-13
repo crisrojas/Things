@@ -43,25 +43,25 @@ final class AreaTests: XCTestCase {
     
     func testAddTag() {
         let tag = Tag(name: "Important")
-        let t1 = sut.alter(.addTag(tag))
+        let t1 = sut.alter(.addTag(tag.id))
         XCTAssertFalse(t1.tags.isEmpty)
         XCTAssertTrue(t1.id == sut.id)
-        XCTAssertTrue(tag.id == t1.tags.first!.id)
+        XCTAssertTrue(tag.id == t1.tags.first!)
     }
     
     func testRemoveTag() {
         let tag = Tag(name: "Family")
-        let t1 = sut.alter(.addTag(tag), .removeTag(tag))
+        let t1 = sut.alter(.addTag(tag.id), .removeTag(tag.id))
         XCTAssertTrue(t1.id == sut.id)
         XCTAssertTrue(t1.tags.isEmpty)
     }
     
     func testVariadicChanges() {
         let tag = Tag(name: "Priority")
-        let t1 = sut.alter(.title("Family"), .index(4), .addTag(tag))
+        let t1 = sut.alter(.title("Family"), .index(4), .addTag(tag.id))
         XCTAssertTrue(t1.title == "Family")
         XCTAssertTrue(t1.index == 4)
-        XCTAssertTrue(t1.tags.first!.id == tag.id)
+        XCTAssertTrue(t1.tags.first == tag.id)
     }
     
 }
