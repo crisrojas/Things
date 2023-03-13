@@ -97,15 +97,16 @@ struct CoreDataManager {
     }
     
     func readTasks(completion: @escaping (Result<[ToDo], Error>) -> ()) {
-        do {
-            let request: NSFetchRequest<TaskCD> = TaskCD.fetchRequest()
-            let result: [TaskCD] = try context.fetch(request)
-            let items = try result.map { try $0.safeObject() }
-            completion(.success(items))
-        } catch {
-            completion(.failure(error))
+        context.perform {
+            do {
+                let request: NSFetchRequest<TaskCD> = TaskCD.fetchRequest()
+                let result: [TaskCD] = try context.fetch(request)
+                let items = try result.map { try $0.safeObject() }
+                completion(.success(items))
+            } catch {
+                completion(.failure(error))
+            }
         }
-        
     }
 
 }
