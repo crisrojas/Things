@@ -12,7 +12,7 @@ typealias Access   = (               ) -> AppState
 typealias Change   = (AppState.Change) async throws -> ()
 typealias Updated  = (@escaping()->()) -> ()
 typealias Reset    = (               ) -> ()
-typealias Destroy  = (               ) -> ()
+typealias Destroy  = (               ) throws -> ()
 
 typealias StateStore = (
     state   : Access,
@@ -21,3 +21,4 @@ typealias StateStore = (
     reset   : Reset,
     destroy : Destroy
 )
+

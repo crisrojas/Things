@@ -17,7 +17,7 @@ class StoreTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        sut.destroy()
+        try sut.destroy()
         sut = nil
     }
 

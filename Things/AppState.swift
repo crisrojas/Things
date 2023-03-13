@@ -12,17 +12,20 @@ struct AppState: Codable {
     let tasks     : [ToDo]
     let areas     : [Area]
     let tags      : [Tag]
+    let checkItems: [CheckItem]
 }
 
 extension AppState {
     init(
-        _ tasks     : [ToDo] = [],
-        _ areas     : [Area] = [],
-        _ tags      : [Tag]  = []
+        _ tasks     : [ToDo]      = [],
+        _ areas     : [Area]      = [],
+        _ tags      : [Tag]       = [],
+        _ checkItems: [CheckItem] = []
     ) {
-        self.tasks = tasks
-        self.areas = areas
-        self.tags = tags
+        self.tasks      = tasks
+        self.areas      = areas
+        self.tags       = tags
+        self.checkItems = checkItems
     }
 }
 
@@ -38,6 +41,7 @@ extension AppState {
             case task(ToDo)
             case area(Area)
             case tag(Tag)
+            case checkItem(CheckItem)
         }
         
         enum Update {
@@ -50,6 +54,7 @@ extension AppState {
             case task(ToDo)
             case area(Area)
             case tag(Tag)
+            case checkItem(CheckItem)
         }
     }
 }
@@ -68,11 +73,19 @@ extension AppState {
     private func handle(_ createCommand: Change.Create) -> Self {
         switch createCommand {
         case .task(let task):
-            return .init(tasks + [task], areas, tags)
+            return .init(tasks + [task], areas, tags, checkItems)
         case .area(let area):
-            return .init(tasks, areas + [area], tags)
+            return .init(tasks, areas + [area], tags, checkItems)
         case .tag(let tag):
-            return .init(tasks, areas, tags + [tag])
+            return .init(tasks, areas, tags + [tag], checkItems)
+        case .checkItem(let item):
+            if let task = tasks.filter({$0.id == item.task}).first {
+                let task = task.alter(.add(.checkItem(item)))
+                let tasks = tasks.filter {$0.id != task.id} + [task]
+                let checkItems = checkItems + [item]
+                return .init(tasks, areas, tags, checkItems)
+            }
+            return self
         }
     }
     
@@ -119,6 +132,20 @@ extension AppState {
                 tasks,
                 areas,
                 tags.filter { $0.id != tag.id }
+            )
+        case .checkItem(let item):
+           
+            var tasks = tasks
+            if let task = tasks.filter({ $0.id == item.task }).first {
+                let task = task.alter(.remove(.checkList(item)))
+                tasks = tasks.filter { $0.id != item.task } + [task]
+            }
+            
+            return .init(
+                tasks,
+                areas,
+                tags,
+                checkItems.filter { $0.id != item.id }
             )
         }
     }

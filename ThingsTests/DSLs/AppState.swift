@@ -31,6 +31,22 @@ final class AppStateTests: XCTestCase {
         XCTAssertTrue(t1.tags.first?.name == "Family")
     }
     
+    func testCreateCheckList() {
+        let task = ToDo()
+        let t1 = sut.alter(.create(.task(task)))
+        
+        let item = CheckItem(task: task.id)
+        let t2 = t1.alter(.create(.checkItem(item)))
+        
+        let injectedTask = t2.tasks.first!
+        
+        XCTAssertFalse(injectedTask.checkList.isEmpty)
+        XCTAssertFalse(t2.checkItems.isEmpty)
+        XCTAssertTrue(t2.tasks.first?.checkList.first?.id == item.id)
+        XCTAssertTrue(t2.checkItems.first!.id == item.id)
+        XCTAssertTrue(t2.checkItems.first!.task == task.id)
+    }
+    
     // MARK: - Delete
     func testDeleteTask() {
         let task = ToDo()
@@ -51,8 +67,18 @@ final class AppStateTests: XCTestCase {
         let t1 = sut.alter(.create(.tag(tag)))
         let t2 =  t1.alter(.delete(.tag(tag)))
         XCTAssertTrue(t2.tags.isEmpty)
+    }
+    
+    func testDeleteCheckItem() {
+        let task = ToDo()
+        let t1 = sut.alter(.create(.task(task)))
         
+        let item = CheckItem(task: task.id)
+        let t2 = t1.alter(.create(.checkItem(item)))
+        let t3 = t2.alter(.delete(.checkItem(item)))
         
+        XCTAssertTrue(t3.checkItems.isEmpty)
+        XCTAssertTrue(t3.tasks.first!.checkList.isEmpty)
     }
     
     // MARK: - Update through object specific DSL

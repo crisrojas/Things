@@ -24,7 +24,7 @@
 		4042C63129BB4FE100A5FB1B /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63029BB4FE100A5FB1B /* AppState.swift */; };
 		4042C63529BB4FFD00A5FB1B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63429BB4FFD00A5FB1B /* Message.swift */; };
 		4042C63729BB6F8700A5FB1B /* StateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63629BB6F8700A5FB1B /* StateStore.swift */; };
-		4042C63929BB6F9F00A5FB1B /* Stores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63829BB6F9F00A5FB1B /* Stores.swift */; };
+		4042C63929BB6F9F00A5FB1B /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63829BB6F9F00A5FB1B /* CoreData.swift */; };
 		4042C63B29BB6FB400A5FB1B /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63A29BB6FB400A5FB1B /* UseCase.swift */; };
 		4042C63D29BB6FC300A5FB1B /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63C29BB6FC300A5FB1B /* ViewState.swift */; };
 		4042C63F29BB6FEC00A5FB1B /* ActionArray+Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */; };
@@ -41,6 +41,8 @@
 		4075750B29BE9C3D0097BB62 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075750A29BE9C3D0097BB62 /* Error.swift */; };
 		4075750D29BE9C600097BB62 /* NSManagedObjectContext+Get.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075750C29BE9C600097BB62 /* NSManagedObjectContext+Get.swift */; };
 		4075750F29BE9C7E0097BB62 /* ToSafeObjectConformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075750E29BE9C7E0097BB62 /* ToSafeObjectConformance.swift */; };
+		4075751229BF61D60097BB62 /* RamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075751129BF61D60097BB62 /* RamStore.swift */; };
+		4075751429BF61E10097BB62 /* DiskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075751329BF61E10097BB62 /* DiskStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +76,7 @@
 		4042C63029BB4FE100A5FB1B /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		4042C63429BB4FFD00A5FB1B /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4042C63629BB6F8700A5FB1B /* StateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateStore.swift; sourceTree = "<group>"; };
-		4042C63829BB6F9F00A5FB1B /* Stores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores.swift; sourceTree = "<group>"; };
+		4042C63829BB6F9F00A5FB1B /* CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		4042C63A29BB6FB400A5FB1B /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
 		4042C63C29BB6FC300A5FB1B /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActionArray+Call.swift"; sourceTree = "<group>"; };
@@ -91,6 +93,8 @@
 		4075750A29BE9C3D0097BB62 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		4075750C29BE9C600097BB62 /* NSManagedObjectContext+Get.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Get.swift"; sourceTree = "<group>"; };
 		4075750E29BE9C7E0097BB62 /* ToSafeObjectConformance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSafeObjectConformance.swift; sourceTree = "<group>"; };
+		4075751129BF61D60097BB62 /* RamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamStore.swift; sourceTree = "<group>"; };
+		4075751329BF61E10097BB62 /* DiskStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,7 +156,6 @@
 				4042C63029BB4FE100A5FB1B /* AppState.swift */,
 				4042C63429BB4FFD00A5FB1B /* Message.swift */,
 				4042C63629BB6F8700A5FB1B /* StateStore.swift */,
-				4042C63829BB6F9F00A5FB1B /* Stores.swift */,
 				4042C63A29BB6FB400A5FB1B /* UseCase.swift */,
 				4042C63C29BB6FC300A5FB1B /* ViewState.swift */,
 				4042C60229BB4FB600A5FB1B /* Assets.xcassets */,
@@ -224,8 +227,9 @@
 		4075750429BE9BD00097BB62 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
-				4075750829BE9C1F0097BB62 /* ToSafeObject.swift */,
 				4075750529BE9BD60097BB62 /* CoreData */,
+				4075751029BF61C50097BB62 /* Stores */,
+				4075750829BE9C1F0097BB62 /* ToSafeObject.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -233,13 +237,23 @@
 		4075750529BE9BD60097BB62 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				4042C60729BB4FB600A5FB1B /* Persistence.swift */,
-				4075750E29BE9C7E0097BB62 /* ToSafeObjectConformance.swift */,
 				4075750629BE9BFD0097BB62 /* CoreDataManager.swift */,
 				4075750A29BE9C3D0097BB62 /* Error.swift */,
 				4075750C29BE9C600097BB62 /* NSManagedObjectContext+Get.swift */,
+				4042C60729BB4FB600A5FB1B /* Persistence.swift */,
+				4075750E29BE9C7E0097BB62 /* ToSafeObjectConformance.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		4075751029BF61C50097BB62 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				4042C63829BB6F9F00A5FB1B /* CoreData.swift */,
+				4075751329BF61E10097BB62 /* DiskStore.swift */,
+				4075751129BF61D60097BB62 /* RamStore.swift */,
+			);
+			path = Stores;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -352,16 +366,18 @@
 				4075750729BE9BFD0097BB62 /* CoreDataManager.swift in Sources */,
 				4075750929BE9C1F0097BB62 /* ToSafeObject.swift in Sources */,
 				4075750B29BE9C3D0097BB62 /* Error.swift in Sources */,
+				4075751429BF61E10097BB62 /* DiskStore.swift in Sources */,
 				4042C60129BB4FB500A5FB1B /* ContentView.swift in Sources */,
 				4042C63129BB4FE100A5FB1B /* AppState.swift in Sources */,
 				4042C5FF29BB4FB500A5FB1B /* ThingsApp.swift in Sources */,
 				4000FB3E29BBE28A00D7374B /* ToDo.swift in Sources */,
 				4042C63B29BB6FB400A5FB1B /* UseCase.swift in Sources */,
-				4042C63929BB6F9F00A5FB1B /* Stores.swift in Sources */,
+				4042C63929BB6F9F00A5FB1B /* CoreData.swift in Sources */,
 				4042C63729BB6F8700A5FB1B /* StateStore.swift in Sources */,
 				4042C64129BBB09600A5FB1B /* Set.swift in Sources */,
 				4042C63529BB4FFD00A5FB1B /* Message.swift in Sources */,
 				4042C62F29BB4FC600A5FB1B /* AppCore.swift in Sources */,
+				4075751229BF61D60097BB62 /* RamStore.swift in Sources */,
 				4000FB4229BBE6FA00D7374B /* Area.swift in Sources */,
 				4075750D29BE9C600097BB62 /* NSManagedObjectContext+Get.swift in Sources */,
 			);
