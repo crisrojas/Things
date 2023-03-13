@@ -39,8 +39,7 @@ extension Area {
         self.tags = tags
     }
     
-    func alter(_ c: Change...) -> Self{c.reduce(self){$0.alter($1)}}
-    
+    func alter(_ c: Change...) -> Self{c.reduce(self){$0.alter($1)}} 
     func alter(_ c: Change) -> Self {
         switch c {
         case .title(let title):

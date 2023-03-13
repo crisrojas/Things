@@ -42,9 +42,9 @@ func createDiskStore(path: String = "state.json") -> StateStore {
 }
 
 
-func createCoreDataStore(inMemory: Bool = false) -> StateStore {
-    let persistence = PersistenceController.get(inMemory: inMemory)
-    let manager = CoreDataManager(context: persistence.context())
+func createCoreDataStore(controller: PersistenceController) -> StateStore {
+    let controller = controller
+    let manager = CoreDataManager(context: controller.context())
     
     var state = AppState(){didSet{c.call()}}
     var c = [()->()]()
@@ -54,27 +54,28 @@ func createCoreDataStore(inMemory: Bool = false) -> StateStore {
     
     return (
         state   : { state },
-        change  : { write(&state, change: $0, with: manager) },
+        change  : { c in
+            try await write(c, with: manager)
+            try await fetch()
+        },
         callback: { c = c + [$0] },
         reset   : { },
-        destroy : { }
+        destroy : { print("@todo") }
     )
 }
 
-fileprivate func write(_ toSync: inout AppState, change: AppState.Change, with manager: CoreDataManager) {
-    
-//    let handleCreate: (AppState.Change.Create) -> () = { cmd in
-//        switch cmd {
-//        case .task(let task): manager.create(task)
-//        default: return
-//        }
-//    }
-    
+fileprivate func write(_ change: AppState.Change, with manager: CoreDataManager) async throws {
     switch change {
-    case .create(let cmd): return
+    case .create(let cmd): try await handle(cmd, with: manager)
     default: return
     }
+}
 
+fileprivate func handle(_ cmd: AppState.Change.Create, with manager: CoreDataManager) async throws {
+    switch cmd {
+    case .task(let task): try await manager.create(task)
+    default: return
+    }
 }
 
 fileprivate func readAppState(manager m: CoreDataManager) async throws -> AppState {

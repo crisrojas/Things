@@ -22,49 +22,50 @@ class StoreTests: XCTestCase {
     }
 
     // MARK: - Create
-    func testCreateTask() {
+    func testCreateTask() async throws {
         let task = ToDo()
-        sut.change(.create(.task(task)))
+        try await sut.change(.create(.task(task)))
+        XCTAssertTrue(sut.state().tasks.count == 1)
         XCTAssertTrue(sut.state().tasks.first?.id == task.id)
     }
 
-    func testCreateArea() {
+    func testCreateArea() async throws {
         let area = Area()
-        sut.change(.create(.area(area)))
+        try await sut.change(.create(.area(area)))
         XCTAssertTrue(sut.state().areas.first?.id == area.id)
     }
 
-    func testCreateTag() {
+    func testCreateTag() async throws {
         let tag = Tag(name: "Test tag")
-        sut.change(.create(.tag(tag)))
+        try await sut.change(.create(.tag(tag)))
         XCTAssertTrue(sut.state().tags.first?.id == tag.id)
     }
 
     // MARK: - Delete
-    func testDeleteTask() {
+    func testDeleteTask() async throws {
         let task = ToDo()
-        sut.change(.create(.task(task)))
-        sut.change(.delete(.task(task)))
+        try await sut.change(.create(.task(task)))
+        try await sut.change(.delete(.task(task)))
         XCTAssertTrue(sut.state().tags.isEmpty)
     }
 
-    func testDeleteArea() {
+    func testDeleteArea() async throws {
         let area = Area()
-        sut.change(.create(.area(area)))
-        sut.change(.delete(.area(area)))
+        try await sut.change(.create(.area(area)))
+        try await sut.change(.delete(.area(area)))
         XCTAssertTrue(sut.state().areas.isEmpty)
     }
 
-    func testDeleteTag() {
+    func testDeleteTag() async throws {
         let tag = Tag(name: "Testing")
-        sut.change(.create(.tag(tag)))
-        sut.change(.delete(.tag(tag)))
+        try await sut.change(.create(.tag(tag)))
+        try await sut.change(.delete(.tag(tag)))
         XCTAssertTrue(sut.state().tags.isEmpty)
     }
 
     // MARK: - Update
     // MARK: - Task
-    func testTaskDSL() {
+    func testTaskDSL() async throws {
         let originalTask = ToDo()
         let checkItem = CheckItem(task: originalTask.id)
         let tag = Tag(name: "Test")
@@ -90,13 +91,13 @@ class StoreTests: XCTestCase {
             .remove(.tag(tag))
         ]
 
-        sut.change(.create(.task(originalTask)))
+        try await  sut.change(.create(.task(originalTask)))
 
-        changes.forEach { change in
+        try await changes.asyncForEach { change in
             XCTAssertTrue(sut.state().tasks.count == 1)
             let unmodified = sut.state().tasks.first!
 
-            sut.change(.update(.task(unmodified, with: change)))
+            try await sut.change(.update(.task(unmodified, with: change)))
 
             let expected = unmodified.alter(change)
             let modified = sut.state().tasks.first!
@@ -105,7 +106,7 @@ class StoreTests: XCTestCase {
         }
     }
 
-    func testAreaDSL() {
+    func testAreaDSL() async throws {
 
         let tag = Tag(name: "Work")
 
@@ -118,14 +119,14 @@ class StoreTests: XCTestCase {
         ]
 
         let originalArea = Area()
-        sut.change(.create(.area(originalArea)))
+        try await sut.change(.create(.area(originalArea)))
 
-        changes.forEach { change in
+        try await changes.asyncForEach { change in
 
             XCTAssertTrue(sut.state().areas.count == 1)
             let unmodified = sut.state().areas.first!
 
-            sut.change(.update(.area(unmodified, with: change)))
+            try await sut.change(.update(.area(unmodified, with: change)))
 
             let expected = unmodified.alter(change)
             let modified = sut.state().areas.first!
@@ -134,7 +135,7 @@ class StoreTests: XCTestCase {
         }
     }
 
-    func testTagDSL() {
+    func testTagDSL() async throws {
         let originalTag = Tag(name: "Original tag")
         let childTag = Tag(name: "Family")
         let changes: [Tag.Change] = [
@@ -146,14 +147,14 @@ class StoreTests: XCTestCase {
             .index(5)
         ]
 
-        sut.change(.create(.tag(originalTag)))
+        try await sut.change(.create(.tag(originalTag)))
 
-        changes.forEach { change in
+        try await changes.asyncForEach { change in
 
             XCTAssertTrue(sut.state().tags.count == 1)
 
             let unmodified = sut.state().tags.first!
-            sut.change(.update(.tag(unmodified, with: change)))
+            try await sut.change(.update(.tag(unmodified, with: change)))
 
             let expected = unmodified.alter(change)
             let modified = sut.state().tags.first!
@@ -162,7 +163,7 @@ class StoreTests: XCTestCase {
         }
     }
 
-    func testConverTaskWithCheckItemsToProject() {
+    func testConverTaskWithCheckItemsToProject() async throws {
 
         let t0Task = ToDo().alter(
             .project(UUID()),
@@ -179,8 +180,8 @@ class StoreTests: XCTestCase {
 
         let t1Task = t0Task.alter(checkItems)
 
-        sut.change(.create(.task(t1Task)))
-        sut.change(.update(.task(t1Task, with: .type(.project))))
+        try await sut.change(.create(.task(t1Task)))
+        try await sut.change(.update(.task(t1Task, with: .type(.project))))
 
         XCTAssertTrue(t1Task.checkList.count == 3)
         XCTAssertTrue(sut.state().tasks.count == 4)
@@ -193,21 +194,28 @@ class StoreTests: XCTestCase {
         }
     }
     
-    func testConvertHeadingWithSubtasksToProject() {
+    func testConvertHeadingWithSubtasksToProject() async throws {
         let heading = ToDo().alter(.type(.heading))
         let createCMD = Array(1...4)
             .map { _ in ToDo().alter(.actionGroup(heading.id)) }
             .map { AppState.Change.create(.task($0)) }
-        
-        sut.change(.create(.task(heading)))
-        createCMD.forEach {sut.change($0)}
-        
+
+        try await sut.change(.create(.task(heading)))
+        try await createCMD.asyncForEach {
+                try await sut.change($0)
+            }
+
         XCTAssertTrue(sut.state().tasks.count == 5)
         XCTAssertTrue(sut.state().tasks.filter {$0.type == .project}.isEmpty)
+
+        try await sut.change(
+            .update(
+                .task(heading, with: .type(.project)
+            ))
+        )
         
-        sut.change(.update(.task(heading, with: .type(.project))))
         let modifiedHeading = sut.state().tasks.filter { $0.type == .project }.first
-        
+
         XCTAssertNotNil(modifiedHeading)
         let subTasks = sut.state().tasks.filter { $0.type != .project }
         XCTAssertTrue(subTasks.count == 4)

@@ -9,19 +9,21 @@ import XCTest
 @testable import Things
 
 final class CoreDataStoreTests: StoreTests {
+    
+    let controller = PersistenceController(inMemory: true)
     override func setUpWithError() throws {
-        sut = createCoreDataStore(inMemory: true)
+        sut = createCoreDataStore(controller: controller)
     }
     
-    override func testCreateTask() {}
-    override func testCreateArea() {}
-    override func testCreateTag() {}
-    override func testDeleteTask() {}
-    override func testDeleteArea() {}
-    override func testDeleteTag() {}
-    override func testTaskDSL() {}
-    override func testTagDSL() {}
-    override func testAreaDSL() {}
-    override func testConverTaskWithCheckItemsToProject() {}
-    override func testConvertHeadingWithSubtasksToProject() {}
+//    override func testCreateTask() async throws {}
+    override func testCreateArea() async throws {}
+    override func testCreateTag() async throws {}
+    override func testDeleteTask() async throws {}
+    override func testDeleteArea() async throws {}
+    override func testDeleteTag() async throws {}
+    override func testTaskDSL() async throws {}
+    override func testTagDSL() async throws {}
+    override func testAreaDSL() async throws {}
+    override func testConverTaskWithCheckItemsToProject() async throws {}
+    override func testConvertHeadingWithSubtasksToProject() async throws {}
 }

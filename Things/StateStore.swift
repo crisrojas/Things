@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - StateStore
 typealias Access   = (               ) -> AppState
-typealias Change   = (AppState.Change) -> ()
+typealias Change   = (AppState.Change) async throws -> ()
 typealias Updated  = (@escaping()->()) -> ()
 typealias Reset    = (               ) -> ()
 typealias Destroy  = (               ) -> ()

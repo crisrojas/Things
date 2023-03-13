@@ -20,7 +20,6 @@ final class ViewState: ObservableObject {
     
     
     init(store: StateStore) {
-        
         store.callback { [weak self] in
             self?.process(store.state())
         }
