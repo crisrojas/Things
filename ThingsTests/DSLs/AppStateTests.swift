@@ -6,7 +6,7 @@
 ////
 //
 //import XCTest
-@testable import Things
+//@testable import Things
 //
 //final class AppStateTests: XCTestCase {
 //
@@ -260,26 +260,4 @@
 //}
 //
 //
-// MARK: - Equatable conformance
-extension ToDo: Equatable {
-    /// Don't include "modificationDate"
-    public static func == (lhs: ToDo, rhs: ToDo) -> Bool {
-        lhs.id == rhs.id
-        && lhs.title == rhs.title
-        && lhs.creationDate == rhs.creationDate
-        && lhs.notes == rhs.notes
-        && lhs.date == rhs.date
-        && lhs.dueDate == rhs.dueDate
-        && lhs.area == rhs.area
-        && lhs.project == rhs.project
-        && lhs.actionGroup == rhs.actionGroup
-        && lhs.tags == rhs.tags
-        && lhs.checkList == rhs.checkList
-        && lhs.type == rhs.type
-        && lhs.status == rhs.status
-        && lhs.index == rhs.index
-        && lhs.todayIndex == rhs.todayIndex
-        && lhs.trashed == rhs.trashed
-        && lhs.recurrencyRule == rhs.recurrencyRule
-    }
-}
+

@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - App State
 struct AppState: Codable {
-    let tasks     : [ToDo]
+    let tasks     : [Task]
     let areas     : [Area]
     let tags      : [Tag]
     let checkItems: [CheckItem]
@@ -17,7 +17,7 @@ struct AppState: Codable {
 
 extension AppState {
     init(
-        _ tasks     : [ToDo]      = [],
+        _ tasks     : [Task]      = [],
         _ areas     : [Area]      = [],
         _ tags      : [Tag]       = [],
         _ checkItems: [CheckItem] = []
@@ -38,20 +38,21 @@ extension AppState {
         case delete(Delete)
         
         enum Create {
-            case task(ToDo)
+            case task(Task)
             case area(Area)
             case tag(Tag)
             case checkItem(CheckItem)
         }
         
         enum Update {
-            case task(ToDo, with: ToDo.Change)
+            case task(Task, with: Task.Change)
             case area(Area, with: Area.Change)
-            case tag(Tag, with: Tag.Change)
+            case  tag(Tag, with: Tag.Change)
+            case item(CheckItem, with: CheckItem.Change)
         }
         
         enum Delete {
-            case task(ToDo)
+            case task(Task)
             case area(Area)
             case tag(UUID)
             case checkItem(CheckItem)
@@ -70,8 +71,8 @@ extension AppState {
         }
     }
     
-    private func handle(_ createCommand: Change.Create) -> Self {
-        switch createCommand {
+    private func handle(_ cmd: Change.Create) -> Self {
+        switch cmd {
         case .task(let task):
             return .init(tasks + [task], areas, tags, checkItems)
         case .area(let area):
@@ -89,8 +90,8 @@ extension AppState {
         }
     }
     
-    private func handle(_ updateCommand: Change.Update) -> Self {
-        switch updateCommand {
+    private func handle(_ cmd: Change.Update) -> Self {
+        switch cmd {
         case .task(let task, let command):
            
             if command == .type(.project) {
@@ -99,22 +100,26 @@ extension AppState {
                 
                 let task = task.alter(command)
                 let tasks = tasks.filter { $0.id != task.id } + [task]
-                return .init(tasks, areas, tags)
+                return .init(tasks, areas, tags, checkItems)
             }
 
         case .area(let area, let command):
             let area = area.alter(command)
             let areas = areas.filter { $0.id != area.id } + [area]
-            return .init(tasks, areas, tags)
+            return .init(tasks, areas, tags, checkItems)
         case .tag(let tag, let command):
             let tag = tag.alter(command)
             let tags = tags.filter { $0.id != tag.id } + [tag]
-            return .init(tasks, areas, tags)
+            return .init(tasks, areas, tags, checkItems)
+        case .item(let item, let command):
+            let item = item.alter(command)
+            let items = checkItems.filter { $0.id != item.id } + [item]
+            return .init(tasks, areas, tags, items)
         }
     }
     
-    private func handle(_ deleteCommand: Change.Delete) -> Self {
-        switch deleteCommand {
+    private func handle(_ cmd: Change.Delete) -> Self {
+        switch cmd {
         case .task(let task):
             return .init(
                 tasks.filter { $0.id != task.id},
@@ -128,7 +133,6 @@ extension AppState {
                 tags
             )
         case .tag(let tag):
-            
             let previouslyTaggedAreas = areas
                 .filter {$0.tags.contains(tag)}
                 .map { $0.alter(.removeTag(tag)) }
@@ -160,7 +164,7 @@ extension AppState {
         }
     }
     
-    private func handleConvertToProject(task: ToDo) -> AppState {
+    private func handleConvertToProject(task: Task) -> AppState {
         switch task.type {
         case .task:
             
@@ -198,8 +202,8 @@ extension AppState {
     }
 }
 
-extension [ToDo] {
-    func remove(_ task: ToDo) -> Self {
+extension [Task] {
+    func remove(_ task: Task) -> Self {
         self.filter { $0.id != task.id }
     }
 }

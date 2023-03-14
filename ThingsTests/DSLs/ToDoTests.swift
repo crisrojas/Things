@@ -10,7 +10,7 @@ import XCTest
 
 final class TaskTests: XCTestCase {
     
-    let sut: ToDo = ToDo()
+    let sut: Task = Task()
 
     func testDefaults() throws {
         XCTAssertTrue(sut.title.isEmpty)
@@ -68,7 +68,7 @@ final class TaskTests: XCTestCase {
     
     func testSetProject() {
         
-        let project = ToDo().alter(.type(.project))
+        let project = Task().alter(.type(.project))
         
         let t1 = sut.alter(.project(project.id))
         
@@ -82,7 +82,7 @@ final class TaskTests: XCTestCase {
     
     func testConvertToProject() {
        
-        let changes: [ToDo.Change] = [
+        let changes: [Task.Change] = [
             .project(UUID()),
             .actionGroup(UUID()),
             .index(4)
@@ -107,7 +107,7 @@ final class TaskTests: XCTestCase {
     }
     
     func testAddToActionGroup() {
-        let heading = ToDo().alter(.type(.heading))
+        let heading = Task().alter(.type(.heading))
         let t1 = sut.alter(.actionGroup(heading.id))
         
         XCTAssertTrue(heading.type == .heading)
@@ -256,18 +256,18 @@ final class TaskTests: XCTestCase {
         XCTAssertTrue(t1.trashed)
     }
     
-    private func assertModDateChanged(_ t1: ToDo, _ t2: ToDo) {
+    private func assertModDateChanged(_ t1: Task, _ t2: Task) {
         XCTAssertTrue(modDateChanged(t1))
         XCTAssertTrue(modDateChange(t1, t2))
     }
     
     
     /// Checks if the new instance has a different modificationDate from the SUT
-    private func modDateChanged(_ t2: ToDo) -> Bool {
+    private func modDateChanged(_ t2: Task) -> Bool {
         modDateChange(sut, t2)
     }
      
-    private func modDateChange(_ t1: ToDo, _ t2: ToDo) -> Bool {
+    private func modDateChange(_ t1: Task, _ t2: Task) -> Bool {
         t1.modificationDate !=  t2.modificationDate
     }
 }

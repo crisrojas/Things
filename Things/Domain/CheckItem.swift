@@ -73,12 +73,12 @@ extension CheckItem {
 
 
 extension CheckItem {
-    func toTask(project: UUID) -> ToDo {
-        ToDo().alter(
+    func toTask(project: UUID) -> Task {
+        Task().alter(
             .title(self.title),
             .project(project)
         )
     }
 }
 
-extension CheckItem: Identifiable, Codable, Hashable {}
+extension CheckItem: Identifiable, Codable, Hashable, Equatable {}

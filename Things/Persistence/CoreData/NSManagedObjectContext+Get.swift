@@ -8,6 +8,18 @@ import CoreData
 
 extension NSManagedObjectContext {
     
+    func get<T: NSManagedObject>(id: UUID) async throws -> T? {
+        try await self.perform { [weak self] in
+            let request = NSFetchRequest<T>(entityName: T.className)
+            request.predicate = NSPredicate(
+                format: "id == %@",
+                id as CVarArg
+            )
+            
+            return try self?.fetch(request).first
+        }
+    }
+    
     func get<E, R>(request: NSFetchRequest<E>) async throws -> [R] where E: NSManagedObject, E: ToSafeObject, R == E.SafeType {
         try await self.perform { [weak self] in
             try self?.fetch(request).compactMap { try $0.safeObject() } ?? []

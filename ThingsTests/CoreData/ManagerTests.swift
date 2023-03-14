@@ -26,13 +26,16 @@ final class ManagerTest: XCTestCase {
     }
     
     func testCreateCheckItem() async throws {
-        try await sut.create(CheckItem(task: UUID()))
+        let task = Task()
+        
+        try await sut.create(task)
+        try await sut.create(CheckItem(task: task.id))
         let objects = try await sut.readCheckItems()
         XCTAssertEqual(objects.count, 1)
     }
     
     func testCreateTask() async throws {
-        try await sut.create(ToDo())
+        try await sut.create(Task())
         
         let objects = try await sut.readTasks()
         XCTAssertEqual(objects.count, 1)
@@ -48,7 +51,7 @@ final class ManagerTest: XCTestCase {
     }
     
     func testDeleteTask() async throws {
-        let task = ToDo()
+        let task = Task()
         try await sut.create(task)
 
         var objects = try await sut.readTasks()
@@ -71,7 +74,9 @@ final class ManagerTest: XCTestCase {
     }
     
     func testDeleteCheckList() async throws {
-        let checkItem = CheckItem(task: UUID())
+        let task = Task()
+        let checkItem = CheckItem(task: task.id)
+        try await sut.create(task)
         try await sut.create(checkItem)
         
         var objects = try await sut.readCheckItems()

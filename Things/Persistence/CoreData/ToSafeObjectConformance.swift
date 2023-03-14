@@ -10,16 +10,16 @@ import Foundation
 
 extension TaskCD: ToSafeObject {
     
-    typealias SafeType = ToDo
+    typealias SafeType = Task
     
-    func safeObject() throws -> ToDo {
+    func safeObject() throws -> Task {
         guard
             let id = id,
             let creationDate = creationDate,
             let title = title,
             let notes = notes,
-            let type = ToDo.ListType(rawValue: Int(type)),
-            let status = ToDo.Status(rawValue: Int(status))
+            let type = Task.ListType(rawValue: Int(type)),
+            let status = Task.Status(rawValue: Int(status))
         else { throw CoreDataError.invalidMapping }
         
         return .init(
@@ -80,5 +80,16 @@ extension CheckItemCD: ToSafeObject {
             title,
             Int(index)
         )
+    }
+}
+
+extension TagCD: ToSafeObject {
+    typealias SafeType = Tag
+    func safeObject() throws -> Tag {
+        guard
+            let id = id,
+            let name = name
+        else { throw CoreDataError.invalidMapping }
+        return .init(id, name, parent, Int(index))
     }
 }

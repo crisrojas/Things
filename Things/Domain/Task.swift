@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct ToDo {
+struct Task {
     let id: UUID
     let creationDate: Date
     let modificationDate: Date?
@@ -27,15 +27,8 @@ struct ToDo {
     let recurrencyRule: RecurrencyRule?
 }
 
-extension ToDo: Identifiable, Codable {}
-extension ToDo.Change.Add: Equatable {}
-extension ToDo.Change.Remove: Equatable {}
-extension ToDo.Change: Equatable {}
-extension ToDo.ListType: Equatable {}
-extension ToDo.RecurrencyRule: Equatable {}
-extension ToDo.Status: Equatable {}
-
-extension ToDo {
+// MARK: - Subtypes
+extension Task {
     enum RecurrencyRule: Codable {
         case daily(startDate: Date)
         case weekly(startDate: Date)
@@ -56,8 +49,40 @@ extension ToDo {
     }
 }
 
+// MARK: - Type conformances
+extension Task: Identifiable, Codable {}
+extension Task.Change.Add: Equatable {}
+extension Task.Change.Remove: Equatable {}
+extension Task.Change: Equatable {}
+extension Task.ListType: Equatable {}
+extension Task.RecurrencyRule: Equatable {}
+extension Task.Status: Equatable {}
 
-extension ToDo {
+extension Task: Equatable {
+    /// Don't include "modificationDate"
+    public static func == (lhs: Task, rhs: Task) -> Bool {
+        lhs.id == rhs.id
+        && lhs.title == rhs.title
+        && lhs.creationDate == rhs.creationDate
+        && lhs.notes == rhs.notes
+        && lhs.date == rhs.date
+        && lhs.dueDate == rhs.dueDate
+        && lhs.area == rhs.area
+        && lhs.project == rhs.project
+        && lhs.actionGroup == rhs.actionGroup
+        && lhs.tags == rhs.tags
+        && lhs.checkList == rhs.checkList
+        && lhs.type == rhs.type
+        && lhs.status == rhs.status
+        && lhs.index == rhs.index
+        && lhs.todayIndex == rhs.todayIndex
+        && lhs.trashed == rhs.trashed
+        && lhs.recurrencyRule == rhs.recurrencyRule
+    }
+}
+
+// MARK: - ToDo DSL
+extension Task {
         init(
         _ id: UUID = UUID(),
         _ creationDate: Date = Date(),
@@ -100,7 +125,7 @@ extension ToDo {
 }
 
 // MARK: Task DSL
-extension ToDo {
+extension Task {
     enum Change {
         case title(String)
         case notes(String)

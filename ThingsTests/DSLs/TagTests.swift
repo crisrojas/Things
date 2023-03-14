@@ -23,23 +23,15 @@ final class TagTests: XCTestCase {
         XCTAssertTrue(t1.parent == parent)
     }
     
+    func testChangeIndex() {
+        let t1 = sut.alter(.index(3))
+        XCTAssertEqual(t1.index, 3)
+    }
+    
     func testRemoveParent() {
         let parent = UUID()
         let t1 = sut.alter(.parent(parent), .removeParent)
         XCTAssertNil(t1.parent)
     
-    }
-    
-    func testAddTag() {
-        let t1 = sut.alter(.add(Tag(name: "Project #1")))
-        XCTAssertTrue(t1.children.first?.name == "Project #1")
-        XCTAssertTrue(t1.children.first?.parent == sut.id)
-    }
-    
-    func testRemoveTag() {
-        let tag = Tag(name: "Shopping List")
-        let t1 = sut.alter(.add(tag), .remove(tag))
-        XCTAssertTrue(t1.children.isEmpty)
-    }
-    
+    }    
 }

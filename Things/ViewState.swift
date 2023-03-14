@@ -10,13 +10,13 @@ import Foundation
 // MARK: - ViewState
 final class ViewState: ObservableObject {
     
-    @Published private var inbox      = [ToDo]()
-    @Published private var today      = [ToDo]()
-    @Published private var done       = [ToDo]()
-    @Published private var later      = [ToDo]()
-    @Published private var trashed    = [ToDo]()
-    @Published private var projects   = [ToDo]()
-    @Published private var laterProj  = [ToDo]()
+    @Published private var inbox      = [Task]()
+    @Published private var today      = [Task]()
+    @Published private var done       = [Task]()
+    @Published private var later      = [Task]()
+    @Published private var trashed    = [Task]()
+    @Published private var projects   = [Task]()
+    @Published private var laterProj  = [Task]()
     
     
     init(store: StateStore) {

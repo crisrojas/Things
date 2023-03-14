@@ -31,6 +31,7 @@ final class CheckItemTests: XCTestCase {
     func testSetTitle() {
         let t1 = sut.alter(.title("Hello"))
         XCTAssertTrue(t1.title == "Hello")
+        XCTAssertTrue(t1.id == sut.id)
     }
     
     func testSetIndex() {

@@ -37,7 +37,7 @@ func createSplittedDiskStore(
     let fm = FileManager.default
     
     let access = {
-        let tasks: [ToDo     ] = read(tasks, with: fm) ?? []
+        let tasks: [Task     ] = read(tasks, with: fm) ?? []
         let areas: [Area     ] = read(areas, with: fm) ?? []
         let tags : [Tag      ] = read(tags , with: fm) ?? []
         let lists: [CheckItem] = read(lists, with: fm) ?? []

@@ -19,6 +19,7 @@
     </entity>
     <entity name="TagCD" representedClassName="TagCD" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="parent" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
