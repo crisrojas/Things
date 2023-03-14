@@ -82,28 +82,24 @@ final class TaskTests: XCTestCase {
     
     func testConvertToProject() {
        
-        let changes: [Task.Change] = [
-            .project(UUID()),
-            .actionGroup(UUID()),
-            .index(4)
-        ]
-        // @todo
-//        let checkItems: [ToDo.Change] = Array(1...3).map {
-//            .add(.checkItem(
-//                CheckItem(task: sut.id).alter(.title("Task \($0)"))
-//            ))
-//        }
-//
-//
-//        let task = ToDo().alter(changes + checkItems)
-//        XCTAssertTrue(task.checkList.count == 3)
-//
-//        let project = task.alter(.type(.project))
-//        XCTAssertTrue(project.type == .project)
-//        XCTAssertTrue(project.checkList.isEmpty)
-//        XCTAssertNil(project.project)
-//        XCTAssertNil(project.actionGroup)
-//        XCTAssertTrue(project.index == 0)
+        let task = Task()
+            .alter(
+                .project(UUID()),
+                .actionGroup(UUID()),
+                .index(4),
+                .add(.checkItem(UUID())),
+                .add(.checkItem(UUID())),
+                .add(.checkItem(UUID()))
+            )
+    
+        XCTAssertTrue(task.checkList.count == 3)
+
+        let project = task.alter(.type(.project))
+        XCTAssertTrue(project.type == .project)
+        XCTAssertTrue(project.checkList.isEmpty)
+        XCTAssertNil(project.project)
+        XCTAssertNil(project.actionGroup)
+        XCTAssertTrue(project.index == 0)
     }
     
     func testAddToActionGroup() {

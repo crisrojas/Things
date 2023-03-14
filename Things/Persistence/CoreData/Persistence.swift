@@ -7,12 +7,12 @@
 
 import CoreData
 
-struct PersistenceController {
+final class PersistenceController {
     
     static let shared = PersistenceController()
     static var preview: PersistenceController = {.init(inMemory: true)}()
     
-    static func get(inMemory: Bool) -> Self {
+    static func get(inMemory: Bool) -> PersistenceController {
         if inMemory { return preview }
         else { return shared }
     }
@@ -20,7 +20,8 @@ struct PersistenceController {
     func context() -> NSManagedObjectContext {container.viewContext}
     var container: NSPersistentCloudKitContainer
 
-     init(inMemory: Bool = false) {
+    init(inMemory: Bool = false) {
+         
         container = NSPersistentCloudKitContainer(name: "Things")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
@@ -33,7 +34,7 @@ struct PersistenceController {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
-    mutating func destroy() {
+    func destroy() {
         
         // Delete each existing persistent store
         let storeContainer = container.persistentStoreCoordinator

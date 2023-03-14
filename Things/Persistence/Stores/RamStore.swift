@@ -15,8 +15,7 @@ func createRamStore() -> StateStore {
     return (
         state   : { state                   },
         change  : { state = state.alter($0) },
-        callback: { c = c + [$0]            },
-        reset   : { state = AppState()      },
+        onChange: { c = c + [$0]            },
         destroy : { state = AppState()      }
     )
 }

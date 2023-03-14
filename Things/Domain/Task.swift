@@ -83,7 +83,31 @@ extension Task: Equatable {
 
 // MARK: - ToDo DSL
 extension Task {
-        init(
+    
+    static func from(checkItem: CheckItem) -> Self {
+        .init(
+            checkItem.id,
+            checkItem.creationDate,
+            nil,
+            nil,
+            nil,
+            nil,
+            checkItem.task,
+            nil,
+            checkItem.title,
+            "",
+            [],
+            [],
+            .task,
+            .open,
+            0,
+            0,
+            false,
+            nil
+        )
+    }
+    
+    init(
         _ id: UUID = UUID(),
         _ creationDate: Date = Date(),
         _ modificationDate: Date? = nil,
@@ -102,7 +126,7 @@ extension Task {
         _ todayIndex: Int = 0,
         _ trashed: Bool = false,
         _ recurrencyRule: RecurrencyRule? = nil
-     ) {
+    ) {
         self.id = id
         self.creationDate = creationDate
         self.modificationDate = modificationDate

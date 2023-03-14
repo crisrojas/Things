@@ -28,19 +28,19 @@ extension TaskCD: ToSafeObject {
             modificationDate,
             date,
             dueDate,
-            nil,
-            nil,
-            nil,
+            area,
+            project,
+            actionGroup,
             title,
             notes,
-            [],
-            [],
+            tags ?? [],
+            checkList ?? [],
             type,
             status,
             Int(index),
             Int(todayIndex),
             trashed,
-            nil // @todo
+            nil // @todo recurrency
         )
     }
 }
@@ -58,7 +58,7 @@ extension AreaCD: ToSafeObject {
             title,
             visible,
             Int(index),
-            []
+            tags ?? []
         )
     }
 }
@@ -69,14 +69,15 @@ extension CheckItemCD: ToSafeObject {
         guard
             let id = id,
             let creationDate = creationDate,
-            let title = title
+            let title = title,
+            let task = task
         else { throw CoreDataError.invalidMapping }
         return .init(
             id,
             creationDate,
             modificationDate,
             checked,
-            UUID(), // @todo: Relationships
+            task,
             title,
             Int(index)
         )

@@ -42,6 +42,12 @@
 		4075751229BF61D60097BB62 /* RamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075751129BF61D60097BB62 /* RamStore.swift */; };
 		4075751429BF61E10097BB62 /* DiskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075751329BF61E10097BB62 /* DiskStore.swift */; };
 		4075751829C091B10097BB62 /* DiskStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075751729C091B10097BB62 /* DiskStoreTests.swift */; };
+		4075751B29C09C480097BB62 /* CustomDump in Frameworks */ = {isa = PBXBuildFile; productRef = 4075751A29C09C480097BB62 /* CustomDump */; };
+		4075751D29C1030D0097BB62 /* NSObject+className.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075751C29C1030D0097BB62 /* NSObject+className.swift */; };
+		4075751F29C1032F0097BB62 /* Sequence+AsyncForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075751E29C1032F0097BB62 /* Sequence+AsyncForEach.swift */; };
+		4075752129C10FB50097BB62 /* DiskSplittedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752029C10FB50097BB62 /* DiskSplittedStore.swift */; };
+		4075752529C113930097BB62 /* DiskSplittedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752429C113930097BB62 /* DiskSplittedTests.swift */; };
+		4075752729C115860097BB62 /* TemplateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752629C115860097BB62 /* TemplateStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +99,11 @@
 		4075751129BF61D60097BB62 /* RamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamStore.swift; sourceTree = "<group>"; };
 		4075751329BF61E10097BB62 /* DiskStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskStore.swift; sourceTree = "<group>"; };
 		4075751729C091B10097BB62 /* DiskStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskStoreTests.swift; sourceTree = "<group>"; };
+		4075751C29C1030D0097BB62 /* NSObject+className.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+className.swift"; sourceTree = "<group>"; };
+		4075751E29C1032F0097BB62 /* Sequence+AsyncForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+AsyncForEach.swift"; sourceTree = "<group>"; };
+		4075752029C10FB50097BB62 /* DiskSplittedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSplittedStore.swift; sourceTree = "<group>"; };
+		4075752429C113930097BB62 /* DiskSplittedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSplittedTests.swift; sourceTree = "<group>"; };
+		4075752629C115860097BB62 /* TemplateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4075751B29C09C480097BB62 /* CustomDump in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,16 +157,12 @@
 		4042C5FD29BB4FB500A5FB1B /* Things */ = {
 			isa = PBXGroup;
 			children = (
+				4075752229C110780097BB62 /* Khipu */,
 				4075750429BE9BD00097BB62 /* Persistence */,
 				4000FB3C29BBE27200D7374B /* Domain */,
 				4042C64229BBB09A00A5FB1B /* Extensions */,
 				4042C5FE29BB4FB500A5FB1B /* ThingsApp.swift */,
 				4042C60029BB4FB500A5FB1B /* ContentView.swift */,
-				4042C62E29BB4FC600A5FB1B /* AppCore.swift */,
-				4042C63029BB4FE100A5FB1B /* AppState.swift */,
-				4042C63429BB4FFD00A5FB1B /* Message.swift */,
-				4042C63629BB6F8700A5FB1B /* StateStore.swift */,
-				4042C63A29BB6FB400A5FB1B /* UseCase.swift */,
 				4042C63C29BB6FC300A5FB1B /* ViewState.swift */,
 				4042C60229BB4FB600A5FB1B /* Assets.xcassets */,
 				4042C60C29BB4FB600A5FB1B /* Info.plist */,
@@ -187,6 +195,8 @@
 			children = (
 				4042C64029BBB09600A5FB1B /* Set.swift */,
 				4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */,
+				4075751C29C1030D0097BB62 /* NSObject+className.swift */,
+				4075751E29C1032F0097BB62 /* Sequence+AsyncForEach.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -206,9 +216,11 @@
 		407574FA29BE3CC50097BB62 /* Stores */ = {
 			isa = PBXGroup;
 			children = (
-				407574FB29BE3CCC0097BB62 /* StoreTests.swift */,
 				407574FD29BE4A0C0097BB62 /* CoreDataStoreTests.swift */,
 				4075751729C091B10097BB62 /* DiskStoreTests.swift */,
+				407574FB29BE3CCC0097BB62 /* StoreTests.swift */,
+				4075752429C113930097BB62 /* DiskSplittedTests.swift */,
+				4075752629C115860097BB62 /* TemplateStore.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -249,8 +261,21 @@
 				4042C63829BB6F9F00A5FB1B /* CoreDataStore.swift */,
 				4075751329BF61E10097BB62 /* DiskStore.swift */,
 				4075751129BF61D60097BB62 /* RamStore.swift */,
+				4075752029C10FB50097BB62 /* DiskSplittedStore.swift */,
 			);
 			path = Stores;
+			sourceTree = "<group>";
+		};
+		4075752229C110780097BB62 /* Khipu */ = {
+			isa = PBXGroup;
+			children = (
+				4042C63A29BB6FB400A5FB1B /* UseCase.swift */,
+				4042C63629BB6F8700A5FB1B /* StateStore.swift */,
+				4042C63429BB4FFD00A5FB1B /* Message.swift */,
+				4042C63029BB4FE100A5FB1B /* AppState.swift */,
+				4042C62E29BB4FC600A5FB1B /* AppCore.swift */,
+			);
+			path = Khipu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,6 +312,9 @@
 				4042C61329BB4FB600A5FB1B /* PBXTargetDependency */,
 			);
 			name = ThingsTests;
+			packageProductDependencies = (
+				4075751A29C09C480097BB62 /* CustomDump */,
+			);
 			productName = ThingsTests;
 			productReference = 4042C61129BB4FB600A5FB1B /* ThingsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -319,6 +347,9 @@
 				Base,
 			);
 			mainGroup = 4042C5F229BB4FB500A5FB1B;
+			packageReferences = (
+				4075751929C09C480097BB62 /* XCRemoteSwiftPackageReference "swift-custom-dump" */,
+			);
 			productRefGroup = 4042C5FC29BB4FB500A5FB1B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -361,6 +392,7 @@
 				4042C63F29BB6FEC00A5FB1B /* ActionArray+Call.swift in Sources */,
 				4075750F29BE9C7E0097BB62 /* ToSafeObjectConformance.swift in Sources */,
 				4075750729BE9BFD0097BB62 /* CoreDataManager.swift in Sources */,
+				4075751D29C1030D0097BB62 /* NSObject+className.swift in Sources */,
 				4075750929BE9C1F0097BB62 /* ToSafeObject.swift in Sources */,
 				4075750B29BE9C3D0097BB62 /* Error.swift in Sources */,
 				4075751429BF61E10097BB62 /* DiskStore.swift in Sources */,
@@ -369,6 +401,7 @@
 				4042C5FF29BB4FB500A5FB1B /* ThingsApp.swift in Sources */,
 				4000FB3E29BBE28A00D7374B /* Task.swift in Sources */,
 				4042C63B29BB6FB400A5FB1B /* UseCase.swift in Sources */,
+				4075751F29C1032F0097BB62 /* Sequence+AsyncForEach.swift in Sources */,
 				4042C63929BB6F9F00A5FB1B /* CoreDataStore.swift in Sources */,
 				4042C63729BB6F8700A5FB1B /* StateStore.swift in Sources */,
 				4042C64129BBB09600A5FB1B /* Set.swift in Sources */,
@@ -377,6 +410,7 @@
 				4075751229BF61D60097BB62 /* RamStore.swift in Sources */,
 				4000FB4229BBE6FA00D7374B /* Area.swift in Sources */,
 				4075750D29BE9C600097BB62 /* NSManagedObjectContext+Get.swift in Sources */,
+				4075752129C10FB50097BB62 /* DiskSplittedStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,9 +419,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				407574F929BE14AA0097BB62 /* TagTests.swift in Sources */,
+				4075752529C113930097BB62 /* DiskSplittedTests.swift in Sources */,
 				4042C64529BBB11100A5FB1B /* ToDoTests.swift in Sources */,
 				407574F729BD47950097BB62 /* AppStateTests.swift in Sources */,
 				4000FB4029BBE3BC00D7374B /* AreaTests.swift in Sources */,
+				4075752729C115860097BB62 /* TemplateStore.swift in Sources */,
 				407574FE29BE4A0C0097BB62 /* CoreDataStoreTests.swift in Sources */,
 				4075751829C091B10097BB62 /* DiskStoreTests.swift in Sources */,
 				407574FC29BE3CCC0097BB62 /* StoreTests.swift in Sources */,
@@ -650,6 +686,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4075751929C09C480097BB62 /* XCRemoteSwiftPackageReference "swift-custom-dump" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:pointfreeco/swift-custom-dump.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4075751A29C09C480097BB62 /* CustomDump */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4075751929C09C480097BB62 /* XCRemoteSwiftPackageReference "swift-custom-dump" */;
+			productName = CustomDump;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		4042C60929BB4FB600A5FB1B /* Things.xcdatamodeld */ = {

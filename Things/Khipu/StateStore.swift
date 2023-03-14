@@ -11,14 +11,12 @@ import Foundation
 typealias Access   = (               ) -> AppState
 typealias Change   = (AppState.Change) async throws -> ()
 typealias Updated  = (@escaping()->()) -> ()
-typealias Reset    = (               ) -> ()
 typealias Destroy  = (               ) throws -> ()
 
 typealias StateStore = (
     state   : Access,
     change  : Change,
-    callback: Updated,
-    reset   : Reset,
+    onChange: Updated,
     destroy : Destroy
 )
 

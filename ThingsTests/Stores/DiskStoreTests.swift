@@ -4,8 +4,6 @@
 //
 //  Created by Cristian Felipe Patiño Rojas on 14/03/2023.
 //
-
-import Foundation
 @testable import Things
 
 final class DiskStoreTests: StoreTests {

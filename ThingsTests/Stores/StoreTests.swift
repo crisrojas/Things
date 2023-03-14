@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import CustomDump
 @testable import Things
 
 /// Test default store
@@ -20,6 +21,24 @@ class StoreTests: XCTestCase {
     override func tearDownWithError() throws {
         try sut.destroy()
         sut = nil
+    }
+    
+    func testDestroyStore_ResetsState() async throws {
+        let initialVal = AppState()
+        try await sut.change(.create(.tag(Tag(name: "Work"))))
+        XCTAssertNotEqual(sut.state(), initialVal)
+        try sut.destroy()
+        XCTAssertNoDifference(sut.state(), initialVal)
+    }
+    
+    func testChangesSuscription() async throws {
+        var test = "This string should be changed to banana"
+        sut.onChange {
+            test = "banana"
+        }
+        
+        try await sut.change(.create(.task(Task())))
+        XCTAssertTrue(test == "banana")
     }
 
     // MARK: - Create
@@ -78,22 +97,36 @@ class StoreTests: XCTestCase {
         XCTAssertTrue(sut.state().areas.isEmpty)
     }
 
-    // @todo: Delete relationships (area, task)
     func testDeleteTag() async throws {
         let tag = Tag(name: "Testing")
         try await sut.change(.create(.tag(tag)))
         try await sut.change(.delete(.tag(tag.id)))
+        
         XCTAssertTrue(sut.state().tags.isEmpty)
     }
     
+    func testTagDeletionRemoveRelationships() async throws {
+        let tag = Tag(name: "New tag")
+        let task = Task().alter(.add(.tag(tag.id)))
+        let area = Area().alter(.addTag(tag.id))
+        try await sut.change(.create(.tag(tag)))
+        try await sut.change(.create(.task(task)))
+        try await sut.change(.create(.area(area)))
+        try await sut.change(.delete(.tag(tag.id)))
+        
+        XCTAssertTrue(sut.state().tasks.first!.tags.isEmpty)
+        XCTAssertTrue(sut.state().areas.first!.tags.isEmpty)
+    }
     
-    func testDeleteCheck() async throws {
+    
+    func testDeleteItem() async throws {
         let task = Task()
         let item = CheckItem(task: task.id)
         try await sut.change(.create(.task(task)))
         try await sut.change(.create(.checkItem(item)))
         try await sut.change(.delete(.checkItem(item)))
         XCTAssertTrue(sut.state().checkItems.isEmpty)
+        XCTAssertTrue(sut.state().tasks.first!.checkList.isEmpty)
     }
 
     // MARK: - Update
@@ -105,22 +138,22 @@ class StoreTests: XCTestCase {
         let changes: [Task.Change] = [
             .title("My title"),
             .notes("My notes"),
-//            .area(UUID()), @todo: CoreData
+            .area(UUID()),
             .date(Date()),
             .deadline(Date()),
-//            .project(UUID()),
-//            .actionGroup(UUID()),
+            .project(UUID()),
+            .actionGroup(UUID()),
             .type(.project),
             .status(.completed),
             .index(3),
             .todayIndex(4),
             .trash,
             .untrash,
-//            .recurrency(.annual(startDate: Date())),
-//            .add(.checkItem(checkItem.id)),
-//            .add(.tag(tag.id)),
-//            .remove(.checkItem(checkItem.id)),
-//            .remove(.tag(tag.id))
+            .add(.checkItem(checkItem.id)),
+            .add(.tag(tag.id)),
+            .remove(.checkItem(checkItem.id)),
+            .remove(.tag(tag.id))
+            //            .recurrency(.annual(startDate: Date())),
         ]
 
         try await sut.change(.create(.task(originalTask)))
@@ -134,7 +167,7 @@ class StoreTests: XCTestCase {
             let expected = unmodified.alter(change)
             let modified = sut.state().tasks.first!
 
-            XCTAssertTrue(modified == expected)
+            XCTAssertNoDifference(modified, expected)
         }
     }
 
@@ -147,7 +180,7 @@ class StoreTests: XCTestCase {
             .makeVisible,
             .makeInvisible,
             .addTag(tag.id),
-//            .removeTag(tag.id)
+            .removeTag(tag.id)
         ]
 
         let originalArea = Area()
@@ -163,7 +196,7 @@ class StoreTests: XCTestCase {
             let expected = unmodified.alter(change)
             let modified = sut.state().areas.first!
 
-            XCTAssertEqual(modified, expected)
+            XCTAssertNoDifference(modified, expected)
         }
     }
 
@@ -188,7 +221,7 @@ class StoreTests: XCTestCase {
             let expected = unmodified.alter(change)
             let modified = sut.state().tags.first!
 
-            XCTAssertEqual(modified, expected)
+            XCTAssertNoDifference(modified, expected)
         }
     }
    
@@ -216,14 +249,17 @@ class StoreTests: XCTestCase {
             XCTAssertEqual(sut.state().tasks.first!.id, task.id)
             let expected = unmodified.alter(cmd)
             let modified = sut.state().checkItems.first!
-            XCTAssertEqual(modified, expected)
+            XCTAssertNoDifference(modified, expected)
         }
         
     }
 
+    /// When converting a task that has associated checklist
+    /// - CheckList set should be emptied
+    /// - CheckList items should become tasks with an associated project
     func testConverTaskWithCheckItemsToProject() async throws {
        
-        var task = Task().alter(
+        let task = Task().alter(
             .project(UUID()),
             .actionGroup(UUID()),
             .index(4)
@@ -233,25 +269,22 @@ class StoreTests: XCTestCase {
         let c2 = CheckItem(task: task.id)
         let c3 = CheckItem(task: task.id)
 
-        task = task.alter(
-            .add(.checkItem(c1.id)),
-            .add(.checkItem(c2.id)),
-            .add(.checkItem(c3.id))
-        )
-
         try await sut.change(.create(.task(task)))
         try await sut.change(.create(.checkItem(c1)))
         try await sut.change(.create(.checkItem(c2)))
         try await sut.change(.create(.checkItem(c3)))
 
+        XCTAssertFalse(sut.state().tasks.first!.checkList.isEmpty)
         XCTAssertEqual(sut.state().tasks.first?.checkList.count, 3)
 
-
+        let injectedTask = sut.state().tasks.first!
+        
         try await sut.change(
-            .update(.task(task, with: .type(.project)))
+            .update(.task(injectedTask, with: .type(.project)))
         )
 
         XCTAssertEqual(sut.state().tasks.first?.checkList.count, 0)
+        XCTAssertEqual(sut.state().checkItems.count, 0)
         XCTAssertEqual(sut.state().tasks.count, 4)
 
 
@@ -263,6 +296,9 @@ class StoreTests: XCTestCase {
         }
     }
     
+    /// Wheh converting a heading to project:
+    /// Heading items 'actionGroup' becomes nil
+    /// Heading tiems 'proejct' is assigned with the heading id
     func testConvertHeadingWithSubtasksToProject() async throws {
         let heading = Task().alter(.type(.heading))
         let createCMD = Array(1...4)

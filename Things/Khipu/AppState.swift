@@ -15,6 +15,8 @@ struct AppState: Codable {
     let checkItems: [CheckItem]
 }
 
+extension AppState: Equatable {}
+
 extension AppState {
     init(
         _ tasks     : [Task]      = [],
@@ -93,16 +95,16 @@ extension AppState {
     private func handle(_ cmd: Change.Update) -> Self {
         switch cmd {
         case .task(let task, let command):
-           
+            
             if command == .type(.project) {
-              return handleConvertToProject(task: task)
+                return handleConvertToProject(task: task)
             } else {
                 
                 let task = task.alter(command)
                 let tasks = tasks.filter { $0.id != task.id } + [task]
                 return .init(tasks, areas, tags, checkItems)
             }
-
+            
         case .area(let area, let command):
             let area = area.alter(command)
             let areas = areas.filter { $0.id != area.id } + [area]
@@ -133,12 +135,19 @@ extension AppState {
                 tags
             )
         case .tag(let tag):
+            
+            let previouslyTaggedTasks = tasks
+                .filter {$0.tags.contains(tag)}
+                .map { $0.alter(.remove(.tag(tag))) }
+            
+            let tasks = tasks.filter { !$0.tags.contains(tag) }
+            + previouslyTaggedTasks
+            
             let previouslyTaggedAreas = areas
                 .filter {$0.tags.contains(tag)}
                 .map { $0.alter(.removeTag(tag)) }
             
-            let areas = areas
-                .filter { !$0.tags.contains(tag) }
+            let areas = areas.filter { !$0.tags.contains(tag) }
             + previouslyTaggedAreas
             
             

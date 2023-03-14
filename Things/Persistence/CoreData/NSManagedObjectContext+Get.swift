@@ -35,8 +35,7 @@ extension NSManagedObjectContext {
                 format: "id == %@",
                 id as CVarArg
             )
-//            request.fetchLimit = 1
-            
+            request.fetchLimit = 1
             
             guard let object = try self?.fetch(request).first else {
                 throw CoreDataError.entityNotFound
