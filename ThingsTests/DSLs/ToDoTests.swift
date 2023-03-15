@@ -263,6 +263,8 @@ final class TaskTests: XCTestCase {
         modDateChange(sut, t2)
     }
      
+    /// @todo: Sometimes testsUntrash fails here. My guess is that the difference in date creation is too small
+    /// and the Swift clock is not granular enough when comparing those dates
     private func modDateChange(_ t1: Task, _ t2: Task) -> Bool {
         t1.modificationDate !=  t2.modificationDate
     }

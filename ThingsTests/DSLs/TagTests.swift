@@ -32,6 +32,5 @@ final class TagTests: XCTestCase {
         let parent = UUID()
         let t1 = sut.alter(.parent(parent), .removeParent)
         XCTAssertNil(t1.parent)
-    
     }    
 }

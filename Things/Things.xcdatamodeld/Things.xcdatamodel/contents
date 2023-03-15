@@ -3,7 +3,7 @@
     <entity name="AreaCD" representedClassName="AreaCD" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="tags" optional="YES" attributeType="Transformable" customClassName="Set&lt;UUID&gt;"/>
+        <attribute name="tags" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="Set&lt;UUID&gt;"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="visible" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
@@ -28,7 +28,7 @@
     <entity name="TaskCD" representedClassName="TaskCD" syncable="YES" codeGenerationType="class">
         <attribute name="actionGroup" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="area" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="checkList" optional="YES" attributeType="Transformable" customClassName="Set&lt;UUID&gt;"/>
+        <attribute name="checkList" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="Set&lt;UUID&gt;"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -38,7 +38,7 @@
         <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="project" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="tags" optional="YES" attributeType="Transformable" customClassName="Set&lt;UUID&gt;"/>
+        <attribute name="tags" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="Set&lt;UUID&gt;"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="todayIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="trashed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>

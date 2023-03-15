@@ -14,7 +14,7 @@ struct CoreDataManager {
     // MARK: - Create
     func create(_ task: Task) async throws {
         try await context.perform {
-            let _ = TaskCD.from(task, with: context)
+            let _ = task.toTaskCD(with: context)
             try context.save()
         }
     }
@@ -109,16 +109,12 @@ struct CoreDataManager {
                             
                             return try context.fetch(r).first
                         }
-                        .map {
-                            let safe = try $0.safeObject()
-                            context.delete($0)
+                        .map { (c: CheckItemCD) -> (TaskCD) in
+                            let safe = try c.safeObject()
+                            context.delete(c)
                             return safe
-                        }
-                        .map {
-                            return Task.from(checkItem: $0)
-                        }
-                        .map {
-                            return TaskCD.from($0, with: context)
+                                .toTask()
+                                .toTaskCD(with: context)
                         }
                 }
                 
@@ -311,28 +307,28 @@ struct CoreDataManager {
     }
 }
 
-
-extension TaskCD {
-    static func from(_ DO: Task, with c: NSManagedObjectContext) -> TaskCD {
-        let entity = TaskCD(context: c)
-        entity.id = DO.id
-        entity.creationDate = DO.creationDate
-        entity.modificationDate = DO.modificationDate
-        entity.date = DO.date
-        entity.dueDate = DO.dueDate
-        entity.area = DO.area
-        entity.project = DO.project
-        entity.actionGroup = DO.actionGroup
-        entity.title = DO.title
-        entity.notes = DO.notes
-        entity.tags = DO.tags
-        entity.checkList = DO.checkList
-        entity.type = Int16(DO.type.rawValue)
-        entity.status = Int16(DO.status.rawValue)
-        entity.index = Int16(DO.index)
-        entity.todayIndex = Int16(DO.todayIndex)
-        entity.trashed = DO.trashed
-//         entity.recurrencyRule = task.recurrencyRule
-        return entity
-    }
-}
+// @todo delete
+//extension TaskCD {
+//    static func from(_ DO: Task, with c: NSManagedObjectContext) -> TaskCD {
+//        let entity = TaskCD(context: c)
+//        entity.id = DO.id
+//        entity.creationDate = DO.creationDate
+//        entity.modificationDate = DO.modificationDate
+//        entity.date = DO.date
+//        entity.dueDate = DO.dueDate
+//        entity.area = DO.area
+//        entity.project = DO.project
+//        entity.actionGroup = DO.actionGroup
+//        entity.title = DO.title
+//        entity.notes = DO.notes
+//        entity.tags = DO.tags
+//        entity.checkList = DO.checkList
+//        entity.type = Int16(DO.type.rawValue)
+//        entity.status = Int16(DO.status.rawValue)
+//        entity.index = Int16(DO.index)
+//        entity.todayIndex = Int16(DO.todayIndex)
+//        entity.trashed = DO.trashed
+////         entity.recurrencyRule = task.recurrencyRule
+//        return entity
+//    }
+//}

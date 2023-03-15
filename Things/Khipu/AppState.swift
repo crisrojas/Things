@@ -179,7 +179,7 @@ extension AppState {
             
             let subtasks = checkItems
                 .filter { $0.task == task.id }
-                .map {$0.toTask(project: task.id)}
+                .map {$0.toTask()}
             
             let project = task.alter(
                 .type(.project),

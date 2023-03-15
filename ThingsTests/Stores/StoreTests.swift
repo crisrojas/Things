@@ -149,7 +149,7 @@ class StoreTests: XCTestCase {
             .todayIndex(4),
             .trash,
             .untrash,
-            .add(.checkItem(checkItem.id)),
+            .add(.checkItem(checkItem.id)), 
             .add(.tag(tag.id)),
             .remove(.checkItem(checkItem.id)),
             .remove(.tag(tag.id))
@@ -278,7 +278,7 @@ class StoreTests: XCTestCase {
         XCTAssertEqual(sut.state().tasks.first?.checkList.count, 3)
 
         let injectedTask = sut.state().tasks.first!
-        
+
         try await sut.change(
             .update(.task(injectedTask, with: .type(.project)))
         )

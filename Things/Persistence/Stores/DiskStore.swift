@@ -21,8 +21,8 @@ func createDiskStore(path: String = "state.json") -> StateStore {
     let trash   = [delete] + [reset] + [persist]
     
     return (
-        state   : { s                           },
-        change  : { s = s.alter($0) ; try persist()  },
+        state   : { s },
+        change  : { s = s.alter($0) ; try  persist() },
         onChange: { c = c + [$0]    ; try? persist() },
         destroy : { try trash.call() }
     )

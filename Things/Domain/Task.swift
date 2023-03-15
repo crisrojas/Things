@@ -51,12 +51,12 @@ extension Task {
 
 // MARK: - Type conformances
 extension Task: Identifiable, Codable {}
-extension Task.Change.Add: Equatable {}
-extension Task.Change.Remove: Equatable {}
-extension Task.Change: Equatable {}
 extension Task.ListType: Equatable {}
 extension Task.RecurrencyRule: Equatable {}
 extension Task.Status: Equatable {}
+extension Task.Change: Equatable {}
+extension Task.Change.Add: Equatable {}
+extension Task.Change.Remove: Equatable {}
 
 extension Task: Equatable {
     /// Don't include "modificationDate"
@@ -83,29 +83,6 @@ extension Task: Equatable {
 
 // MARK: - ToDo DSL
 extension Task {
-    
-    static func from(checkItem: CheckItem) -> Self {
-        .init(
-            checkItem.id,
-            checkItem.creationDate,
-            nil,
-            nil,
-            nil,
-            nil,
-            checkItem.task,
-            nil,
-            checkItem.title,
-            "",
-            [],
-            [],
-            .task,
-            .open,
-            0,
-            0,
-            false,
-            nil
-        )
-    }
     
     init(
         _ id: UUID = UUID(),
@@ -758,3 +735,30 @@ extension Task {
     }
 }
 
+// MARK: - Mapping to CoreData Entity
+import CoreData
+
+extension Task {
+    func toTaskCD(with c: NSManagedObjectContext) -> TaskCD {
+        let entity = TaskCD(context: c)
+        entity.id = id
+        entity.creationDate = creationDate
+        entity.modificationDate = modificationDate
+        entity.date = date
+        entity.dueDate = dueDate
+        entity.area = area
+        entity.project = project
+        entity.actionGroup = actionGroup
+        entity.title = title
+        entity.notes = notes
+        entity.tags = tags
+        entity.checkList = checkList
+        entity.type = Int16(type.rawValue)
+        entity.status = Int16(status.rawValue)
+        entity.index = Int16(index)
+        entity.todayIndex = Int16(todayIndex)
+        entity.trashed = trashed
+//         entity.recurrencyRule = task.recurrencyRule // @todo
+        return entity
+    }
+}

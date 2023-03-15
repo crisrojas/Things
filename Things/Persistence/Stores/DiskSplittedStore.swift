@@ -42,7 +42,7 @@ func createSplittedDiskStore(
     let trash  = [reset] + [save] + [reload]
     
     return (
-        state   : { s                                 },
+        state   : { s },
         change  : { s = s.alter($0) ; try  persist(s) },
         onChange: { c = c + [$0]    ; try? persist(s) },
         destroy : { try trash.call() }

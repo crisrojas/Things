@@ -10,22 +10,25 @@ import Foundation
 typealias ConcurrentTask = _Concurrency.Task
 
 func createCoreDataStore(controller p: PersistenceController) -> StateStore {
-    let manager = CoreDataManager(context: p.context())
+    
+    let m = CoreDataManager(context: p.context())
     
     var s = AppState(){didSet{c.call()}}
     var c = [()->()]()
     
     let reset = {s = AppState() }
-    let fetch = {s = try await readState(manager: manager)}
+    let fetch = {s = try await readState(manager: m)}
     
     ConcurrentTask {try? await fetch()}
     
+    let change = { (c: AppState.Change) in
+        try await write(c, with: m)
+        try await fetch()
+    }
+    
     return (
         state   : { s },
-        change  : { c in
-            try await write(c, with: manager)
-            try await fetch()
-        },
+        change  : { try await change($0)  },
         onChange: { c = c + [$0]          },
         destroy : { p.destroy() ; reset() }
     )

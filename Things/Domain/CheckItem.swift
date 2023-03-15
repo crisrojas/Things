@@ -73,10 +73,10 @@ extension CheckItem {
 
 
 extension CheckItem {
-    func toTask(project: UUID) -> Task {
+    func toTask() -> Task {
         Task().alter(
-            .title(self.title),
-            .project(project)
+            .title(title),
+            .project(task)
         )
     }
 }
