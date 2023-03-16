@@ -48,6 +48,7 @@
 		4075752129C10FB50097BB62 /* DiskSplittedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752029C10FB50097BB62 /* DiskSplittedStore.swift */; };
 		4075752529C113930097BB62 /* DiskSplittedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752429C113930097BB62 /* DiskSplittedTests.swift */; };
 		4075752729C115860097BB62 /* TemplateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752629C115860097BB62 /* TemplateStore.swift */; };
+		4075756029C3B9090097BB62 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075755F29C3B9090097BB62 /* PersistenceManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +105,7 @@
 		4075752029C10FB50097BB62 /* DiskSplittedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSplittedStore.swift; sourceTree = "<group>"; };
 		4075752429C113930097BB62 /* DiskSplittedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSplittedTests.swift; sourceTree = "<group>"; };
 		4075752629C115860097BB62 /* TemplateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateStore.swift; sourceTree = "<group>"; };
+		4075755F29C3B9090097BB62 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +241,7 @@
 				4075750529BE9BD60097BB62 /* CoreData */,
 				4075751029BF61C50097BB62 /* Stores */,
 				4075750829BE9C1F0097BB62 /* ToSafeObject.swift */,
+				4075755F29C3B9090097BB62 /* PersistenceManager.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				4042C60129BB4FB500A5FB1B /* ContentView.swift in Sources */,
 				4042C63129BB4FE100A5FB1B /* AppState.swift in Sources */,
 				4042C5FF29BB4FB500A5FB1B /* ThingsApp.swift in Sources */,
+				4075756029C3B9090097BB62 /* PersistenceManager.swift in Sources */,
 				4000FB3E29BBE28A00D7374B /* Task.swift in Sources */,
 				4042C63B29BB6FB400A5FB1B /* UseCase.swift in Sources */,
 				4075751F29C1032F0097BB62 /* Sequence+AsyncForEach.swift in Sources */,

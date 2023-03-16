@@ -30,10 +30,18 @@ struct Task {
 // MARK: - Subtypes
 extension Task {
     enum RecurrencyRule: Codable {
+        case afterComplete(AfterCompleted)
         case daily(startDate: Date)
         case weekly(startDate: Date)
         case monthly(startDate: Date)
         case annual(startDate: Date)
+        
+        enum AfterCompleted: Codable {
+            case day(Int)
+            case week(Int)
+            case month(Int)
+            case year(Int)
+        }
     }
 
     enum ListType: Int, Codable {
@@ -53,6 +61,7 @@ extension Task {
 extension Task: Identifiable, Codable {}
 extension Task.ListType: Equatable {}
 extension Task.RecurrencyRule: Equatable {}
+extension Task.RecurrencyRule.AfterCompleted: Equatable {}
 extension Task.Status: Equatable {}
 extension Task.Change: Equatable {}
 extension Task.Change.Add: Equatable {}

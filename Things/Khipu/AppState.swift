@@ -56,7 +56,7 @@ extension AppState {
         enum Delete {
             case task(Task)
             case area(Area)
-            case tag(UUID)
+            case tag (UUID)
             case checkItem(CheckItem)
         }
     }

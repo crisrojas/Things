@@ -7,7 +7,7 @@
 
 import CoreData
 
-struct CoreDataManager {
+struct CoreDataManager: PersistenceManager {
     
     let context: NSManagedObjectContext
     
@@ -60,7 +60,7 @@ struct CoreDataManager {
             entity.name = tag.name
             entity.parent = tag.parent
             entity.index = Int16(tag.index)
-            try context.save()
+            try save()
         }
     }
     
@@ -73,8 +73,8 @@ struct CoreDataManager {
             }
             
             let items = task.checkList
-            let oldTask = task
-            let task = oldTask.alter(cmd)
+            let oldType = task.type
+            let task = task.alter(cmd)
 
             entity.title = task.title
             entity.notes = task.notes
@@ -98,7 +98,7 @@ struct CoreDataManager {
                 // If we're converting a task to a project
                 // Create new tasks for each associated item (if uncompleted)
                 // Remove items from table
-                if oldTask.type == .task {
+                if oldType == .task {
                     let _ = try items
                         .compactMap { item in
                             let r = CheckItemCD.fetchRequest()
@@ -121,18 +121,18 @@ struct CoreDataManager {
                 // If we're converting a heading (oldTask) to a project
                 // Remove associated tasks actionGroup property
                 // Asign  associated tasks project property to oldTask.id
-                if oldTask.type == .heading {
+                if oldType == .heading {
                     let r = TaskCD.fetchRequest()
                     r.predicate = NSPredicate(
                         format: "actionGroup == %@",
-                        oldTask.id as CVarArg
+                        task.id as CVarArg
                     )
                     
                     let subtasks = try context.fetch(r)
                     
                     subtasks.forEach {
                         $0.actionGroup = nil
-                        $0.project = oldTask.id
+                        $0.project = task.id
                     }
                 }
             }
@@ -305,30 +305,13 @@ struct CoreDataManager {
     private func delete<T: NSManagedObject>(_ entityName: String, id: UUID) async throws -> T? {
         try await context.delete(entityName, id: id)
     }
+    
+    
+    private func save() throws {
+        if context.hasChanges {
+            try context.save()
+        }
+    }
+    
+    func destroy() {}
 }
-
-// @todo delete
-//extension TaskCD {
-//    static func from(_ DO: Task, with c: NSManagedObjectContext) -> TaskCD {
-//        let entity = TaskCD(context: c)
-//        entity.id = DO.id
-//        entity.creationDate = DO.creationDate
-//        entity.modificationDate = DO.modificationDate
-//        entity.date = DO.date
-//        entity.dueDate = DO.dueDate
-//        entity.area = DO.area
-//        entity.project = DO.project
-//        entity.actionGroup = DO.actionGroup
-//        entity.title = DO.title
-//        entity.notes = DO.notes
-//        entity.tags = DO.tags
-//        entity.checkList = DO.checkList
-//        entity.type = Int16(DO.type.rawValue)
-//        entity.status = Int16(DO.status.rawValue)
-//        entity.index = Int16(DO.index)
-//        entity.todayIndex = Int16(DO.todayIndex)
-//        entity.trashed = DO.trashed
-////         entity.recurrencyRule = task.recurrencyRule
-//        return entity
-//    }
-//}

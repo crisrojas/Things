@@ -29,7 +29,6 @@ func createDiskStore(path: String = "state.json") -> StateStore {
 }
 
 
-
 // MARK: - FileManager
 func write<C: Codable>(_ codable: C, to path: String, with fm: FileManager) throws {
     #if DEBUG
@@ -40,20 +39,7 @@ func write<C: Codable>(_ codable: C, to path: String, with fm: FileManager) thro
     try data.write(to: fileURL(path: path, fm: fm))
 }
 
-//func write<C: Codable>(_ codable: C, to path: String, with fm: FileManager) {
-//    do {
-//        #if DEBUG
-//        jsonEncoder.outputFormatting = .prettyPrinted
-//        #endif
-//
-//        let data = try jsonEncoder.encode(codable)
-//        try data.write(to: fileURL(path: path, fm: fm))
-//    } catch {
-//        print(error)
-//    }
-//}
-
-func readState(_ path: String, with fm: FileManager) -> AppState {
+fileprivate func readState(_ path: String, with fm: FileManager) -> AppState {
     let s: AppState? = read(path, with: fm)
     return s ?? AppState()
 }
@@ -69,12 +55,12 @@ func read<C: Codable>(_ path: String, with fm: FileManager) -> C? {
     }
 }
 
-func destroy(_ path: String, with fm: FileManager) throws {
+fileprivate func destroy(_ path: String, with fm: FileManager) throws {
     try fm.removeItem(atPath: fileURL(path: path, fm: fm).path)
 }
 
 
-private func fileURL(path: String, fm: FileManager) throws -> URL {
+fileprivate func fileURL(path: String, fm: FileManager) throws -> URL {
     try fm
         .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         .appendingPathComponent(path)
