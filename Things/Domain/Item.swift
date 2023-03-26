@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CheckItem {
+struct Item {
     let id: UUID
     let creationDate: Date
     let modificationDate: Date?
@@ -27,7 +27,7 @@ struct CheckItem {
     }
 }
 
-extension CheckItem {
+extension Item {
     init(
         _ id: UUID = UUID(),
         _ creationDate: Date = Date(),
@@ -47,7 +47,7 @@ extension CheckItem {
     }
 }
 
-extension CheckItem {
+extension Item {
     enum Change {
         case check
         case uncheck
@@ -72,7 +72,7 @@ extension CheckItem {
 }
 
 
-extension CheckItem {
+extension Item {
     func toTask() -> Task {
         Task().alter(
             .title(title),
@@ -81,4 +81,4 @@ extension CheckItem {
     }
 }
 
-extension CheckItem: Identifiable, Codable, Hashable, Equatable {}
+extension Item: Identifiable, Codable, Hashable, Equatable {}

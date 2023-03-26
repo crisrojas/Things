@@ -12,7 +12,7 @@ struct AppState: Codable {
     let tasks     : [Task]
     let areas     : [Area]
     let tags      : [Tag]
-    let checkItems: [CheckItem]
+    let checkItems: [Item]
 }
 
 extension AppState: Equatable {}
@@ -22,7 +22,7 @@ extension AppState {
         _ tasks     : [Task]      = [],
         _ areas     : [Area]      = [],
         _ tags      : [Tag]       = [],
-        _ checkItems: [CheckItem] = []
+        _ checkItems: [Item] = []
     ) {
         self.tasks      = tasks
         self.areas      = areas
@@ -43,21 +43,21 @@ extension AppState {
             case task(Task)
             case area(Area)
             case tag(Tag)
-            case checkItem(CheckItem)
+            case checkItem(Item)
         }
         
         enum Update {
             case task(Task, with: Task.Change)
             case area(Area, with: Area.Change)
             case  tag(Tag, with: Tag.Change)
-            case item(CheckItem, with: CheckItem.Change)
+            case item(Item, with: Item.Change)
         }
         
         enum Delete {
             case task(Task)
             case area(Area)
             case tag (UUID)
-            case checkItem(CheckItem)
+            case checkItem(Item)
         }
     }
 }

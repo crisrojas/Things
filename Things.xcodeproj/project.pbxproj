@@ -11,7 +11,7 @@
 		4000FB4029BBE3BC00D7374B /* AreaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000FB3F29BBE3BC00D7374B /* AreaTests.swift */; };
 		4000FB4229BBE6FA00D7374B /* Area.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000FB4129BBE6FA00D7374B /* Area.swift */; };
 		4000FB4429BBE71C00D7374B /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000FB4329BBE71C00D7374B /* Tag.swift */; };
-		4000FB4629BBE78900D7374B /* CheckItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000FB4529BBE78900D7374B /* CheckItem.swift */; };
+		4000FB4629BBE78900D7374B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000FB4529BBE78900D7374B /* Item.swift */; };
 		4000FB4829BBE79500D7374B /* CheckitemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000FB4729BBE79500D7374B /* CheckitemTests.swift */; };
 		4042C5FF29BB4FB500A5FB1B /* ThingsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C5FE29BB4FB500A5FB1B /* ThingsApp.swift */; };
 		4042C60129BB4FB500A5FB1B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C60029BB4FB500A5FB1B /* ContentView.swift */; };
@@ -66,7 +66,7 @@
 		4000FB3F29BBE3BC00D7374B /* AreaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaTests.swift; sourceTree = "<group>"; };
 		4000FB4129BBE6FA00D7374B /* Area.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Area.swift; sourceTree = "<group>"; };
 		4000FB4329BBE71C00D7374B /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		4000FB4529BBE78900D7374B /* CheckItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItem.swift; sourceTree = "<group>"; };
+		4000FB4529BBE78900D7374B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		4000FB4729BBE79500D7374B /* CheckitemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckitemTests.swift; sourceTree = "<group>"; };
 		4042C5FB29BB4FB500A5FB1B /* Things.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Things.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4042C5FE29BB4FB500A5FB1B /* ThingsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThingsApp.swift; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				4000FB4129BBE6FA00D7374B /* Area.swift */,
-				4000FB4529BBE78900D7374B /* CheckItem.swift */,
+				4000FB4529BBE78900D7374B /* Item.swift */,
 				4000FB4329BBE71C00D7374B /* Tag.swift */,
 				4000FB3D29BBE28A00D7374B /* Task.swift */,
 			);
@@ -388,7 +388,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4000FB4429BBE71C00D7374B /* Tag.swift in Sources */,
-				4000FB4629BBE78900D7374B /* CheckItem.swift in Sources */,
+				4000FB4629BBE78900D7374B /* Item.swift in Sources */,
 				4042C60B29BB4FB600A5FB1B /* Things.xcdatamodeld in Sources */,
 				4042C60829BB4FB600A5FB1B /* Persistence.swift in Sources */,
 				4042C63D29BB6FC300A5FB1B /* ViewState.swift in Sources */,

@@ -33,7 +33,7 @@ struct CoreDataManager: PersistenceManager {
     
     /// Creates item only if associated tasks exists
     /// Appends the item to the associated CoreData Task entity
-    func create(_ item: CheckItem) async throws {
+    func create(_ item: Item) async throws {
         let t: TaskCD? = try await context.get(id: item.task)
         guard let t = t else { return }
         try await context.perform {
@@ -173,7 +173,7 @@ struct CoreDataManager: PersistenceManager {
         }
     }
     
-    func update(_ item: CheckItem, _ cmd: CheckItem.Change) async throws {
+    func update(_ item: Item, _ cmd: Item.Change) async throws {
         let entity: CheckItemCD? = try await context.get(id: item.id)
         try await context.perform {
             guard let entity = entity else {
@@ -202,7 +202,7 @@ struct CoreDataManager: PersistenceManager {
         try await context.get(request: TagCD.fetchRequest())
     }
     
-    func readCheckItems() async throws -> [CheckItem] {
+    func readCheckItems() async throws -> [Item] {
         try await context.get(request: CheckItemCD.fetchRequest())
     }
   

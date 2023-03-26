@@ -112,7 +112,7 @@ final class TaskTests: XCTestCase {
     }
     
     func testAddCheckList() {
-        let checkItem = CheckItem(task: sut.id)
+        let checkItem = Item(task: sut.id)
         let t1 = sut.alter(.add(.checkItem(checkItem.id)))
         
         XCTAssertTrue(!t1.checkList.isEmpty)
@@ -171,7 +171,7 @@ final class TaskTests: XCTestCase {
     }
     
     func testRemoveCheckItem() {
-        let checkItem = CheckItem(task: sut.id)
+        let checkItem = Item(task: sut.id)
         let t1 = sut.alter(.add(.checkItem(checkItem.id)))
         let t2 = t1.alter(.remove(.checkItem(checkItem.id)))
         

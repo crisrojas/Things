@@ -10,7 +10,7 @@ import XCTest
 
 final class CheckItemTests: XCTestCase {
     
-    let sut = CheckItem(task: UUID())
+    let sut = Item(task: UUID())
     
     func testDefaults() {
         XCTAssertFalse(sut.checked)

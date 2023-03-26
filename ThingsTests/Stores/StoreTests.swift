@@ -64,7 +64,7 @@ class StoreTests: XCTestCase {
     
     func testCreateCheckItem() async throws {
         let task = Task()
-        let item = CheckItem(task: task.id)
+        let item = Item(task: task.id)
         try await sut.change(.create(.task(task)))
         try await sut.change(.create(.checkItem(item)))
         XCTAssertFalse(sut.state().checkItems.isEmpty)
@@ -74,7 +74,7 @@ class StoreTests: XCTestCase {
     /// If we try to create an item with an associated task that doesn't exists,
     /// item shouldn't be persisted
     func testCreateItemWithInexistentTask() async throws {
-        let item = CheckItem(task: UUID())
+        let item = Item(task: UUID())
        
         try await sut.change(.create(.checkItem(item)))
         XCTAssertTrue(sut.state().checkItems.isEmpty)
@@ -121,7 +121,7 @@ class StoreTests: XCTestCase {
     
     func testDeleteItem() async throws {
         let task = Task()
-        let item = CheckItem(task: task.id)
+        let item = Item(task: task.id)
         try await sut.change(.create(.task(task)))
         try await sut.change(.create(.checkItem(item)))
         try await sut.change(.delete(.checkItem(item)))
@@ -132,7 +132,7 @@ class StoreTests: XCTestCase {
     // MARK: - Update
     func testTaskDSL() async throws {
         let originalTask = Task()
-        let checkItem = CheckItem(task: originalTask.id)
+        let checkItem = Item(task: originalTask.id)
         let tag = Tag(name: "Test")
 
         let changes: [Task.Change] = [
@@ -229,12 +229,12 @@ class StoreTests: XCTestCase {
     func testItemDSL() async throws {
         
         let task = Task().alter(.title("Task with checkItem"))
-        let item = CheckItem(task: task.id).alter(.title("CheckItem"))
+        let item = Item(task: task.id).alter(.title("CheckItem"))
         
         try await sut.change(.create(.task(task)))
         try await sut.change(.create(.checkItem(item)))
         
-        let commands: [CheckItem.Change] = [
+        let commands: [Item.Change] = [
             .title("My check item descriptive title"),
             .check,
             .uncheck,
@@ -265,9 +265,9 @@ class StoreTests: XCTestCase {
             .index(4)
         )
 
-        let c1 = CheckItem(task: task.id)
-        let c2 = CheckItem(task: task.id)
-        let c3 = CheckItem(task: task.id)
+        let c1 = Item(task: task.id)
+        let c2 = Item(task: task.id)
+        let c3 = Item(task: task.id)
 
         try await sut.change(.create(.task(task)))
         try await sut.change(.create(.checkItem(c1)))

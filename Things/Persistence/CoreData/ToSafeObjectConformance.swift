@@ -64,8 +64,8 @@ extension AreaCD: ToSafeObject {
 }
 
 extension CheckItemCD: ToSafeObject {
-    typealias SafeType = CheckItem
-    func safeObject() throws -> CheckItem {
+    typealias SafeType = Item
+    func safeObject() throws -> Item {
         guard
             let id = id,
             let creationDate = creationDate,
