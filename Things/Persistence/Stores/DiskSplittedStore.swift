@@ -30,7 +30,7 @@ func createSplittedDiskStore(
         try write(s.tasks, to: tasks, with: fm)
         try write(s.areas, to: areas, with: fm)
         try write(s.tags,  to: tags,  with: fm)
-        try write(s.checkItems, to: tags, with: fm)
+        try write(s.items, to: tags, with: fm)
     }
 
     var s = access() {didSet {c.call()}}

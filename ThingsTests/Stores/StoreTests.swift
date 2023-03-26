@@ -66,8 +66,8 @@ class StoreTests: XCTestCase {
         let task = Task()
         let item = Item(task: task.id)
         try await sut.change(.create(.task(task)))
-        try await sut.change(.create(.checkItem(item)))
-        XCTAssertFalse(sut.state().checkItems.isEmpty)
+        try await sut.change(.create(.item(item)))
+        XCTAssertFalse(sut.state().items.isEmpty)
     }
     
     
@@ -76,8 +76,8 @@ class StoreTests: XCTestCase {
     func testCreateItemWithInexistentTask() async throws {
         let item = Item(task: UUID())
        
-        try await sut.change(.create(.checkItem(item)))
-        XCTAssertTrue(sut.state().checkItems.isEmpty)
+        try await sut.change(.create(.item(item)))
+        XCTAssertTrue(sut.state().items.isEmpty)
     
     }
 
@@ -123,9 +123,9 @@ class StoreTests: XCTestCase {
         let task = Task()
         let item = Item(task: task.id)
         try await sut.change(.create(.task(task)))
-        try await sut.change(.create(.checkItem(item)))
-        try await sut.change(.delete(.checkItem(item)))
-        XCTAssertTrue(sut.state().checkItems.isEmpty)
+        try await sut.change(.create(.item(item)))
+        try await sut.change(.delete(.item(item)))
+        XCTAssertTrue(sut.state().items.isEmpty)
         XCTAssertTrue(sut.state().tasks.first!.checkList.isEmpty)
     }
 
@@ -232,7 +232,7 @@ class StoreTests: XCTestCase {
         let item = Item(task: task.id).alter(.title("CheckItem"))
         
         try await sut.change(.create(.task(task)))
-        try await sut.change(.create(.checkItem(item)))
+        try await sut.change(.create(.item(item)))
         
         let commands: [Item.Change] = [
             .title("My check item descriptive title"),
@@ -243,12 +243,12 @@ class StoreTests: XCTestCase {
         
         try await commands.asyncForEach { cmd in
          
-            let unmodified = sut.state().checkItems.first!
+            let unmodified = sut.state().items.first!
             
             try await sut.change(.update(.item(unmodified, with: cmd)))
             XCTAssertEqual(sut.state().tasks.first!.id, task.id)
             let expected = unmodified.alter(cmd)
-            let modified = sut.state().checkItems.first!
+            let modified = sut.state().items.first!
             XCTAssertNoDifference(modified, expected)
         }
         
@@ -270,9 +270,9 @@ class StoreTests: XCTestCase {
         let c3 = Item(task: task.id)
 
         try await sut.change(.create(.task(task)))
-        try await sut.change(.create(.checkItem(c1)))
-        try await sut.change(.create(.checkItem(c2)))
-        try await sut.change(.create(.checkItem(c3)))
+        try await sut.change(.create(.item(c1)))
+        try await sut.change(.create(.item(c2)))
+        try await sut.change(.create(.item(c3)))
 
         XCTAssertFalse(sut.state().tasks.first!.checkList.isEmpty)
         XCTAssertEqual(sut.state().tasks.first?.checkList.count, 3)
@@ -284,7 +284,7 @@ class StoreTests: XCTestCase {
         )
 
         XCTAssertEqual(sut.state().tasks.first?.checkList.count, 0)
-        XCTAssertEqual(sut.state().checkItems.count, 0)
+        XCTAssertEqual(sut.state().items.count, 0)
         XCTAssertEqual(sut.state().tasks.count, 4)
 
 

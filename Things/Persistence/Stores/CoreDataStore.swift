@@ -49,7 +49,7 @@ fileprivate func handle(_ cmd: AppState.Change.Create, with manager: CoreDataMan
     switch cmd {
     case .task(let task): try await manager.create(task)
     case .area(let area): try await manager.create(area)
-    case .checkItem(let item): try await manager.create(item)
+    case .item(let item): try await manager.create(item)
     case .tag(let tag): try await manager.create(tag)
     }
 }
@@ -79,7 +79,7 @@ fileprivate func handle(_ cmd: AppState.Change.Delete, with manager: CoreDataMan
     case .task(let task): try await manager.delete(task: task.id)
     case .area(let area): try await manager.delete(area: area.id)
     case  .tag(let tag ): try await manager.delete(tag: tag)
-    case .checkItem(let item): try await manager.delete(checkItem: item.id)
+    case .item(let item): try await manager.delete(checkItem: item.id)
     }
 }
 
@@ -122,7 +122,7 @@ fileprivate func handle(_ cmd: AppState.Change.Create, with manager: Persistence
     switch cmd {
     case .task(let task): try await manager.create(task)
     case .area(let area): try await manager.create(area)
-    case .checkItem(let item): try await manager.create(item)
+    case .item(let item): try await manager.create(item)
     case .tag(let tag): try await manager.create(tag)
     }
 }
@@ -152,7 +152,7 @@ fileprivate func handle(_ cmd: AppState.Change.Delete, with manager: Persistence
     case .task(let task): try await manager.delete(task: task.id)
     case .area(let area): try await manager.delete(area: area.id)
     case  .tag(let tag ): try await manager.delete(tag: tag)
-    case .checkItem(let item): try await manager.delete(checkItem: item.id)
+    case .item(let item): try await manager.delete(checkItem: item.id)
     }
 }
 

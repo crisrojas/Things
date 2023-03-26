@@ -49,6 +49,7 @@
 		4075752529C113930097BB62 /* DiskSplittedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752429C113930097BB62 /* DiskSplittedTests.swift */; };
 		4075752729C115860097BB62 /* TemplateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752629C115860097BB62 /* TemplateStore.swift */; };
 		4075756029C3B9090097BB62 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075755F29C3B9090097BB62 /* PersistenceManager.swift */; };
+		40C35BD529D0DD8200140822 /* Array+remove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C35BD429D0DD8200140822 /* Array+remove.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		4075752429C113930097BB62 /* DiskSplittedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSplittedTests.swift; sourceTree = "<group>"; };
 		4075752629C115860097BB62 /* TemplateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateStore.swift; sourceTree = "<group>"; };
 		4075755F29C3B9090097BB62 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
+		40C35BD429D0DD8200140822 /* Array+remove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+remove.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +201,7 @@
 				4042C63E29BB6FEC00A5FB1B /* ActionArray+Call.swift */,
 				4075751C29C1030D0097BB62 /* NSObject+className.swift */,
 				4075751E29C1032F0097BB62 /* Sequence+AsyncForEach.swift */,
+				40C35BD429D0DD8200140822 /* Array+remove.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				4042C60829BB4FB600A5FB1B /* Persistence.swift in Sources */,
 				4042C63D29BB6FC300A5FB1B /* ViewState.swift in Sources */,
 				4042C63F29BB6FEC00A5FB1B /* ActionArray+Call.swift in Sources */,
+				40C35BD529D0DD8200140822 /* Array+remove.swift in Sources */,
 				4075750F29BE9C7E0097BB62 /* ToSafeObjectConformance.swift in Sources */,
 				4075750729BE9BFD0097BB62 /* CoreDataManager.swift in Sources */,
 				4075751D29C1030D0097BB62 /* NSObject+className.swift in Sources */,
