@@ -6,6 +6,288 @@
 //
 import Foundation
 
+let task = try! ToDo.initTask()
+    .convert(to: .project)
+
+let taskB = try! ToDo.initTask()
+    .convert(to: .heading)
+
+enum ToDo {
+    case task(
+        id: UUID,
+        cDate: Date,
+        mDate: Date?,
+        dDate: Date?,
+        area: UUID?,
+        project: UUID?,
+        title: String,
+        notes: String,
+        tags: Set<UUID>,
+        checkList: Set<UUID>,
+        status: Task.Status,
+        index: Int,
+        todayIndex: Int,
+        trashed: Bool,
+        recurrencyRule: Task.RecurrencyRule?
+    )
+    
+    case project(
+        id: UUID,
+        cDate: Date,
+        mDate: Date?,
+        dDate: Date?,
+        area: UUID?,
+        title: String,
+        notes: String,
+        tags: Set<UUID>,
+        status: Task.Status,
+        index: Int,
+        todayIndex: Int,
+        trashed: Bool
+    )
+    
+    case heading(
+        id: UUID,
+        cDate: Date,
+        mDate: Date?,
+        project: UUID?,
+        title: String,
+        index: Int,
+        todayIndex: Int,
+        trashed: Bool
+    )
+    
+    enum Target {
+        case task
+        case project
+        case heading
+    }
+    
+    enum TaskError: Error {
+        case conversionError(String)
+        case changeError(String)
+    }
+    
+    func convert(to target: Target) throws -> Self {
+        switch self {
+        case .task(
+            id: let id,
+            cDate: let cDate,
+            mDate: let mDate,
+            dDate: let dDate,
+            area: let area,
+            project: let project,
+            title: let title,
+            notes: let notes,
+            tags: let tags,
+            checkList: _,
+            status: let status,
+            index: _,
+            todayIndex: _,
+            trashed: let trashed,
+            recurrencyRule: _):
+            
+            switch target {
+            case .project:
+                return .project(
+                    id: id,
+                    cDate: cDate,
+                    mDate: mDate,
+                    dDate: dDate,
+                    area: area,
+                    title: title,
+                    notes: notes,
+                    tags: tags,
+                    status: status,
+                    index: 0,
+                    todayIndex: 0,
+                    trashed: trashed
+                )
+            case .heading:
+                return .heading(
+                    id: id,
+                    cDate: cDate,
+                    mDate: mDate,
+                    project: project,
+                    title: title,
+                    index: 0,
+                    todayIndex: 0,
+                    trashed: trashed
+                )
+            default: throw TaskError.conversionError("A task cannot ve converted to itself")
+            }
+        case .project:
+            throw TaskError.conversionError("A project cannot be converted to a \(target)")
+            
+        case .heading(
+            id: let id,
+            cDate: let cdate,
+            mDate: let mDate,
+            project: _,
+            title: let title,
+            index: _,
+            todayIndex: _,
+            trashed: let trashed):
+            
+            switch target {
+            case .project: return .project(
+                id: id,
+                cDate: cdate,
+                mDate: mDate,
+                dDate: nil,
+                area: nil,
+                title: title,
+                notes: "",
+                tags: [],
+                status: .open,
+                index: 0,
+                todayIndex: 0,
+                trashed: trashed
+            )
+            default: throw TaskError.conversionError("A heading cannot be converted into \(target)")
+            }
+        }
+    }
+}
+
+
+// MARK: - Task API
+extension ToDo {
+    
+    enum Change {
+        case todo(ToDo)
+        
+        enum ToDo {
+            case creationDate(Date)
+            case modificationDate(Date)
+            case dueDate(Date?)
+            case area(UUID?)
+            case project(UUID?)
+            case title(String)
+            case notes(String)
+            case tags(Set<UUID>)
+            case checkList(Set<UUID>)
+            case status(Task.Status)
+            case index(Int)
+            case todayIndex(Int)
+            case trashed(Bool)
+            case rule(Task.RecurrencyRule?)
+            
+            case add(Add)
+            
+            enum Add {
+                case item(UUID)
+                case tag(UUID)
+            }
+        }
+    }
+    
+    static func initTask() -> Self {
+        .task(
+            id: UUID(),
+            cDate: Date(),
+            mDate: nil,
+            dDate: nil,
+            area: nil,
+            project: nil,
+            title: "",
+            notes: "",
+            tags: [],
+            checkList: [],
+            status: .open,
+            index: 0,
+            todayIndex: 0,
+            trashed: false,
+            recurrencyRule: nil
+        )
+    }
+    
+    func initFullTask(
+        _ id: UUID,
+        _ cDate: Date,
+        _ mDate: Date?,
+        _ dDate: Date?,
+        _ area: UUID?,
+        _ project: UUID?,
+        _ title: String,
+        _ notes: String,
+        _ tags: Set<UUID>,
+        _ checkList: Set<UUID>,
+        _ status: Task.Status,
+        _ index: Int,
+        _ todayIndex: Int,
+        _ trashed: Bool,
+        _ recurrencyRule: Task.RecurrencyRule?
+    ) -> Self {
+        return .task(
+            id: id,
+            cDate: cDate,
+            mDate: mDate,
+            dDate: dDate,
+            area: area,
+            project: project,
+            title: title,
+            notes: notes,
+            tags: tags,
+            checkList: checkList,
+            status: status,
+            index: index,
+            todayIndex: todayIndex,
+            trashed: trashed,
+            recurrencyRule: recurrencyRule
+        )
+    }
+    
+    func apply(taskChange: Change.ToDo) throws -> Self {
+        guard case var .task(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule) = self else {
+            throw TaskError.changeError("Cannot apply a change to a type \(self)")
+        }
+        
+        switch taskChange {
+        case .creationDate(let cDate):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .modificationDate(let mDate):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .dueDate(let dDate):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .area(let area):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .project(let project):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .title(let title):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .notes(let notes):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .tags(let tags):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .checkList(let checkList):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .status(let status):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .index(let index):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .todayIndex(let todayIndex):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .trashed(let trashed):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .rule(let recurrencyRule):
+            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .add(let cmd):
+            switch cmd {
+            case .item(let item):
+                let checkList = checkList.add(item)
+                return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+            case .tag(let tag):
+                let tag = tags.add(tag)
+                return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+            }
+        }
+        
+        return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+    }
+}
+
+
 struct Task {
     let id: UUID
     let creationDate: Date

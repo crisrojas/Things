@@ -219,7 +219,7 @@ struct CoreDataManager: PersistenceManager {
     // MARK: - Complex deletion
     /// @todo: I made the full implementation on the body because
     /// I was getting a Thread BAD ACCESS Error when composing methods
-    /// @todo: Find a better way of fetching ONLY tasks and areas that contains the tag
+    /// @todo: Find a better way of fetching ONLY tasks and areas that contains the tag, see NSSecureUnarchiveFromDataTransformer
     func delete(tag: UUID) async throws {
         try await context.perform { [weak context] in
             guard let context = context else { return }
@@ -315,3 +315,30 @@ struct CoreDataManager: PersistenceManager {
     
     func destroy() {}
 }
+//
+//
+// add to stack: ValueTransformer.setValueTransformer(UUIDSetTransformer(), forName: UUIDSetTransformer.name)
+//
+//class UUIDSetTransformer: NSSecureUnarchiveFromDataTransformer {
+//    static let name = NSValueTransformerName(rawValue: "UUIDSetTransformer")
+//
+//    override static func transformedValueClass() -> AnyClass {
+//        return NSArray.self
+//    }
+//
+//    override static func allowsReverseTransformation() -> Bool {
+//        return true
+//    }
+//
+//    override func transformedValue(_ value: Any?) -> Any? {
+//        guard let uuidSet = value as? Set<UUID> else { return nil }
+//        let uuidArray = uuidSet.map { $0.uuidString }
+//        return NSArray(array: uuidArray)
+//    }
+//
+//    override func reverseTransformedValue(_ value: Any?) -> Any? {
+//        guard let uuidArray = value as? [String] else { return nil }
+//        let uuidSet = uuidArray.compactMap { UUID(uuidString: $0) }
+//        return Set(uuidSet)
+//    }
+//}

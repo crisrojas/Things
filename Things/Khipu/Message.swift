@@ -13,5 +13,8 @@ typealias   Input = (Message) -> ()
 typealias  Output = (Message) -> ()
 typealias AppCore = (Message) -> ()
 
-enum Message {}
-
+enum Message {
+    case create(AppState.Change.Create)
+    case update(AppState.Change.Update)
+    case delete(AppState.Change.Delete)
+}
