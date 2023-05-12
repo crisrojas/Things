@@ -7,7 +7,7 @@
 
 import XCTest
 import CustomDump
-@testable import Things
+@testable import ThingsCore
 
 /// Test default store
 class StoreTests: XCTestCase {

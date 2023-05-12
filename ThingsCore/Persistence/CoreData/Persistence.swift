@@ -19,11 +19,14 @@ final class PersistenceController {
     
     func context() -> NSManagedObjectContext {container.viewContext}
     var container: NSPersistentCloudKitContainer
-
+    
     init(inMemory: Bool = false) {
          
-        container = NSPersistentCloudKitContainer(name: "Things")
+        container = NSPersistentCloudKitContainer(name: "Things", managedObjectModel: managedObjectModel)
         if inMemory {
+            let description = NSPersistentStoreDescription()
+            description.type = NSInMemoryStoreType
+            container.persistentStoreDescriptions = [description]
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -53,3 +56,10 @@ final class PersistenceController {
         container.loadPersistentStores {(_, _) in}
     }
 }
+
+fileprivate var managedObjectModel: NSManagedObjectModel = {
+    let frameworkBundleIdentifier = "lat.cristian.ThingsCore"
+    let customKitBundle = Bundle(identifier: frameworkBundleIdentifier)!
+    let modelURL = customKitBundle.url(forResource: "Things", withExtension: "momd")!
+    return NSManagedObjectModel(contentsOf: modelURL)!
+}()

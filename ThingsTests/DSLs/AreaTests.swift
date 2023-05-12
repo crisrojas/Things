@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import Things
+@testable import ThingsCore
 
 final class AreaTests: XCTestCase {
     

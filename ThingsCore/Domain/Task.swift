@@ -11,6 +11,8 @@ let task = try! ToDo.initTask()
 
 let taskB = try! ToDo.initTask()
     .convert(to: .heading)
+    .apply(taskChange: .area(nil))
+    .apply(taskChange: .title("Hello world"))
 
 enum ToDo {
     case task(
@@ -56,6 +58,10 @@ enum ToDo {
         todayIndex: Int,
         trashed: Bool
     )
+}
+
+// MARK: - Conversion API
+extension ToDo {
     
     enum Target {
         case task
@@ -150,7 +156,6 @@ enum ToDo {
     }
 }
 
-
 // MARK: - Task API
 extension ToDo {
     
@@ -239,51 +244,64 @@ extension ToDo {
     }
     
     func apply(taskChange: Change.ToDo) throws -> Self {
-        guard case var .task(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule) = self else {
+        guard case var .task(
+            id,
+            cDate,
+            mDate,
+            dDate,
+            area,
+            project,
+            title,
+            notes,
+            tags,
+            checkList,
+            status,
+            index,
+            todayIndex,
+            trashed,
+            recurrencyRule) = self else {
             throw TaskError.changeError("Cannot apply a change to a type \(self)")
         }
         
         switch taskChange {
-        case .creationDate(let cDate):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .modificationDate(let mDate):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .dueDate(let dDate):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .area(let area):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .project(let project):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .title(let title):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .notes(let notes):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .tags(let tags):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .checkList(let checkList):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .status(let status):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .index(let index):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .todayIndex(let todayIndex):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .trashed(let trashed):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-        case .rule(let recurrencyRule):
-            return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        case .creationDate    (let new): cDate = new
+        case .modificationDate(let new): mDate = new
+        case .dueDate         (let new): dDate = new
+        case .area            (let new): area = new
+        case .project         (let new): project = new
+        case .title           (let new): title = new
+        case .notes           (let new): notes = new
+        case .tags            (let new): tags = new
+        case .checkList       (let new): checkList = new
+        case .status          (let new): status = new
+        case .index           (let new): index = new
+        case .todayIndex      (let new): todayIndex = new
+        case .trashed         (let new): trashed = new
+        case .rule            (let new): recurrencyRule = new
         case .add(let cmd):
             switch cmd {
-            case .item(let item):
-                let checkList = checkList.add(item)
-                return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
-            case .tag(let tag):
-                let tag = tags.add(tag)
-                return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+            case .item(let item): checkList = checkList.add(item)
+            case .tag(let tag): tags = tags.add(tag)
             }
         }
         
-        return self.initFullTask(id, cDate, mDate, dDate, area, project, title, notes, tags, checkList, status, index, todayIndex, trashed, recurrencyRule)
+        return self.initFullTask(
+            id,
+            cDate,
+            mDate,
+            dDate,
+            area,
+            project,
+            title,
+            notes,
+            tags,
+            checkList,
+            status,
+            index,
+            todayIndex,
+            trashed,
+            recurrencyRule
+        )
     }
 }
 
