@@ -25,7 +25,20 @@ final class ManagerTest: XCTestCase {
         context = nil
     }
     
-    func testCreateCheckItem() async throws {
+    func testCreateTask() async throws {
+        try await sut.create(Task())
+        
+        let objects = try await sut.readTasks()
+        XCTAssertEqual(objects.count, 1)
+    }
+    
+    func testCheckItemCreation_withInexistentAssociatedTask_fails() async throws {
+        try await sut.create(Item(task: .init()))
+        let objects = try await sut.readCheckItems()
+        XCTAssertEqual(objects.count, 0)
+    }
+    
+    func testCheckItemCreation_whenExistent() async throws {
         let task = Task()
         
         try await sut.create(task)
@@ -34,12 +47,6 @@ final class ManagerTest: XCTestCase {
         XCTAssertEqual(objects.count, 1)
     }
     
-    func testCreateTask() async throws {
-        try await sut.create(Task())
-        
-        let objects = try await sut.readTasks()
-        XCTAssertEqual(objects.count, 1)
-    }
     
     func testCreateArea() async throws {
         var objects = try await sut.readAreas()
