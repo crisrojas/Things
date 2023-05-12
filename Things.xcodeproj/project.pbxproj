@@ -13,7 +13,6 @@
 		4042C60629BB4FB600A5FB1B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4042C60529BB4FB600A5FB1B /* Preview Assets.xcassets */; };
 		4042C63D29BB6FC300A5FB1B /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63C29BB6FC300A5FB1B /* ViewState.swift */; };
 		40856DB02A0EA086006DC199 /* ThingsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40856DA82A0EA086006DC199 /* ThingsCore.framework */; };
-		40856DB52A0EA086006DC199 /* ThingsCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40856DB42A0EA086006DC199 /* ThingsCoreTests.swift */; };
 		40856DB62A0EA086006DC199 /* ThingsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 40856DAA2A0EA086006DC199 /* ThingsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40856DBD2A0EA0BD006DC199 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63029BB4FE100A5FB1B /* AppState.swift */; };
 		40856DBE2A0EA0BD006DC199 /* StateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63629BB6F8700A5FB1B /* StateStore.swift */; };
@@ -112,7 +111,6 @@
 		40856DA82A0EA086006DC199 /* ThingsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ThingsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40856DAA2A0EA086006DC199 /* ThingsCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThingsCore.h; sourceTree = "<group>"; };
 		40856DAF2A0EA086006DC199 /* ThingsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThingsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		40856DB42A0EA086006DC199 /* ThingsCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThingsCoreTests.swift; sourceTree = "<group>"; };
 		40C35BD429D0DD8200140822 /* Array+remove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+remove.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -304,7 +302,6 @@
 				4075750129BE633D0097BB62 /* CoreData */,
 				407574FA29BE3CC50097BB62 /* Stores */,
 				4042C64329BBB0FF00A5FB1B /* DSLs */,
-				40856DB42A0EA086006DC199 /* ThingsCoreTests.swift */,
 			);
 			path = ThingsCoreTests;
 			sourceTree = "<group>";
@@ -497,7 +494,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40856DB52A0EA086006DC199 /* ThingsCoreTests.swift in Sources */,
 				40856DDF2A0EA13F006DC199 /* AppStateTests.swift in Sources */,
 				40856DE12A0EA13F006DC199 /* AreaTests.swift in Sources */,
 				40856DDB2A0EA139006DC199 /* TemplateStore.swift in Sources */,
