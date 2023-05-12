@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Item {
-    let id: UUID
+public struct Item {
+    public let id: UUID
     let creationDate: Date
     let modificationDate: Date?
     let checked: Bool
@@ -16,7 +16,7 @@ struct Item {
     let title: String
     let index: Int
     
-    init(task: UUID) {
+    public init(task: UUID) {
         self.id = UUID()
         self.creationDate = Date()
         self.modificationDate = nil
@@ -27,7 +27,7 @@ struct Item {
     }
 }
 
-extension Item {
+public extension Item {
     init(
         _ id: UUID = UUID(),
         _ creationDate: Date = Date(),
@@ -47,7 +47,7 @@ extension Item {
     }
 }
 
-extension Item {
+public extension Item {
     enum Change {
         case check
         case uncheck

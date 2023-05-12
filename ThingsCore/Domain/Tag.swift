@@ -6,8 +6,8 @@
 //
 import Foundation
 
-struct Tag {
-    let id: UUID
+public struct Tag {
+    public let id: UUID
     let name: String
     let parent: UUID?
     let index: Int
@@ -20,7 +20,7 @@ struct Tag {
     }
 }
 
-extension Tag  {
+public extension Tag  {
     
     enum Change {
         case name(String)

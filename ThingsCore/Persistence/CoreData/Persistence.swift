@@ -7,7 +7,7 @@
 
 import CoreData
 
-final class PersistenceController {
+public final class PersistenceController {
     
     static let shared = PersistenceController()
     static var preview: PersistenceController = {.init(inMemory: true)}()
@@ -17,10 +17,10 @@ final class PersistenceController {
         else { return shared }
     }
     
-    func context() -> NSManagedObjectContext {container.viewContext}
+    public func context() -> NSManagedObjectContext {container.viewContext}
     var container: NSPersistentCloudKitContainer
     
-    init(inMemory: Bool = false) {
+    public init(inMemory: Bool = false) {
          
         container = NSPersistentCloudKitContainer(name: "Things", managedObjectModel: managedObjectModel)
         if inMemory {

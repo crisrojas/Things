@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct Area {
-    let id: UUID
+public struct Area {
+    public let id: UUID
     let title: String
     let visible: Bool
     let index: Int
     let tags: Set<UUID>
 }
 
-extension Area {
+public extension Area {
     enum Change {
         case title(String)
         case makeVisible

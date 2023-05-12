@@ -7,7 +7,7 @@
 
 import XCTest
 import CoreData
-@testable import ThingsCore
+import ThingsCore
 
 @available(iOS 15.0.0, *)
 final class ManagerTest: XCTestCase {

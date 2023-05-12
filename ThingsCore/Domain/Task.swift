@@ -306,8 +306,8 @@ extension ToDo {
 }
 
 
-struct Task {
-    let id: UUID
+public struct Task {
+    public let id: UUID
     let creationDate: Date
     let modificationDate: Date?
     let date: Date?
@@ -328,7 +328,7 @@ struct Task {
 }
 
 // MARK: - Subtypes
-extension Task {
+public extension Task {
     enum RecurrencyRule: Codable {
         case afterComplete(AfterCompleted)
         case daily(startDate: Date)
@@ -336,7 +336,7 @@ extension Task {
         case monthly(startDate: Date)
         case annual(startDate: Date)
         
-        enum AfterCompleted: Codable {
+        public enum AfterCompleted: Codable {
             case day(Int)
             case week(Int)
             case month(Int)
@@ -391,7 +391,7 @@ extension Task: Equatable {
 }
 
 // MARK: - ToDo DSL
-extension Task {
+public extension Task {
     
     init(
         _ id: UUID = UUID(),
@@ -435,7 +435,7 @@ extension Task {
 }
 
 // MARK: Task DSL
-extension Task {
+public extension Task {
     enum Change {
         case title(String)
         case notes(String)
@@ -456,12 +456,12 @@ extension Task {
         case duplicate
         
         
-        enum Add {
+        public enum Add {
             case checkItem(UUID)
             case tag(UUID)
         }
         
-        enum Remove {
+        public enum Remove {
             case deadline
             case checkItem(UUID)
             case project

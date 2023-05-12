@@ -7,19 +7,24 @@
 
 import CoreData
 
-struct CoreDataManager: PersistenceManager {
+public struct CoreDataManager: PersistenceManager {
+  
+    private let context: NSManagedObjectContext
     
-    let context: NSManagedObjectContext
+    public init(context: NSManagedObjectContext) {
+        self.context = context
+    }
+    
     
     // MARK: - Create
-    func create(_ task: Task) async throws {
+    public func create(_ task: Task) async throws {
         try await context.perform {
             let _ = task.toTaskCD(with: context)
             try context.save()
         }
     }
     
-    func create(_ area: Area) async throws {
+    public func create(_ area: Area) async throws {
         try await context.perform {
             let entity = AreaCD(context: context)
             entity.id = area.id
@@ -33,7 +38,7 @@ struct CoreDataManager: PersistenceManager {
     
     /// Creates item only if associated tasks exists
     /// Appends the item to the associated CoreData Task entity
-    func create(_ item: Item) async throws {
+    public func create(_ item: Item) async throws {
         let t: TaskCD? = try await context.get(id: item.task)
         guard let t = t else { return }
         try await context.perform {
@@ -53,7 +58,7 @@ struct CoreDataManager: PersistenceManager {
         }
     }
     
-    func create(_ tag: Tag) async throws {
+    public func create(_ tag: Tag) async throws {
         try await context.perform {
             let entity = TagCD(context: context)
             entity.id = tag.id
@@ -65,7 +70,7 @@ struct CoreDataManager: PersistenceManager {
     }
     
     // MARK: - Update
-    func update(_ task: Task, _ cmd: Task.Change) async throws {
+    public func update(_ task: Task, _ cmd: Task.Change) async throws {
         let entity: TaskCD? = try await context.get(id: task.id)
         try await context.perform {
             guard let entity = entity else {
@@ -141,7 +146,7 @@ struct CoreDataManager: PersistenceManager {
         }
     }
     
-    func update(_ area: Area, _ cmd: Area.Change) async throws {
+    public func update(_ area: Area, _ cmd: Area.Change) async throws {
         let entity: AreaCD? = try await context.get(id: area.id)
         try await context.perform {
             guard let entity = entity else {
@@ -157,7 +162,7 @@ struct CoreDataManager: PersistenceManager {
         }
     }
     
-    func update(_ tag: Tag, _ cmd: Tag.Change) async throws {
+    public func update(_ tag: Tag, _ cmd: Tag.Change) async throws {
         let entity: TagCD? = try await context.get(id: tag.id)
         try await context.perform {
             guard let entity = entity else {
@@ -173,7 +178,7 @@ struct CoreDataManager: PersistenceManager {
         }
     }
     
-    func update(_ item: Item, _ cmd: Item.Change) async throws {
+    public func update(_ item: Item, _ cmd: Item.Change) async throws {
         let entity: CheckItemCD? = try await context.get(id: item.id)
         try await context.perform {
             guard let entity = entity else {
@@ -190,28 +195,28 @@ struct CoreDataManager: PersistenceManager {
     }
     
     // MARK: - Read
-    func readTasks() async throws -> [Task] {
+    public func readTasks() async throws -> [Task] {
         try await context.get(request: TaskCD.fetchRequest())
     }
     
-    func readAreas() async throws -> [Area] {
+    public func readAreas() async throws -> [Area] {
         try await context.get(request: AreaCD.fetchRequest())
     }
     
-    func readTags() async throws -> [Tag] {
+    public func readTags() async throws -> [Tag] {
         try await context.get(request: TagCD.fetchRequest())
     }
     
-    func readCheckItems() async throws -> [Item] {
+    public func readCheckItems() async throws -> [Item] {
         try await context.get(request: CheckItemCD.fetchRequest())
     }
   
     // MARK: - Delete
-    func delete(task: UUID) async throws {
+    public func delete(task: UUID) async throws {
         try await delete(TaskCD.className, id: task)
     }
     
-    func delete(area: UUID) async throws {
+    public func delete(area: UUID) async throws {
         try await delete(AreaCD.className, id: area)
     }
     
@@ -220,7 +225,7 @@ struct CoreDataManager: PersistenceManager {
     /// @todo: I made the full implementation on the body because
     /// I was getting a Thread BAD ACCESS Error when composing methods
     /// @todo: Find a better way of fetching ONLY tasks and areas that contains the tag, see NSSecureUnarchiveFromDataTransformer
-    func delete(tag: UUID) async throws {
+    public func delete(tag: UUID) async throws {
         try await context.perform { [weak context] in
             guard let context = context else { return }
             
@@ -265,7 +270,7 @@ struct CoreDataManager: PersistenceManager {
     }
     
     
-    func delete(checkItem: UUID) async throws {
+    public func delete(checkItem: UUID) async throws {
         try await context.perform {
             
             let r1 = CheckItemCD.fetchRequest()
