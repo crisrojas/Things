@@ -9,12 +9,12 @@ import Foundation
 
 public struct Item {
     public let id: UUID
-    let creationDate: Date
-    let modificationDate: Date?
-    let checked: Bool
-    let task: UUID
-    let title: String
-    let index: Int
+    public let creationDate: Date
+    public let modificationDate: Date?
+    public let checked: Bool
+    public let task: UUID
+    public let title: String
+    public let index: Int
     
     public init(task: UUID) {
         self.id = UUID()

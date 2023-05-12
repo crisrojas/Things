@@ -9,10 +9,10 @@ import Foundation
 
 public struct Area {
     public let id: UUID
-    let title: String
-    let visible: Bool
-    let index: Int
-    let tags: Set<UUID>
+    public let title: String
+    public let visible: Bool
+    public let index: Int
+    public let tags: Set<UUID>
 }
 
 public extension Area {

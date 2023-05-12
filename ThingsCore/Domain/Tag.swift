@@ -8,11 +8,11 @@ import Foundation
 
 public struct Tag {
     public let id: UUID
-    let name: String
-    let parent: UUID?
-    let index: Int
+    public let name: String
+    public let parent: UUID?
+    public let index: Int
     
-    init(name: String) {
+    public init(name: String) {
         self.id = UUID()
         self.name = name
         self.parent = nil

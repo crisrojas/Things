@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Ram Store
-func createRamStore() -> StateStore {
+public func createRamStore() -> StateStore {
     var state = AppState() {didSet{c.call()}}
     var c = [()->()]()
     

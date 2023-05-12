@@ -9,15 +9,15 @@ import Foundation
 
 // MARK: - App State
 public struct AppState: Codable {
-    let tasks : [Task]
-    let areas : [Area]
-    let  tags : [Tag]
-    let items : [Item]
+    public let tasks : [Task]
+    public let areas : [Area]
+    public let  tags : [Tag]
+    public let items : [Item]
 }
 
 extension AppState: Equatable {}
 
-extension AppState {
+public extension AppState {
     init(
         _ tasks : [Task] = [],
         _ areas : [Area] = [],

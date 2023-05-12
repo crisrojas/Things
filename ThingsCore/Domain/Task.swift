@@ -308,23 +308,23 @@ extension ToDo {
 
 public struct Task {
     public let id: UUID
-    let creationDate: Date
-    let modificationDate: Date?
-    let date: Date?
-    let dueDate: Date?
-    let area: UUID?
-    let project: UUID?
-    let actionGroup: UUID?
-    let title: String
-    let notes: String
-    let tags: Set<UUID>
-    let checkList: Set<UUID>
-    let type: ListType
-    let status: Status
-    let index: Int
-    let todayIndex: Int
-    let trashed: Bool
-    let recurrencyRule: RecurrencyRule?
+    public let creationDate: Date
+    public let modificationDate: Date?
+    public let date: Date?
+    public let dueDate: Date?
+    public let area: UUID?
+    public let project: UUID?
+    public let actionGroup: UUID?
+    public let title: String
+    public let notes: String
+    public let tags: Set<UUID>
+    public let checkList: Set<UUID>
+    public let type: ListType
+    public let status: Status
+    public let index: Int
+    public let todayIndex: Int
+    public let trashed: Bool
+    public let recurrencyRule: RecurrencyRule?
 }
 
 // MARK: - Subtypes
