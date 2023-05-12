@@ -222,9 +222,10 @@ public struct CoreDataManager: PersistenceManager {
     
     
     // MARK: - Complex deletion
-    /// @todo: I made the full implementation on the body because
+    #warning("@todo")
+    /// I made the full implementation on the body because
     /// I was getting a Thread BAD ACCESS Error when composing methods
-    /// @todo: Find a better way of fetching ONLY tasks and areas that contains the tag, see NSSecureUnarchiveFromDataTransformer
+    /// Find a better way of fetching ONLY tasks and areas that contains the tag, see NSSecureUnarchiveFromDataTransformer
     public func delete(tag: UUID) async throws {
         try await context.perform { [weak context] in
             guard let context = context else { return }
@@ -241,25 +242,25 @@ public struct CoreDataManager: PersistenceManager {
             }
             
 //            let tagPredicate = NSPredicate(format: "tags CONTAINS %@", tag.uuidString)
-            
+
             let r2 = TaskCD.fetchRequest()
 //            r2.predicate = tagPredicate
-            
+
             let r3 = AreaCD.fetchRequest()
 //            r2.predicate =  tagPredicate
-            
+
             let taggedTasks = try context.fetch(r2).filter {
                 ($0.tags ?? []).contains(tag)
             }
-            
+
             let taggedAreas = try context.fetch(r3).filter {
                 ($0.tags ?? []).contains(tag)
             }
-            
+
             taggedTasks.forEach { task in
                 task.tags = task.tags?.filter { $0 != tag }
             }
-            
+
             taggedAreas.forEach { area in
                 area.tags = area.tags?.filter { $0 != tag }
             }

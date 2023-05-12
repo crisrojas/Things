@@ -10,6 +10,11 @@ import CoreData
 import ThingsCore
 
 @available(iOS 15.0.0, *)
+/* @todo:
+ There're some unhandled cases:
+ 
+ what if we create a task/area asociated with an inexistent tag?
+ */
 final class ManagerTest: XCTestCase {
     
     var context: NSManagedObjectContext!
@@ -132,5 +137,33 @@ final class ManagerTest: XCTestCase {
         }
     }
 
+    func testTagDeletion_withTagAssignedToAreasAndTasks_isUnassigned() async throws {
+        
+        // Given existen area and task with associated tag
+        let tag = Tag(name: "Test tag")
+        let area = Area().alter(.addTag(tag.id))
+        let task = Task().alter(.add(.tag(tag.id)))
+        
+        try await sut.create(tag)
+        try await sut.create(task)
+        try await sut.create(area)
+        
+        // When deleting tag
+        try await sut.delete(tag: tag.id)
+        
+        // Then
+        let tags  = try await sut.readTags()
+        let areas = try await sut.readAreas()
+        let tasks = try await sut.readTasks()
+        let firstArea = try XCTUnwrap(areas.first)
+        let firstTask = try XCTUnwrap(tasks.first)
+        
+        XCTAssertTrue(tags.isEmpty)
+        
+        // Unassigned from task and area
+        XCTAssertTrue(firstArea.tags.isEmpty)
+        XCTAssertTrue(firstTask.tags.isEmpty)
+        
+    }
 }
 

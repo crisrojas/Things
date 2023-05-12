@@ -40,7 +40,7 @@ extension TaskCD: ToSafeObject {
             Int(index),
             Int(todayIndex),
             trashed,
-            nil // @todo recurrency
+            nil // @todo
         )
     }
 }
