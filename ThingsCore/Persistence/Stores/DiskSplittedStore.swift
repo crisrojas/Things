@@ -9,7 +9,7 @@ import Foundation
 
 /// Creates a store that serializes to disk each model of the domain on its own file.
 /// This is better for scalability on the long run.
-func createSplittedDiskStore(
+public func createSplittedDiskStore(
     tasks: String = "tasks",
     areas: String = "areas",
     tags : String = "tags",

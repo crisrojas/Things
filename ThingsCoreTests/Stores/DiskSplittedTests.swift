@@ -5,7 +5,7 @@
 //  Created by Cristian Felipe Patiño Rojas on 14/03/2023.
 //
 
-@testable import ThingsCore
+import ThingsCore
 
 final class DiskSplittedStoreTests: StoreTests {
     override func setUpWithError() throws {

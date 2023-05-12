@@ -6,7 +6,7 @@
 //
 
 
-@testable import ThingsCore
+import ThingsCore
 /// To implement and test a store:
 /// - Copy paste this file
 /// - Rename the class to <YourStore>Tests
