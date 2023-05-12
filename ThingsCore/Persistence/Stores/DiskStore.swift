@@ -8,7 +8,7 @@
 import Foundation
 
 /// Creates a store that serializes AppState to a state.json file on disk
-func createDiskStore(path: String = "state.json") -> StateStore {
+public func createDiskStore(path: String = "state.json") -> StateStore {
     
     let fm = FileManager.default
     

@@ -8,12 +8,12 @@
 import Foundation
 
 // MARK: - StateStore
-typealias Access   = (               ) -> AppState
-typealias Change   = (AppState.Change) async throws -> ()
-typealias Updated  = (@escaping()->()) -> ()
-typealias Destroy  = (               ) throws -> ()
+public typealias Access   = (               ) -> AppState
+public typealias Change   = (AppState.Change) async throws -> ()
+public typealias Updated  = (@escaping()->()) -> ()
+public typealias Destroy  = (               ) throws -> ()
 
-typealias StateStore = (
+public typealias StateStore = (
     state   : Access,
     change  : Change,
     onChange: Updated,

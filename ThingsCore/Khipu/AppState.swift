@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - App State
-struct AppState: Codable {
+public struct AppState: Codable {
     let tasks : [Task]
     let areas : [Area]
     let  tags : [Tag]
@@ -32,28 +32,28 @@ extension AppState {
 }
 
 // MARK: - DSL APi
-extension AppState {
+public extension AppState {
    
     enum Change {
         case create(Create)
         case update(Update)
         case delete(Delete)
         
-        enum Create {
+        public enum Create {
             case task(Task)
             case area(Area)
             case  tag(Tag )
             case item(Item)
         }
         
-        enum Update {
+        public enum Update {
             case task(Task, with: Task.Change)
             case area(Area, with: Area.Change)
             case  tag( Tag, with:  Tag.Change)
             case item(Item, with: Item.Change)
         }
         
-        enum Delete {
+        public enum Delete {
             case task(Task)
             case area(Area)
             case  tag(UUID)

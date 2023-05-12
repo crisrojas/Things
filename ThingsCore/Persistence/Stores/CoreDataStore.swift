@@ -9,7 +9,7 @@ import Foundation
 
 typealias ConcurrentTask = _Concurrency.Task
 
-func createCoreDataStore(controller p: PersistenceController) -> StateStore {
+public func createCoreDataStore(controller p: PersistenceController) -> StateStore {
     
     let m = CoreDataManager(context: p.context())
     
