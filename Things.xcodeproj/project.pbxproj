@@ -44,7 +44,6 @@
 		40856DD82A0EA139006DC199 /* StoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407574FB29BE3CCC0097BB62 /* StoreTests.swift */; };
 		40856DD92A0EA139006DC199 /* DiskStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075751729C091B10097BB62 /* DiskStoreTests.swift */; };
 		40856DDA2A0EA139006DC199 /* DiskSplittedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752429C113930097BB62 /* DiskSplittedTests.swift */; };
-		40856DDB2A0EA139006DC199 /* TemplateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752629C115860097BB62 /* TemplateStore.swift */; };
 		40856DDC2A0EA139006DC199 /* CoreDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407574FD29BE4A0C0097BB62 /* CoreDataStoreTests.swift */; };
 		40856DDD2A0EA13F006DC199 /* CheckitemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000FB4729BBE79500D7374B /* CheckitemTests.swift */; };
 		40856DDE2A0EA13F006DC199 /* ToDoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C64429BBB11000A5FB1B /* ToDoTests.swift */; };
@@ -106,7 +105,6 @@
 		4075751E29C1032F0097BB62 /* Sequence+AsyncForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+AsyncForEach.swift"; sourceTree = "<group>"; };
 		4075752029C10FB50097BB62 /* DiskSplittedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSplittedStore.swift; sourceTree = "<group>"; };
 		4075752429C113930097BB62 /* DiskSplittedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSplittedTests.swift; sourceTree = "<group>"; };
-		4075752629C115860097BB62 /* TemplateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateStore.swift; sourceTree = "<group>"; };
 		4075755F29C3B9090097BB62 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		40856DA82A0EA086006DC199 /* ThingsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ThingsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40856DAA2A0EA086006DC199 /* ThingsCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThingsCore.h; sourceTree = "<group>"; };
@@ -224,7 +222,6 @@
 				4075751729C091B10097BB62 /* DiskStoreTests.swift */,
 				4075752429C113930097BB62 /* DiskSplittedTests.swift */,
 				407574FB29BE3CCC0097BB62 /* StoreTests.swift */,
-				4075752629C115860097BB62 /* TemplateStore.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -496,7 +493,6 @@
 			files = (
 				40856DDF2A0EA13F006DC199 /* AppStateTests.swift in Sources */,
 				40856DE12A0EA13F006DC199 /* AreaTests.swift in Sources */,
-				40856DDB2A0EA139006DC199 /* TemplateStore.swift in Sources */,
 				40856DDC2A0EA139006DC199 /* CoreDataStoreTests.swift in Sources */,
 				40856DDA2A0EA139006DC199 /* DiskSplittedTests.swift in Sources */,
 				40856DD72A0EA135006DC199 /* ManagerTests.swift in Sources */,
