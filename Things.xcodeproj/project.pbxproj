@@ -7,20 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4000FB4029BBE3BC00D7374B /* AreaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000FB3F29BBE3BC00D7374B /* AreaTests.swift */; };
-		4000FB4829BBE79500D7374B /* CheckitemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000FB4729BBE79500D7374B /* CheckitemTests.swift */; };
 		4042C5FF29BB4FB500A5FB1B /* ThingsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C5FE29BB4FB500A5FB1B /* ThingsApp.swift */; };
 		4042C60129BB4FB500A5FB1B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C60029BB4FB500A5FB1B /* ContentView.swift */; };
 		4042C60329BB4FB600A5FB1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4042C60229BB4FB600A5FB1B /* Assets.xcassets */; };
 		4042C60629BB4FB600A5FB1B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4042C60529BB4FB600A5FB1B /* Preview Assets.xcassets */; };
 		4042C63D29BB6FC300A5FB1B /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C63C29BB6FC300A5FB1B /* ViewState.swift */; };
-		4042C64529BBB11100A5FB1B /* ToDoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4042C64429BBB11000A5FB1B /* ToDoTests.swift */; };
-		407574F729BD47950097BB62 /* AppStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407574F629BD47950097BB62 /* AppStateTests.swift */; };
-		407574F929BE14AA0097BB62 /* TagTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407574F829BE14AA0097BB62 /* TagTests.swift */; };
-		407574FC29BE3CCC0097BB62 /* StoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407574FB29BE3CCC0097BB62 /* StoreTests.swift */; };
-		4075751829C091B10097BB62 /* DiskStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075751729C091B10097BB62 /* DiskStoreTests.swift */; };
-		4075752529C113930097BB62 /* DiskSplittedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752429C113930097BB62 /* DiskSplittedTests.swift */; };
-		4075752729C115860097BB62 /* TemplateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075752629C115860097BB62 /* TemplateStore.swift */; };
 		40856DB02A0EA086006DC199 /* ThingsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40856DA82A0EA086006DC199 /* ThingsCore.framework */; };
 		40856DB52A0EA086006DC199 /* ThingsCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40856DB42A0EA086006DC199 /* ThingsCoreTests.swift */; };
 		40856DB62A0EA086006DC199 /* ThingsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 40856DAA2A0EA086006DC199 /* ThingsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -62,7 +53,6 @@
 		40856DE02A0EA13F006DC199 /* TagTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407574F829BE14AA0097BB62 /* TagTests.swift */; };
 		40856DE12A0EA13F006DC199 /* AreaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000FB3F29BBE3BC00D7374B /* AreaTests.swift */; };
 		40856DE42A0EA1FC006DC199 /* CustomDump in Frameworks */ = {isa = PBXBuildFile; productRef = 40856DE32A0EA1FC006DC199 /* CustomDump */; };
-		40856DE52A0EA23A006DC199 /* ManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075750229BE634D0097BB62 /* ManagerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -225,9 +215,6 @@
 		4042C61429BB4FB600A5FB1B /* ThingsTests */ = {
 			isa = PBXGroup;
 			children = (
-				4075750129BE633D0097BB62 /* CoreData */,
-				407574FA29BE3CC50097BB62 /* Stores */,
-				4042C64329BBB0FF00A5FB1B /* DSLs */,
 			);
 			path = ThingsTests;
 			sourceTree = "<group>";
@@ -338,6 +325,9 @@
 		40856DB32A0EA086006DC199 /* ThingsCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				4075750129BE633D0097BB62 /* CoreData */,
+				407574FA29BE3CC50097BB62 /* Stores */,
+				4042C64329BBB0FF00A5FB1B /* DSLs */,
 				40856DB42A0EA086006DC199 /* ThingsCoreTests.swift */,
 			);
 			path = ThingsCoreTests;
@@ -530,16 +520,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				407574F929BE14AA0097BB62 /* TagTests.swift in Sources */,
-				40856DE52A0EA23A006DC199 /* ManagerTests.swift in Sources */,
-				4075752529C113930097BB62 /* DiskSplittedTests.swift in Sources */,
-				4042C64529BBB11100A5FB1B /* ToDoTests.swift in Sources */,
-				407574F729BD47950097BB62 /* AppStateTests.swift in Sources */,
-				4000FB4029BBE3BC00D7374B /* AreaTests.swift in Sources */,
-				4075752729C115860097BB62 /* TemplateStore.swift in Sources */,
-				4075751829C091B10097BB62 /* DiskStoreTests.swift in Sources */,
-				407574FC29BE3CCC0097BB62 /* StoreTests.swift in Sources */,
-				4000FB4829BBE79500D7374B /* CheckitemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
