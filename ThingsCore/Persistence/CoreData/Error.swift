@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CoreDataError: Error {
+public enum CoreDataError: Error, Equatable {
     case invalidMapping
     case entityNotFound
     case unknownError(String)

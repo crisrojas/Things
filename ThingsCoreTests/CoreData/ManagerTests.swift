@@ -25,59 +25,21 @@ final class ManagerTest: XCTestCase {
         context = nil
     }
     
-    func testCreateTask() async throws {
-        try await sut.create(Task())
-        
-        let objects = try await sut.readTasks()
-        XCTAssertEqual(objects.count, 1)
-    }
-    
-    func testCheckItemCreation_withInexistentAssociatedTask_fails() async throws {
+  
+    // MARK: - CheckItem
+    func testCheckItemCreation_withInexistentParentTask_fails() async throws {
         try await sut.create(Item(task: .init()))
         let objects = try await sut.readCheckItems()
         XCTAssertEqual(objects.count, 0)
     }
     
-    func testCheckItemCreation_whenExistent() async throws {
+    func testCheckItemCreation_withExistentParentTask_succeds() async throws {
         let task = Task()
         
         try await sut.create(task)
         try await sut.create(Item(task: task.id))
         let objects = try await sut.readCheckItems()
         XCTAssertEqual(objects.count, 1)
-    }
-    
-    
-    func testCreateArea() async throws {
-        var objects = try await sut.readAreas()
-        XCTAssertTrue(objects.count == 0)
-
-        try await sut.create(Area())
-        objects = try await sut.readAreas()
-        XCTAssertEqual(objects.count, 1)
-    }
-    
-    func testDeleteTask() async throws {
-        let task = Task()
-        try await sut.create(task)
-
-        var objects = try await sut.readTasks()
-        XCTAssertEqual(objects.count, 1)
-        try await sut.delete(task: task.id)
-        
-        objects = try await sut.readTasks()
-        XCTAssertEqual(objects.count, 0)
-    }
-    
-    func testDeleteArea() async throws {
-        let area = Area()
-        try await sut.create(area)
-        
-        var objects = try await sut.readAreas()
-        XCTAssertEqual(objects.count, 1)
-        try await sut.delete(area: area.id)
-        objects = try await sut.readAreas()
-        XCTAssertEqual(objects.count, 0)
     }
     
     func testDeleteCheckList() async throws {
@@ -92,5 +54,83 @@ final class ManagerTest: XCTestCase {
         objects = try await sut.readCheckItems()
         XCTAssertEqual(objects.count, 0)
     }
+    
+    // MARK: - Task
+    func testTaskCreation_succeds() async throws {
+        try await sut.create(Task())
+        
+        let objects = try await sut.readTasks()
+        XCTAssertEqual(objects.count, 1)
+    }
+    
+    
+    func testExistentTaskDeletion_succeeds() async throws {
+        let task = Task()
+        try await sut.create(task)
+
+        var objects = try await sut.readTasks()
+        XCTAssertEqual(objects.count, 1)
+        try await sut.delete(task: task.id)
+        
+        objects = try await sut.readTasks()
+        XCTAssertEqual(objects.count, 0)
+    }
+    
+    func testInexistentTaskDeletion_throwsEntityNotFoundError() async throws {
+        do {
+            try await sut.delete(task: .init())
+        } catch {
+            let error = error as! CoreDataError
+            XCTAssertEqual(error, .entityNotFound)
+        }
+    }
+
+    #warning("@todo: implement")
+    func testTaskCreation_inexistentParent_fails/*not sure this should fail*/() async throws {}
+    
+    // MARK: - Area
+    func testAreaCreation_succeds() async throws {
+        var objects = try await sut.readAreas()
+        XCTAssertTrue(objects.count == 0)
+
+        try await sut.create(Area())
+        objects = try await sut.readAreas()
+        XCTAssertEqual(objects.count, 1)
+    }
+    
+    func testExistentAreaDeletion_succeeds() async throws {
+        let area = Area()
+        try await sut.create(area)
+        
+        var objects = try await sut.readAreas()
+        XCTAssertEqual(objects.count, 1)
+        try await sut.delete(area: area.id)
+        objects = try await sut.readAreas()
+        XCTAssertEqual(objects.count, 0)
+    }
+    
+    func testInexistentAreaDeletion_throwsEntityNotFoundError() async throws {
+        do {
+            try await sut.delete(area: .init())
+        } catch {
+            let error = error as! CoreDataError
+            XCTAssertEqual(error, .entityNotFound)
+        }
+    }
+    
+    // MARK: - Tags
+    #warning("@todo: implement")
+    func testTagCreation_succeds() async throws {}
+    func testTagDeletion_succeds() async throws {}
+    
+    func testInexistentTagDeletion_throwsEntityNotFoundError() async throws {
+        do {
+            try await sut.delete(tag: .init())
+        } catch {
+            let error = error as! CoreDataError
+            XCTAssertEqual(error, .entityNotFound)
+        }
+    }
+
 }
 

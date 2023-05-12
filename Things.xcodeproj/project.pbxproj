@@ -222,8 +222,8 @@
 			children = (
 				407574FD29BE4A0C0097BB62 /* CoreDataStoreTests.swift */,
 				4075751729C091B10097BB62 /* DiskStoreTests.swift */,
-				407574FB29BE3CCC0097BB62 /* StoreTests.swift */,
 				4075752429C113930097BB62 /* DiskSplittedTests.swift */,
+				407574FB29BE3CCC0097BB62 /* StoreTests.swift */,
 				4075752629C115860097BB62 /* TemplateStore.swift */,
 			);
 			path = Stores;
